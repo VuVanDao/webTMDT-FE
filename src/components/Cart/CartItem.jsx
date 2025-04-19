@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Box, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { data } from "../../Data/CartData";
 import { formatPrice } from "../../utils/formatter";
@@ -35,8 +42,19 @@ const CartItem = () => {
         onClose={handleClose}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-        sx={{ maxWidth: "450px" }}
+        sx={{
+          maxWidth: "450px",
+        }}
       >
+        <Typography
+          sx={{
+            pl: 2,
+            pb: 1,
+            fontSize: "14px",
+          }}
+        >
+          Sản phẩm mới thêm
+        </Typography>
         {data &&
           data.cart.map((item) => {
             return (
@@ -75,6 +93,34 @@ const CartItem = () => {
               </MenuItem>
             );
           })}
+        <Box
+          sx={{
+            px: 2,
+            // py: 1,
+            display: "flex",
+            gap: 1,
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: "14px",
+            }}
+          >
+            5 sản phẩm có sẵn trong giỏ
+          </Typography>
+          <Button
+            variant="contained"
+            sx={{
+              bgcolor: (theme) => theme.commonColors,
+              color: "white",
+              fontSize: "12px",
+            }}
+          >
+            Xem giỏ hàng
+          </Button>
+        </Box>
       </Menu>
     </Box>
   );

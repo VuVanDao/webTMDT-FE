@@ -37,7 +37,7 @@ const Header = () => {
       sx={{
         height: (theme) => theme.customHeight.Header,
         width: "100%",
-        bgcolor: "#fa5130",
+        bgcolor: (theme) => theme.commonColors,
         color: "white",
         p: 0.25,
       }}

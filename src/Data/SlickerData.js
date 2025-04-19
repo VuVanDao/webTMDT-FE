@@ -1,0 +1,36 @@
+export const SlickerData = {
+  item: [
+    {
+      image:
+        "https://cf.shopee.vn/file/vn-11134258-7ra0g-m8odyjihielq2e_xxhdpi",
+    },
+    {
+      image:
+        "https://cf.shopee.vn/file/vn-11134258-7ra0g-m8odzkr70fwn63_xxhdpi",
+    },
+    {
+      image:
+        "https://cf.shopee.vn/file/vn-11134258-7ra0g-m8oe0z31d2mac9_xxhdpi",
+    },
+    {
+      image:
+        "https://cf.shopee.vn/file/vn-11134258-7ra0g-m8oe1x1jo2v628_xxhdpi",
+    },
+    {
+      image:
+        "https://cf.shopee.vn/file/vn-11134258-7ra0g-m8oe34w1i4w47c_xxhdpi",
+    },
+    {
+      image:
+        "https://cf.shopee.vn/file/vn-11134258-7ra0g-m8n2ckgmgg3m84_xxhdpi",
+    },
+    {
+      image:
+        "https://cf.shopee.vn/file/vn-11134258-7ra0g-m8n2eyp699qfa8_xxhdpi",
+    },
+    {
+      image:
+        "https://cf.shopee.vn/file/vn-11134258-7ra0g-m8n6g0tibfpg49_xxhdpi",
+    },
+  ],
+};

@@ -1,12 +1,20 @@
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import Body from "./page/Body";
+import { Navigate, Route, Routes } from "react-router-dom";
+
+import HomePage from "./page/HomePage/HomePage";
 const App = () => {
   return (
     <>
-      <Header />
-      <Body />
-      <Footer />
+      <Routes>
+        <Route
+          path="/"
+          element={<Navigate to={"/homePage"} replace={true} />}
+        />
+        <Route path="/homePage" element={<HomePage />} />
+        <Route
+          path="*"
+          element={<Navigate to={"/homePage"} replace={true} />}
+        />
+      </Routes>
     </>
   );
 };

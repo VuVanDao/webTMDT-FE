@@ -9,6 +9,7 @@ export const theme = extendTheme({
     Footer: Footer,
     Body: Body,
   },
+  commonColors: "#fa5130",
   colorSchemes: {
     light: {
       palette: {
@@ -19,7 +20,7 @@ export const theme = extendTheme({
     },
     dark: {
       palette: {
-        // primary: red,
+        // primary: "#fa5130",
         // secondary: orange,
       },
       spacing: (factor) => `${0.25 * factor}rem`,

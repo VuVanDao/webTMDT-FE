@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import React from "react";
 import { theme } from "../theme";
 
@@ -7,11 +7,11 @@ const Footer = () => {
     <Box
       sx={{
         height: (theme) => theme.customHeight.Footer,
-        bgcolor: "#f5f5f5",
+        bgcolor: "white",
         color: "black",
       }}
     >
-      Footer
+      <Container> Footer</Container>
     </Box>
   );
 };
