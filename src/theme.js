@@ -10,6 +10,7 @@ export const theme = extendTheme({
     Body: Body,
   },
   commonColors: "#fa5130",
+  bgColor: "#f5f5f5",
   colorSchemes: {
     light: {
       palette: {
@@ -24,6 +25,20 @@ export const theme = extendTheme({
         // secondary: orange,
       },
       spacing: (factor) => `${0.25 * factor}rem`,
+    },
+  },
+  component: {
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          color: "#fa5130",
+        },
+        head: {
+          backgroundColor: "#1976d2",
+          color: "#fff",
+          fontWeight: "bold",
+        },
+      },
     },
   },
 });

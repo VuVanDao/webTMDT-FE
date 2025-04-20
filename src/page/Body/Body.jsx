@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import SelectOption from "./SelectOption/SelectOption";
 import { Categories } from "../../Data/Categories";
 import FlashSale from "./FlashSale/FlashSale";
+import Recommend from "./Recommend/Recommend";
 
 const Body = () => {
   return (
@@ -68,7 +69,7 @@ const Body = () => {
                       "&:hover": {
                         borderColor: "rgba(0, 0, 0, .12)",
                         boxShadow: "0 0 .8125rem 0 rgba(0, 0, 0, .05)",
-                        transform: "translateZ(0)",
+                        // transform: "translateZ(0)",
                       },
                       overflow: "hidden",
                       p: 1,
@@ -87,6 +88,13 @@ const Body = () => {
         <Container>
           <Box sx={{ bgcolor: "white" }}>
             <FlashSale />
+          </Box>
+        </Container>
+      </Box>
+      <Box sx={{ bgcolor: "#f5f5f5", p: 3 }}>
+        <Container>
+          <Box sx={{ bgcolor: "white" }}>
+            <Recommend />
           </Box>
         </Container>
       </Box>
