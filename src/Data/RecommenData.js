@@ -33,6 +33,27 @@ export const RecommendData = [
     price: 296000,
     image:
       "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m2827x2s8uk44f@resize_w450_nl",
+    quantity: 90,
+    color: [
+      {
+        id: 1,
+        name: "Đen",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m2827x2s8uk44f@resize_w450_nl",
+      },
+      {
+        id: 2,
+        name: "Trắng",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-ltop7y9dqya2df@resize_w900_nl.webp",
+      },
+      {
+        id: 3,
+        name: "Đen Trắng",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-ltop7y9dscui76@resize_w450_nl.webp",
+      },
+    ],
   },
   {
     id: 3,
@@ -40,6 +61,27 @@ export const RecommendData = [
     price: 2780000,
     image:
       "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m6xr1yiz2xco86@resize_w450_nl.webp",
+    quantity: 120,
+    color: [
+      {
+        id: 1,
+        name: "EGM24F1100S 100Hz",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m6xr1yiz2xco86@resize_w450_nl.webp",
+      },
+      {
+        id: 2,
+        name: "EGM22F100H 22' 100Hz",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m1xn6w12lxa72a@resize_w450_nl.webp",
+      },
+      {
+        id: 3,
+        name: "EGM24F100H 24' 100Hz",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m1xn848lww9f51@resize_w450_nl.webp",
+      },
+    ],
   },
   {
     id: 4,
@@ -47,13 +89,55 @@ export const RecommendData = [
     price: 179000,
     image:
       "https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lk186mis8f5gc2@resize_w900_nl",
+    quantity: 120,
+    color: [
+      {
+        id: 1,
+        name: "Trắng",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lk186mis8f5gc2@resize_w900_nl",
+      },
+      {
+        id: 2,
+        name: "Đen",
+        image:
+          "https://down-vn.img.susercontent.com/file/88ed803f686e24a51c419bd60d3a78d9@resize_w900_nl.webp",
+      },
+      {
+        id: 3,
+        name: "Hồng",
+        image:
+          "https://down-vn.img.susercontent.com/file/6529f583ab630f32699757830b4a5452@resize_w450_nl.webp",
+      },
+    ],
   },
   {
     id: 5,
     name: "Máy Nintendo Switch Oled Bảo Hành 12 Tháng",
     price: 6855000,
     image:
-      "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m6qlq0iqx8khee@resize_w450_nl",
+      "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m6qm2y89hqav59@resize_w450_nl.webp",
+    quantity: 120,
+    color: [
+      {
+        id: 1,
+        name: "Neon",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m6qm2y89hqav59@resize_w450_nl.webp",
+      },
+      {
+        id: 2,
+        name: "White",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m6qm3at2yvtt0b@resize_w450_nl.webp",
+      },
+      {
+        id: 3,
+        name: "Mario edition",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m6qm3d91gynb24@resize_w450_nl.webp",
+      },
+    ],
   },
   {
     id: 6,
@@ -61,6 +145,28 @@ export const RecommendData = [
     price: 242000,
     image:
       "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvfvz02wno25be@resize_w164_nl",
+    quantity: 120,
+    color: [
+      {
+        id: 1,
+        name: "Đen in trước",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvfvz02wno25be@resize_w164_nl",
+      },
+      {
+        id: 2,
+        name: "Trắng in trước",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvfvz02wgn7x27@resize_w450_nl.webp",
+      },
+      {
+        id: 3,
+        name: "Xanh lá in trước",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvfvz02wi1sd12@resize_w450_nl.webp",
+      },
+    ],
+    size: ["S(<50kg)", "M(<60kg)", "L(<70kg)"],
   },
   {
     id: 7,
@@ -68,6 +174,22 @@ export const RecommendData = [
     price: 302000,
     image:
       "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m104fpomg4yj9e@resize_w450_nl",
+    quantity: 120,
+    color: [
+      {
+        id: 1,
+        name: "Đen",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m104fpomg4yj9e@resize_w450_nl",
+      },
+      {
+        id: 2,
+        name: "Xám tiêu",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m104fpomeq3jc3@resize_w450_nl.webp",
+      },
+    ],
+    size: ["S(<50kg)", "M(<60kg)", "L(<70kg)"],
   },
   {
     id: 8,
@@ -75,6 +197,28 @@ export const RecommendData = [
     price: 242000,
     image:
       "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m4js7gifsjwvd1@resize_w450_nl",
+    quantity: 120,
+    color: [
+      {
+        id: 1,
+        name: "Đen",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m4js7gifsjwvd1@resize_w450_nl",
+      },
+      {
+        id: 2,
+        name: "Trắng",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m4js7gifr5cf36@resize_w450_nl.webp",
+      },
+      {
+        id: 3,
+        name: "Be",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m4js7gifsjhc2c@resize_w900_nl.webp",
+      },
+    ],
+    size: ["S(<50kg)", "M(<60kg)", "L(<70kg)"],
   },
   {
     id: 9,
@@ -82,13 +226,38 @@ export const RecommendData = [
     price: 242000,
     image:
       "https://down-vn.img.susercontent.com/file/vn-11134201-23030-4zaq8lbt3sovfc@resize_w450_nl",
+    quantity: 10,
+    color: [
+      {
+        id: 1,
+        name: "Trắng",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134201-23030-4zaq8lbt3sovfc@resize_w900_nl",
+      },
+    ],
+    size: ["S(<50kg)", "M(<60kg)", "L(<70kg)"],
   },
   {
     id: 10,
     name: "[SET 12-24] COMBO SWAD MINIFIGURE ĐẶC CÔNG XANH TRẮNG VÀNG, SƯU TẦM TRANG TRÍ DECOR ĐỒ CHƠI LEGO",
     price: 289000,
     image:
-      "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-ly12j2s0qymz92@resize_w900_nl",
+      "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-ly12sp0u27yxf1@resize_w450_nl.webp",
+    quantity: 10,
+    color: [
+      {
+        id: 1,
+        name: "Set 18 v1",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-ly12rcev72zfd6@resize_w450_nl.webp",
+      },
+      {
+        id: 2,
+        name: "Set 18 v2",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-ly12sp0u27yxf1@resize_w450_nl.webp",
+      },
+    ],
   },
   {
     id: 11,
@@ -96,6 +265,21 @@ export const RecommendData = [
     price: 6100000,
     image:
       "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m4myzg15wz8w1d@resize_w900_nl",
+    quantity: 10,
+    color: [
+      {
+        id: 1,
+        name: "1Tb 1 tay",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvxbsf4eovdl75@resize_w450_nl.webp",
+      },
+      {
+        id: 2,
+        name: "1Tb 2 tay",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lvxbsf4eq9y1b0@resize_w450_nl.webp",
+      },
+    ],
   },
   {
     id: 12,
@@ -103,6 +287,15 @@ export const RecommendData = [
     price: 255000,
     image:
       "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m3vf68c75k14d1@resize_w900_nl",
+    quantity: 5,
+    color: [
+      {
+        id: 1,
+        name: "Trắng",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m3vf68c75k14d1@resize_w900_nl",
+      },
+    ],
   },
   {
     id: 13,
@@ -110,6 +303,27 @@ export const RecommendData = [
     price: 99000,
     image:
       "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m4zjk3k86zp2cb@resize_w900_nl",
+    quantity: 10,
+    color: [
+      {
+        id: 1,
+        name: "Đen",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m4zjk3k86zp2cb@resize_w900_nl",
+      },
+      {
+        id: 2,
+        name: "Đỏ",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m4zjhjy09jcm3f@resize_w900_nl.webp",
+      },
+      {
+        id: 3,
+        name: "Hồng",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m4zjhmfmme6v23@resize_w900_nl.webp",
+      },
+    ],
   },
   {
     id: 14,
@@ -117,117 +331,189 @@ export const RecommendData = [
     price: 39000,
     image:
       "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m6xq0bylei54b8@resize_w900_nl",
+    quantity: 10,
+    color: [
+      {
+        id: 1,
+        name: "Xanh lá",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m6xq0byld3ko33@resize_w900_nl.webp",
+      },
+      {
+        id: 2,
+        name: "Đen",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m6xq0bylei54b8@resize_w900_nl",
+      },
+    ],
   },
   {
     id: 15,
-    name: "Đèn LED để bàn cảm ứng chống cận thị",
-    price: 159000,
+    name: "Nệm cao su thiên nhiên Kim Cương Happy Gold, nâng đỡ cột sống, độ đàn hồi cao",
+    price: 4163000,
+    quantity: 300,
     image:
-      "https://down-vn.img.susercontent.com/file/sg-11134201-7rbk2-lmmfb6yyh51xe2@resize_w450_nl",
+      "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lw9hxd7qmml790@resize_w900_nl.webp",
+    color: [
+      {
+        id: 1,
+        name: "100x200x5cm",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lw9hxd7qmml790@resize_w900_nl.webp",
+      },
+      {
+        id: 2,
+        name: "120x200x5cm",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lw9hxd7qmml790@resize_w900_nl.webp",
+      },
+      {
+        id: 3,
+        name: "140x200x5cm",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lw9hxd7qmml790@resize_w900_nl.webp",
+      },
+    ],
   },
   {
     id: 16,
-    name: "Tai nghe Bluetooth không dây Xiaomi Redmi Buds 4",
-    price: 420000,
+    name: "Sữa rửa mặt trà xanh sạch sâu ẩm mịn INNISFREE Green Tea Amino Cleansing Foam 150g",
+    price: 210000,
+    quantity: 250,
+
     image:
-      "https://down-vn.img.susercontent.com/file/sg-11134201-23020-rnld5g9osakneb@resize_w450_nl",
+      "https://down-vn.img.susercontent.com/file/vn-11134201-7ra0g-m8pnj8er6t1eec@resize_w900_nl.webp",
   },
   {
     id: 17,
-    name: "Đế tản nhiệt điện thoại chơi game 2 quạt",
-    price: 135000,
+    name: "Sữa Bột Nestlé NAN SupremePro 3 với 5HMO giúp tăng đề kháng, đạm Gentle Optipro giúp dễ hấp thu & ngừa nguy cơ dị ứng",
+    price: 497260,
+    quantity: 300,
+
     image:
-      "https://down-vn.img.susercontent.com/file/sg-11134201-7rbka-lkz7p3djcj0m84@resize_w450_nl",
+      "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m8pnw5s26buv10@resize_w900_nl.webp",
   },
   {
     id: 18,
-    name: "Giá đỡ laptop nhôm gấp gọn 6 nấc chỉnh",
-    price: 149000,
+    name: "Kem chống nắng Laneige Radian-C Sun Cream SPF 50+ PA++++ 50ML",
+    price: 504000,
+    quantity: 300,
     image:
-      "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lm6t4n8omxtn5e@resize_w450_nl",
+      "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m8set6mfmbes32@resize_w900_nl.webp",
   },
   {
     id: 19,
-    name: "Ổ cứng HDD Seagate 1TB chính hãng",
-    price: 1090000,
+    name: "Combo 2 Thùng 12 hộp sữa bột pha sẵn Varna Colostrum (24 hộp giấy x 237ml)",
+    price: 613000,
+    quantity: 300,
     image:
-      "https://down-vn.img.susercontent.com/file/sg-11134201-23010-npxs3ktc5qjv7e@resize_w450_nl",
+      "https://down-vn.img.susercontent.com/file/vn-11134201-7ra0g-m8porkchq6brd5@resize_w900_nl.webp",
   },
   {
     id: 20,
-    name: "Chuột văn phòng Logitech M331 Silent",
-    price: 250000,
+    name: "Sữa chống nắng bảo vệ hoàn hảo Anessa Perfect UV Sunscreen Skincare Milk 60ml",
+    price: 572000,
     image:
-      "https://down-vn.img.susercontent.com/file/sg-11134201-7qvg7-lk6kp6a5s5u69d@resize_w450_nl",
+      "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m8o78bjc5402d4@resize_w900_nl.webp",
+    quantity: 300,
+    color: [
+      {
+        id: 1,
+        name: "version cũ",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m8o78bjc5402d4@resize_w900_nl.webp",
+      },
+      {
+        id: 2,
+        name: "version mới",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m8o78bjc5402d4@resize_w900_nl.webp",
+      },
+    ],
   },
   {
     id: 21,
-    name: "Cáp sạc nhanh Type-C Anker Powerline 1m",
-    price: 175000,
+    name: "Gạo Thượng hạng ST25, Gạo dẻo mềm túi 5kg",
+    price: 103900,
     image:
-      "https://down-vn.img.susercontent.com/file/sg-11134201-22120-sz0jbzmnbikv6e@resize_w450_nl",
+      "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-ltpkcmw2416y46@resize_w900_nl.webp",
+    quantity: 300,
+    color: [
+      {
+        id: 1,
+        name: "version cũ",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m8o78bjc5402d4@resize_w900_nl.webp",
+      },
+      {
+        id: 2,
+        name: "version mới",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m8o78bjc5402d4@resize_w900_nl.webp",
+      },
+    ],
   },
   {
     id: 22,
-    name: "Đầu đọc thẻ nhớ microSD đa năng",
-    price: 59000,
+    name: "Bao Cao Su Durex Invisible Siêu Mỏng, Size 52 mm, Hộp 16 Bao Mới Ra Mắt - Hộp Lớn Siêu Tiết Kiệm",
+    price: 324000,
     image:
-      "https://down-vn.img.susercontent.com/file/sg-11134201-7qvdl-lhwj6bh6w5zrb0@resize_w450_nl",
+      "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m8pun1v49mrm07@resize_w900_nl.webp",
   },
   {
     id: 23,
-    name: "Tay cầm chơi game không dây Bluetooth Ipega",
-    price: 399000,
+    name: "Bộ ga giường thun lạnh 4 món bọc được nệm 20cm gồm ga gối và vỏ ôm",
+    price: 137000,
     image:
-      "https://down-vn.img.susercontent.com/file/sg-11134201-23020-pqv1omd7bziw36@resize_w450_nl",
+      "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m2uiwe17mldm50@resize_w900_nl.webp",
+    quantity: 300,
+    color: [
+      {
+        id: 1,
+        name: "Đen",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m31j5koft4343e",
+      },
+      {
+        id: 2,
+        name: "Ghi đậm",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m31j6af64ycwdb@resize_w900_nl.webp",
+      },
+      {
+        id: 3,
+        name: "Hồng",
+        image:
+          "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m31j5xraph4g0e@resize_w900_nl.webp",
+      },
+    ],
   },
   {
     id: 24,
-    name: "Pin sạc dự phòng Xiaomi 10000mAh Gen 3",
-    price: 320000,
+    name: "Ugreen Ốp Điện Thoại Trong Suốt Từ Tính Chống Va Đập Cho iPhone 13 14 Pro Max",
+    price: 80160,
     image:
-      "https://down-vn.img.susercontent.com/file/vn-11134201-7qukw-ljxpr5nmjohdd8@resize_w450_nl",
-  },
-  {
-    id: 25,
-    name: "Loa vi tính mini 2.1 Loyfun LF-805",
-    price: 199000,
-    image:
-      "https://down-vn.img.susercontent.com/file/sg-11134201-22100-lymlyc5r4alv23@resize_w450_nl",
-  },
-  {
-    id: 26,
-    name: "Giá đỡ màn hình nhôm nguyên khối",
-    price: 349000,
-    image:
-      "https://down-vn.img.susercontent.com/file/sg-11134201-7rbk6-lmtdrgyhm1g7b5@resize_w450_nl",
-  },
-  {
-    id: 27,
-    name: "Đèn LED RGB dán màn hình máy tính",
-    price: 89000,
-    image:
-      "https://down-vn.img.susercontent.com/file/sg-11134201-22110-yipw9ga7cliv7d@resize_w450_nl",
-  },
-  {
-    id: 28,
-    name: "Bàn phím không dây Logitech K380 Bluetooth",
-    price: 689000,
-    image:
-      "https://down-vn.img.susercontent.com/file/sg-11134201-23010-6lbtisfvdlofb2@resize_w450_nl",
-  },
-  {
-    id: 29,
-    name: "Tay cầm PS4 DualShock chính hãng",
-    price: 1290000,
-    image:
-      "https://down-vn.img.susercontent.com/file/vn-11134201-23010-22ldwcjvv5mvbb@resize_w450_nl",
-  },
-  {
-    id: 30,
-    name: "Bàn phím cơ AKKO 3068B Plus RGB hotswap",
-    price: 1690000,
-    image:
-      "https://down-vn.img.susercontent.com/file/sg-11134201-23020-nk4n6o2bcmkv50@resize_w450_nl",
+      "https://down-vn.img.susercontent.com/file/cn-11134207-7qukw-lgnayi5u0focfe@resize_w900_nl.webp",
+    quantity: 200,
+    color: [
+      {
+        id: 1,
+        name: "Dành cho iphone14promax",
+        image:
+          "https://down-vn.img.susercontent.com/file/cn-11134207-7qukw-lgnayi5u0focfe@resize_w900_nl.webp",
+      },
+      {
+        id: 2,
+        name: "Dành cho iphone14",
+        image:
+          "https://down-vn.img.susercontent.com/file/9d13323cd07790f539a9a37ce0d7fd2c@resize_w900_nl.webp",
+      },
+      {
+        id: 3,
+        name: "Dành cho iphone15",
+        image:
+          "https://down-vn.img.susercontent.com/file/cn-11134207-7r98o-ltgfsikkpz8taa@resize_w900_nl.webp",
+      },
+    ],
   },
 ];

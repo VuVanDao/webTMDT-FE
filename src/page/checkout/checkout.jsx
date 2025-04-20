@@ -1,8 +1,8 @@
 import {
   Box,
+  Button,
   Container,
   Divider,
-  Stack,
   styled,
   Table,
   TableBody,
@@ -19,7 +19,7 @@ import Header from "../../components/Header";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import { RecommendData } from "../../Data/RecommenData";
 import { formatPrice } from "../../utils/formatter";
-
+import Footer from "../../components/Footer";
 const CheckoutPage = () => {
   const [DetailData, setDetailData] = useState(null);
   const [displayImage, setDisplayImage] = useState(null);
@@ -77,7 +77,7 @@ const CheckoutPage = () => {
             </Typography>
           </Box>
         </Container>
-        <Box sx={{ bgcolor: (theme) => theme.bgColor, pt: 3 }}>
+        <Box sx={{ bgcolor: (theme) => theme.bgColor, py: 3 }}>
           <Container>
             <Box
               sx={{
@@ -196,7 +196,6 @@ const CheckoutPage = () => {
                   sx={{
                     display: "flex",
                     p: 5,
-                    // bgcolor: "red",
                     color: "rgb(219 219 219)",
                     borderLeft: "1px dashed rgba(0, 0, 0, .09)",
                     width: "60%",
@@ -221,8 +220,148 @@ const CheckoutPage = () => {
               </Box>
             </Box>
           </Container>
+          <Container>
+            <Box sx={{ bgcolor: "white", my: 3 }}>
+              <Box
+                sx={{
+                  color: "black",
+                  p: 3,
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Box>
+                  <Typography>Phương thức thanh toán</Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: 10,
+                  }}
+                >
+                  <Box>Thanh toán khi nhận hàng</Box>
+                  <Box>THAY ĐỔI</Box>
+                </Box>
+              </Box>
+
+              <Box
+                sx={{
+                  color: "black",
+                  p: 3,
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  bgcolor: "rgb(255, 254, 251)",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 10,
+                    justifyContent: "flex-end",
+                    width: "450px",
+                  }}
+                >
+                  <Box>Tổng tiền hàng</Box>
+                  <Box> {formatPrice(price)}</Box>
+                </Box>
+              </Box>
+
+              <Box
+                sx={{
+                  color: "black",
+                  p: 3,
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  bgcolor: "rgb(255, 254, 251)",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 10,
+                    justifyContent: "flex-end",
+                    width: "450px",
+                  }}
+                >
+                  <Box>Tổng tiền phí vận chuyển</Box>
+                  <Box> {formatPrice(20000)}</Box>
+                </Box>
+              </Box>
+
+              <Box
+                sx={{
+                  color: "black",
+                  p: 3,
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  bgcolor: "rgb(255, 254, 251)",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 10,
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                    width: "450px",
+                  }}
+                >
+                  <Box>Tổng thanh toán</Box>
+                  <Box>
+                    <Typography
+                      sx={{
+                        color: (theme) => theme.commonColors,
+                        // fontSize: "25px",
+                      }}
+                    >
+                      {formatPrice(price + 20000)}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+
+              <Box
+                sx={{
+                  color: "black",
+                  p: 3,
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Box>
+                  <Typography>
+                    Khi nhấn 'Đặt hàng', bạn xác nhận rằng bạn đồng ý với Điều
+                    khoản Shopee của Shopee.
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  <Box>Thanh toán khi nhận hàng</Box>
+                  <Box>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        bgcolor: (theme) => theme.commonColors,
+                        color: "white",
+                      }}
+                    >
+                      Đặt hàng
+                    </Button>
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          </Container>
         </Box>
       </Box>
+      <Footer />
     </Box>
   );
 };

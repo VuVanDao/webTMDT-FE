@@ -8,6 +8,7 @@ import {
   Tooltip,
   Autocomplete,
   Typography,
+  Button,
 } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -20,13 +21,23 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import QrShope from "./QRSHOPEE/QrShope";
 import CartItem from "./Cart/CartItem";
 import MyAccount from "./MyAccount/MyAccount";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RecommendData } from "../Data/RecommenData";
 import SearchIcon from "@mui/icons-material/Search";
+import { createFilterOptions } from "@mui/material/Autocomplete";
+const filter = createFilterOptions();
 const Header = ({ showHeader }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-
+  const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
+  const handleSearch = (e) => {
+    setSearchValue(e);
+  };
+  const handleFindItem = () => {
+    console.log("🚀 ~ Header ~ searchValue:", searchValue);
+    const data = searchValue;
+    navigate(`/search?value=${data}`);
+  };
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -193,8 +204,16 @@ const Header = ({ showHeader }) => {
               style={{ width: "150px", cursor: "pointer" }}
             />
           </Box>
-          <Box>
-            <Autocomplete
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Button
+              sx={{ color: "white" }}
+              // component={Link}
+              // to={`/detail?value=${searchValue}`}
+              onClick={handleFindItem}
+            >
+              <SearchIcon sx={{ cursor: "pointer" }} />
+            </Button>
+            {/* <Autocomplete
               freeSolo
               id="free-solo-2-demo"
               disableClearable
@@ -205,7 +224,7 @@ const Header = ({ showHeader }) => {
                   {...params}
                   type="search"
                   size="small"
-                  // onChange={(e) => handleSearch(e)}
+                  onChange={(e) => handleSearch(e.target.value)}
                   slotProps={{
                     input: {
                       ...params.InputProps,
@@ -215,6 +234,59 @@ const Header = ({ showHeader }) => {
                   InputProps={{
                     startAdornment: <SearchIcon sx={{ cursor: "pointer" }} />,
                   }}
+                  sx={{
+                    width: {
+                      md: "700px",
+                      sm: "400px",
+                    },
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": {
+                        borderColor: (theme) => theme.commonColor,
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "white",
+                      },
+                    },
+                  }}
+                />
+              )}
+            /> */}
+            <Autocomplete
+              size="small"
+              value={searchValue}
+              onChange={(event, newValue) => {
+                setSearchValue(newValue);
+              }}
+              selectOnFocus
+              clearOnBlur
+              handleHomeEndKeys
+              id="free-solo-with-text-demo"
+              options={RecommendData.map((item) => item.name)}
+              // getOptionLabel={(option) => {
+              //   // Value selected with enter, right from the input
+              //   if (typeof option === "string") {
+              //     return option;
+              //   }
+              //   // Add "xxx" option created dynamically
+              //   if (option.inputValue) {
+              //     return option.inputValue;
+              //   }
+              //   // Regular option
+              //   return option.name;
+              // }}
+              renderOption={(props, option) => {
+                const { key, ...optionProps } = props;
+                return (
+                  <li key={key} {...optionProps}>
+                    {option}
+                  </li>
+                );
+              }}
+              freeSolo
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  onChange={(e) => handleSearch(e.target.value)}
                   sx={{
                     width: {
                       md: "700px",

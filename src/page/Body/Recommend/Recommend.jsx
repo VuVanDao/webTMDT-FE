@@ -42,24 +42,6 @@ const Recommend = () => {
               </Grid>
             );
           })}
-          {/* <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }}>
-            <Box sx={{ bgcolor: "blue" }}>size=8</Box>
-          </Grid>
-          <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }}>
-            <Box sx={{ bgcolor: "yellow" }}>size=4</Box>
-          </Grid>
-          <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }}>
-            <Box sx={{ bgcolor: "yellow" }}>size=4</Box>
-          </Grid>
-          <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }}>
-            <Box sx={{ bgcolor: "blue" }}>size=8</Box>
-          </Grid>
-          <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }}>
-            <Box sx={{ bgcolor: "yellow" }}>size=4</Box>
-          </Grid>
-          <Grid size={{ xs: 6, sm: 4, md: 3, lg: 2 }}>
-            <Box sx={{ bgcolor: "blue" }}>size=8</Box>
-          </Grid> */}
         </Grid>
       </Box>
     </Box>

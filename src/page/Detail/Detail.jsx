@@ -18,10 +18,13 @@ const Detail = () => {
   const navigate = useNavigate();
   let [searchParams] = useSearchParams();
   const { id } = Object.fromEntries([...searchParams]);
+
   useEffect(() => {
-    const getData = RecommendData.find((item) => item.id == id);
-    setDetailData(getData);
-    setDisplayImage(getData?.image);
+    if (id) {
+      const getData = RecommendData.find((item) => item.id == id);
+      setDetailData(getData);
+      setDisplayImage(getData?.image);
+    }
   }, []);
   const handleDecrement = () => {
     const newQuantity = SelectQuantity - 1;
@@ -70,7 +73,6 @@ const Detail = () => {
       // toast.success("Thêm vào giỏ hàng thành công");
     }
   };
-  console.log("🚀 ~ handleSelect ~ selection:", selection);
 
   return (
     <Box>
@@ -78,10 +80,10 @@ const Detail = () => {
       <Box
         sx={{
           bgcolor: "#f5f5f5",
-          height: (theme) => `calc(100vh - ${theme.customHeight.Header})`,
+          py: 3,
         }}
       >
-        <Container sx={{ p: 3 }}>
+        <Container sx={{}}>
           <Box sx={{ bgcolor: "white", color: "black", p: 3 }}>
             <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
               <Box
@@ -139,7 +141,9 @@ const Detail = () => {
                 </Box>
 
                 <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
-                  <Box sx={{ color: "#757575", width: "20%" }}>Màu sắc</Box>
+                  <Box sx={{ color: "#757575", width: "20%" }}>
+                    {DetailData?.color?.length > 0 && "Phân loại"}
+                  </Box>
                   <Box sx={{ display: "flex", gap: 3 }}>
                     {DetailData?.color?.map((item) => {
                       return (
@@ -165,6 +169,36 @@ const Detail = () => {
                             style={{ width: "30px", height: "30px" }}
                           />
                           <Typography>{item.name}</Typography>
+                        </Box>
+                      );
+                    })}
+                  </Box>
+                </Box>
+
+                <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
+                  <Box sx={{ color: "#757575", width: "20%" }}>
+                    {DetailData?.size?.length > 0 && "Kích cỡ"}
+                  </Box>
+                  <Box sx={{ display: "flex", gap: 3 }}>
+                    {DetailData?.size?.map((item) => {
+                      return (
+                        <Box
+                          key={item.id}
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            cursor: "pointer",
+                            mb: 1,
+                            border: "1px solid #757575",
+                            p: "5px",
+                          }}
+                          // onClick={() => {
+                          //   setDisplayImage(item.image);
+                          //   setSelectColor(item.name);
+                          // }}
+                        >
+                          <Typography>{item}</Typography>
                         </Box>
                       );
                     })}
