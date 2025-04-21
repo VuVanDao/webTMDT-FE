@@ -127,6 +127,9 @@ const Header = ({ showHeader }) => {
         bgcolor: (theme) => theme.commonColors,
         color: "white",
         p: 0.25,
+        position: "sticky",
+        top: 0,
+        zIndex: 10,
       }}
     >
       <Container maxWidth="lg">

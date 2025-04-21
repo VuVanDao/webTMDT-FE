@@ -8,6 +8,7 @@ import { formatPrice } from "../../utils/formatter";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { toast } from "react-toastify";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import { data } from "../../Data/CartData";
 
 const Detail = () => {
   const [DetailData, setDetailData] = useState(null);
@@ -22,6 +23,9 @@ const Detail = () => {
   useEffect(() => {
     if (id) {
       const getData = RecommendData.find((item) => item.id == id);
+      if (!getData) {
+        navigate("/");
+      }
       setDetailData(getData);
       setDisplayImage(getData?.image);
     }
@@ -37,7 +41,7 @@ const Detail = () => {
   const handleSelect = (choose) => {
     if (choose === "buy") {
       if (!SelectColor) {
-        toast.error("Vui lòng chọn màu sắc sản phẩm");
+        toast.error("Vui lòng chọn phân loại sản phẩm");
         return;
       }
       let price = DetailData?.price;
@@ -47,6 +51,7 @@ const Detail = () => {
       let dataSend = {
         name: DetailData?.name,
         color: SelectColor ? SelectColor : DetailData?.color[0]?.name,
+        image: displayImage ? displayImage : DetailData?.color[0]?.image,
         quantity: SelectQuantity ? SelectQuantity : 1,
         price: price,
       };
@@ -56,7 +61,7 @@ const Detail = () => {
       });
     } else {
       if (!SelectColor) {
-        toast.error("Vui lòng chọn màu sắc sản phẩm");
+        toast.error("Vui lòng chọn phân loại sản phẩm");
         return;
       }
       let price = DetailData?.price;
@@ -66,9 +71,15 @@ const Detail = () => {
       let dataSend = {
         name: DetailData?.name,
         color: SelectColor ? SelectColor : DetailData?.color[0]?.name,
+        image: SelectColor ? SelectColor : DetailData?.color[0]?.image,
         quantity: SelectQuantity ? SelectQuantity : 1,
         price: price,
       };
+      data.cart.push({
+        ...dataSend,
+        id: data.cart.length + 1,
+        image: dataSend.color,
+      });
       setSelection(dataSend);
       // toast.success("Thêm vào giỏ hàng thành công");
     }
@@ -160,7 +171,7 @@ const Detail = () => {
                           }}
                           onClick={() => {
                             setDisplayImage(item.image);
-                            setSelectColor(item.name);
+                            setSelectColor(item.image);
                           }}
                         >
                           <img

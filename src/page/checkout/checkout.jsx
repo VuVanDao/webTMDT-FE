@@ -27,7 +27,7 @@ const CheckoutPage = () => {
   let [searchParams] = useSearchParams();
   const { id } = Object.fromEntries([...searchParams]);
   const location = useLocation();
-  const { price, name, color, quantity } = location.state.data;
+  const { price, name, color, quantity, image } = location.state.data;
 
   useEffect(() => {
     const getData = RecommendData.find((item) => item.id == id);
@@ -127,10 +127,7 @@ const CheckoutPage = () => {
                       <CustomTableCell>
                         <Box sx={{ display: "flex", gap: 4, width: "550px" }}>
                           <Box>
-                            <img
-                              src={DetailData?.image}
-                              style={{ width: "50px" }}
-                            />
+                            <img src={image} style={{ width: "50px" }} />
                           </Box>
                           <Box>
                             <Typography sx={{ overflowX: "hidden" }}>
