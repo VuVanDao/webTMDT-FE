@@ -6,10 +6,12 @@ import SelectOption from "./SelectOption/SelectOption";
 import { Categories } from "../../Data/Categories";
 import FlashSale from "./FlashSale/FlashSale";
 import Recommend from "./Recommend/Recommend";
+import TopSearch from "./TopSearch/TopSearch";
 
 const Body = () => {
   return (
     <Box sx={{ bgcolor: "white", color: "black" }}>
+      {/* Slicker */}
       <Container maxWidth="lg" sx={{ py: 3 }}>
         <Box>
           <Slicker />
@@ -41,6 +43,8 @@ const Body = () => {
           </Box>
         </Box>
       </Container>
+
+      {/* danh muc */}
       <Box sx={{ bgcolor: "#f5f5f5", p: 3 }}>
         <Container>
           <Box sx={{ bgcolor: "white" }}>
@@ -84,6 +88,8 @@ const Body = () => {
           </Box>
         </Container>
       </Box>
+
+      {/* flashSale */}
       <Box sx={{ bgcolor: "#f5f5f5", p: 3 }}>
         <Container>
           <Box sx={{ bgcolor: "white" }}>
@@ -91,9 +97,14 @@ const Body = () => {
           </Box>
         </Container>
       </Box>
+
+      {/* Top search */}
+      <TopSearch />
+
+      {/* recommend */}
       <Box sx={{ bgcolor: "#f5f5f5", p: 3 }}>
         <Container>
-          <Box sx={{ bgcolor: "white" }}>
+          <Box>
             <Recommend />
           </Box>
         </Container>

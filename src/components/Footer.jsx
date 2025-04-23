@@ -1,7 +1,13 @@
-import { Box, Container, Stack, Typography } from "@mui/material";
-import React from "react";
+import { Box, Container, Typography } from "@mui/material";
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const Footer = () => {
+  const { detail } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // hoặc behavior: "smooth"
+  }, [detail]);
   return (
     <Box
       sx={{

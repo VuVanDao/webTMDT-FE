@@ -27,7 +27,7 @@ const CheckoutPage = () => {
   let [searchParams] = useSearchParams();
   const { id } = Object.fromEntries([...searchParams]);
   const location = useLocation();
-  const { price, name, color, quantity, image } = location.state.data;
+  const { price, name, color, quantity, image, size } = location.state.data;
 
   useEffect(() => {
     const getData = RecommendData.find((item) => item.id == id);
@@ -131,7 +131,7 @@ const CheckoutPage = () => {
                           </Box>
                           <Box>
                             <Typography sx={{ overflowX: "hidden" }}>
-                              {name}
+                              {name} loại ({color}) {`Kích cỡ ${size}`}
                             </Typography>
                           </Box>
                         </Box>

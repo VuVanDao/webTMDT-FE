@@ -162,7 +162,11 @@ const Header = ({ showHeader }) => {
               />
               <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
                 <Typography>Kết nối</Typography>
-                <Tooltip title="facebook">
+                <Tooltip
+                  title="facebook"
+                  component={Link}
+                  to="https://www.facebook.com/vu.van.ao.208585"
+                >
                   <FacebookIcon />
                 </Tooltip>
                 <Tooltip title="Instagram">

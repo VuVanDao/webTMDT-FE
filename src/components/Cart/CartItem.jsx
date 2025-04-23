@@ -10,13 +10,22 @@ import {
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { data } from "../../Data/CartData";
 import { formatPrice } from "../../utils/formatter";
+import { useNavigate } from "react-router-dom";
 const CartItem = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const navigate = useNavigate();
   const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleCheckOut = (item) => {
+    console.log("🚀 ~ handleClose ~ item:", item);
+    navigate(`/checkout?id=${item.id}`, {
+      state: { data: item },
+    });
     setAnchorEl(null);
   };
   return (
@@ -42,9 +51,6 @@ const CartItem = () => {
         onClose={handleClose}
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-        sx={{
-          maxWidth: "450px",
-        }}
       >
         <Typography
           sx={{
@@ -58,45 +64,48 @@ const CartItem = () => {
         {data &&
           data.cart.map((item) => {
             return (
-              <MenuItem
-                key={item.id}
-                onClick={handleClose}
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <img
-                  src={item.image}
-                  style={{
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "5px",
-                  }}
-                />
-                <Typography
+              <MenuItem key={item.id} onClick={handleClose}>
+                <Box
                   sx={{
-                    maxWidth: "60%",
-                    overflowX: "hidden",
-                    fontSize: "14px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    maxWidth: "400px",
                   }}
+                  onClick={() => handleCheckOut(item)}
                 >
-                  {item.name}
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: "14px",
-                  }}
-                >
-                  {formatPrice(item.price)}
-                </Typography>
+                  <img
+                    src={item.image}
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "5px",
+                    }}
+                  />
+                  <Typography
+                    sx={{
+                      maxWidth: "60%",
+                      overflowX: "hidden",
+                      fontSize: "14px",
+                    }}
+                  >
+                    {item.name}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: "14px",
+                    }}
+                  >
+                    {formatPrice(item.price)}
+                  </Typography>
+                </Box>
               </MenuItem>
             );
           })}
         <Box
           sx={{
             px: 2,
-            // py: 1,
+            mt: 1,
             display: "flex",
             gap: 1,
             alignItems: "center",

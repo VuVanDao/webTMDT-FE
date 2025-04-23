@@ -1,7 +1,8 @@
-import { Box, Grid, Stack } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 import React from "react";
 import { RecommendData } from "../../../Data/RecommenData";
 import { Link } from "react-router-dom";
+import { formatPrice } from "../../../utils/formatter";
 
 const Recommend = () => {
   return (
@@ -9,8 +10,26 @@ const Recommend = () => {
       {/* <Stack direction={"row"} spacing={1}>
        
       </Stack> */}
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2}>
+      <Box
+        sx={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: 3 }}
+      >
+        <Box
+          sx={{
+            textAlign: "center",
+            p: 3,
+            borderBottom: "5px solid",
+            borderBottomColor: (theme) => theme.commonColors,
+            bgcolor: "white",
+          }}
+        >
+          <Typography
+            variant="h6"
+            sx={{ color: (theme) => theme.commonColors }}
+          >
+            Gợi ý hôm nay
+          </Typography>
+        </Box>
+        <Grid container spacing={2} sx={{ bgcolor: (theme) => theme.bgColor }}>
           {RecommendData.map((item) => {
             return (
               <Grid
@@ -23,12 +42,13 @@ const Recommend = () => {
                     border: "1px solid rgba(0, 0, 0, .05)",
                     textAlign: "center",
                     "&:hover": {
-                      borderColor: "rgba(0, 0, 0, .12)",
+                      borderColor: (theme) => theme.commonColors,
                       boxShadow: "0 0 .8125rem 0 rgba(0, 0, 0, .05)",
-                      transform: "translateZ(0)",
+                      transform: "scale(1)",
                     },
                     overflow: "hidden",
-                    p: 1,
+                    // p: 1,
+                    bgcolor: "white",
                   }}
                   component={Link}
                   to={`/detail?id=${item.id}`}
@@ -36,8 +56,34 @@ const Recommend = () => {
                   <img
                     src={item.image}
                     alt={item.name}
-                    style={{ width: "100%" }}
+                    style={{ width: "100%", border: "1px solid black" }}
                   />
+                  <Box sx={{ p: 1 }}>
+                    <Box
+                      sx={{
+                        height: "50px",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        color: "black",
+                        mb: 3,
+                      }}
+                    >
+                      <Typography>{item?.name}</Typography>
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        color: "black",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography>{formatPrice(item?.price)}</Typography>
+                      <Typography sx={{ fontSize: "14px" }}>
+                        Đã bán: 10
+                      </Typography>
+                    </Box>
+                  </Box>
                 </Box>
               </Grid>
             );

@@ -15,6 +15,7 @@ const Detail = () => {
   const [displayImage, setDisplayImage] = useState(null);
   const [SelectQuantity, setSelectQuantity] = useState(1);
   const [SelectColor, setSelectColor] = useState("");
+  const [size, setSize] = useState("");
   const [selection, setSelection] = useState({});
   const navigate = useNavigate();
   let [searchParams] = useSearchParams();
@@ -50,10 +51,11 @@ const Detail = () => {
       }
       let dataSend = {
         name: DetailData?.name,
-        color: SelectColor ? SelectColor : DetailData?.color[0]?.name,
+        color: SelectColor ? SelectColor : DetailData[0]?.color[0]?.name,
         image: displayImage ? displayImage : DetailData?.color[0]?.image,
         quantity: SelectQuantity ? SelectQuantity : 1,
         price: price,
+        size: size ? size : null,
       };
       setSelection(dataSend);
       navigate(`/checkout?id=${id}`, {
@@ -71,17 +73,18 @@ const Detail = () => {
       let dataSend = {
         name: DetailData?.name,
         color: SelectColor ? SelectColor : DetailData?.color[0]?.name,
-        image: SelectColor ? SelectColor : DetailData?.color[0]?.image,
+        image: displayImage ? displayImage : DetailData?.color[0]?.image,
         quantity: SelectQuantity ? SelectQuantity : 1,
         price: price,
+        size: size ? size : null,
       };
       data.cart.push({
         ...dataSend,
         id: data.cart.length + 1,
-        image: dataSend.color,
+        image: dataSend.image,
       });
       setSelection(dataSend);
-      // toast.success("Thêm vào giỏ hàng thành công");
+      toast.success("Thêm vào giỏ hàng thành công");
     }
   };
 
@@ -151,6 +154,7 @@ const Detail = () => {
                   </Box>
                 </Box>
 
+                {/* phan loai */}
                 <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
                   <Box sx={{ color: "#757575", width: "20%" }}>
                     {DetailData?.color?.length > 0 && "Phân loại"}
@@ -171,7 +175,7 @@ const Detail = () => {
                           }}
                           onClick={() => {
                             setDisplayImage(item.image);
-                            setSelectColor(item.image);
+                            setSelectColor(item.name);
                           }}
                         >
                           <img
@@ -186,6 +190,7 @@ const Detail = () => {
                   </Box>
                 </Box>
 
+                {/* kich co */}
                 <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
                   <Box sx={{ color: "#757575", width: "20%" }}>
                     {DetailData?.size?.length > 0 && "Kích cỡ"}
@@ -204,10 +209,9 @@ const Detail = () => {
                             border: "1px solid #757575",
                             p: "5px",
                           }}
-                          // onClick={() => {
-                          //   setDisplayImage(item.image);
-                          //   setSelectColor(item.name);
-                          // }}
+                          onClick={() => {
+                            setSize(item);
+                          }}
                         >
                           <Typography>{item}</Typography>
                         </Box>
@@ -216,6 +220,7 @@ const Detail = () => {
                   </Box>
                 </Box>
 
+                {/* so luong */}
                 <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
                   <Box sx={{ color: "#757575", width: "20%" }}>Số lượng</Box>
                   <Box>
@@ -227,12 +232,18 @@ const Detail = () => {
                         cursor: "pointer",
                         mb: 1,
                         border: "1px solid #757575",
-                        p: "5px",
+                        // p: "5px",
                         justifyContent: "space-between",
                       }}
                     >
                       <Button
-                        sx={{ color: (theme) => theme.commonColors }}
+                        sx={{
+                          color: (theme) => theme.commonColors,
+                          border: "1px solid ",
+                          borderColor: "transparent",
+                          borderRightColor: "#757575",
+                          borderRadius: "0px",
+                        }}
                         onClick={() => {
                           if (SelectQuantity > 1) {
                             handleDecrement();
@@ -243,11 +254,19 @@ const Detail = () => {
                       >
                         -
                       </Button>
-                      <Typography sx={{ color: (theme) => theme.commonColors }}>
+                      <Typography
+                        sx={{ color: (theme) => theme.commonColors, mx: 2 }}
+                      >
                         {SelectQuantity}
                       </Typography>
                       <Button
-                        sx={{ color: (theme) => theme.commonColors }}
+                        sx={{
+                          color: (theme) => theme.commonColors,
+                          border: "1px solid ",
+                          borderColor: "transparent",
+                          borderLeftColor: "#757575",
+                          borderRadius: "0px",
+                        }}
                         onClick={() => {
                           if (SelectQuantity < DetailData?.quantity) {
                             handleIncrement();
