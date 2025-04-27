@@ -57,9 +57,8 @@ const SearchData = () => {
     if (value) {
       const result = searchSuggestions(value);
       if (result) setData(result);
-      console.log("🚀 ~ useEffect ~ result:", data);
     }
-  }, []);
+  }, [value]);
 
   return (
     <Box sx={{ bgcolor: "#f5f5f5" }}>

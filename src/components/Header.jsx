@@ -17,15 +17,13 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import LanguageIcon from "@mui/icons-material/Language";
 import LanguageChange from "./Language/Language";
 import shopeeImg from "../assets/shopee.png";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import QrShope from "./QRSHOPEE/QrShope";
 import CartItem from "./Cart/CartItem";
 import MyAccount from "./MyAccount/MyAccount";
 import { Link, useNavigate } from "react-router-dom";
 import { RecommendData } from "../Data/RecommenData";
 import SearchIcon from "@mui/icons-material/Search";
-import { createFilterOptions } from "@mui/material/Autocomplete";
-const filter = createFilterOptions();
+
 const Header = ({ showHeader }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
@@ -34,9 +32,9 @@ const Header = ({ showHeader }) => {
     setSearchValue(e);
   };
   const handleFindItem = () => {
-    console.log("🚀 ~ Header ~ searchValue:", searchValue);
     const data = searchValue;
     navigate(`/search?value=${data}`);
+    setSearchValue("");
   };
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -193,8 +191,6 @@ const Header = ({ showHeader }) => {
                 <LanguageChange />
               </Box>
               <Box sx={{ display: "flex", gap: 0.5, alignItems: "center" }}>
-                {/* <Avatar sx={{ width: 24, height: 24 }} />
-                <Typography>VuVanDao</Typography> */}
                 <MyAccount />
               </Box>
             </Box>
@@ -215,52 +211,10 @@ const Header = ({ showHeader }) => {
             />
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Button
-              sx={{ color: "white" }}
-              // component={Link}
-              // to={`/detail?value=${searchValue}`}
-              onClick={handleFindItem}
-            >
+            <Button sx={{ color: "white" }} onClick={handleFindItem}>
               <SearchIcon sx={{ cursor: "pointer" }} />
             </Button>
-            {/* <Autocomplete
-              freeSolo
-              id="free-solo-2-demo"
-              disableClearable
-              options={RecommendData.map((option) => option.name)}
-              renderInput={(params) => (
-                <TextField
-                  id="outlined-search"
-                  {...params}
-                  type="search"
-                  size="small"
-                  onChange={(e) => handleSearch(e.target.value)}
-                  slotProps={{
-                    input: {
-                      ...params.InputProps,
-                      type: "search",
-                    },
-                  }}
-                  InputProps={{
-                    startAdornment: <SearchIcon sx={{ cursor: "pointer" }} />,
-                  }}
-                  sx={{
-                    width: {
-                      md: "700px",
-                      sm: "400px",
-                    },
-                    "& .MuiOutlinedInput-root": {
-                      "&:hover fieldset": {
-                        borderColor: (theme) => theme.commonColor,
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "white",
-                      },
-                    },
-                  }}
-                />
-              )}
-            /> */}
+
             <Autocomplete
               size="small"
               value={searchValue}
