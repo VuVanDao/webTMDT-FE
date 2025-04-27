@@ -160,13 +160,16 @@ const Header = ({ showHeader }) => {
                 variant="middle"
                 sx={{ bgcolor: "white", height: "15px" }}
               />
-              <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1,
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}
+              >
                 <Typography>Kết nối</Typography>
-                <Tooltip
-                  title="facebook"
-                  component={Link}
-                  to="https://www.facebook.com/vu.van.ao.208585"
-                >
+                <Tooltip title="facebook">
                   <FacebookIcon />
                 </Tooltip>
                 <Tooltip title="Instagram">
@@ -269,18 +272,6 @@ const Header = ({ showHeader }) => {
               handleHomeEndKeys
               id="free-solo-with-text-demo"
               options={RecommendData.map((item) => item.name)}
-              // getOptionLabel={(option) => {
-              //   // Value selected with enter, right from the input
-              //   if (typeof option === "string") {
-              //     return option;
-              //   }
-              //   // Add "xxx" option created dynamically
-              //   if (option.inputValue) {
-              //     return option.inputValue;
-              //   }
-              //   // Regular option
-              //   return option.name;
-              // }}
               renderOption={(props, option) => {
                 const { key, ...optionProps } = props;
                 return (

@@ -4,6 +4,7 @@ import { RecommendData } from "../../../Data/RecommenData";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
+import { formatPrice } from "../../../utils/formatter";
 
 const SearchData = () => {
   const [data, setData] = useState([]);
@@ -67,7 +68,6 @@ const SearchData = () => {
         <Box
           sx={{
             flexGrow: 1,
-            height: (theme) => theme.customHeight.Body,
             p: 3,
           }}
         >
@@ -85,12 +85,13 @@ const SearchData = () => {
                         border: "1px solid rgba(0, 0, 0, .05)",
                         textAlign: "center",
                         "&:hover": {
-                          borderColor: "rgba(0, 0, 0, .12)",
+                          borderColor: (theme) => theme.commonColors,
                           boxShadow: "0 0 .8125rem 0 rgba(0, 0, 0, .05)",
-                          transform: "translateZ(0)",
+                          transform: "scale(1)",
                         },
                         overflow: "hidden",
-                        p: 1,
+                        // p: 1,
+                        bgcolor: "white",
                       }}
                       component={Link}
                       to={`/detail?id=${item.id}`}
@@ -98,8 +99,34 @@ const SearchData = () => {
                       <img
                         src={item.image}
                         alt={item.name}
-                        style={{ width: "100%" }}
+                        style={{ width: "100%", border: "1px solid black" }}
                       />
+                      <Box sx={{ p: 1 }}>
+                        <Box
+                          sx={{
+                            height: "50px",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            color: "black",
+                            mb: 3,
+                          }}
+                        >
+                          <Typography>{item?.name}</Typography>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            color: "black",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Typography>{formatPrice(item?.price)}</Typography>
+                          <Typography sx={{ fontSize: "14px" }}>
+                            Đã bán: 10
+                          </Typography>
+                        </Box>
+                      </Box>
                     </Box>
                   </Grid>
                 );

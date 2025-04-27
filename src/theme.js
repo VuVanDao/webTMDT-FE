@@ -1,4 +1,3 @@
-import { cyan, red } from "@mui/material/colors";
 import { experimental_extendTheme as extendTheme } from "@mui/material";
 const Header = "120px";
 const Footer = "285px";

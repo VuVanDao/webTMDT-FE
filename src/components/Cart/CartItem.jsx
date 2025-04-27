@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Badge,
   Box,
   Button,
   Menu,
@@ -22,7 +23,6 @@ const CartItem = () => {
     setAnchorEl(null);
   };
   const handleCheckOut = (item) => {
-    console.log("🚀 ~ handleClose ~ item:", item);
     navigate(`/checkout?id=${item.id}`, {
       state: { data: item },
     });
@@ -38,11 +38,13 @@ const CartItem = () => {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <ShoppingCartIcon
-          sx={{
-            cursor: "pointer",
-          }}
-        />
+        <Badge badgeContent={data?.cart?.length}>
+          <ShoppingCartIcon
+            sx={{
+              cursor: "pointer",
+            }}
+          />
+        </Badge>
       </Tooltip>
       <Menu
         id="basic-menu"

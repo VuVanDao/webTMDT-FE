@@ -210,7 +210,7 @@ const CheckoutPage = () => {
                   </Box>
                 </Box>
               </Box>
-              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+              <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 1 }}>
                 <Typography>
                   Thành tiền ({quantity} sản phẩm): {formatPrice(price + 20000)}
                 </Typography>
