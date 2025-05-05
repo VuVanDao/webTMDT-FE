@@ -3,6 +3,7 @@ import HomePage from "./page/HomePage/HomePage";
 import Detail from "./page/Detail/Detail";
 import CheckoutPage from "./page/checkout/checkout";
 import SearchData from "./page/Body/SearchData/searchData";
+import LoginForm from "./page/Login/LoginSigninForm";
 
 const App = () => {
   return (
@@ -16,6 +17,8 @@ const App = () => {
         <Route path="/detail" element={<Detail />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/search" element={<SearchData />} />
+        <Route path="/login" element={<LoginForm formState={"login"} />} />
+        <Route path="/signin" element={<LoginForm formState={"signin"} />} />
         <Route
           path="*"
           element={<Navigate to={"/homePage"} replace={true} />}

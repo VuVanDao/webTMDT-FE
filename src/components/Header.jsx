@@ -190,7 +190,14 @@ const Header = ({ showHeader }) => {
                 <LanguageIcon />
                 <LanguageChange />
               </Box>
-              <Box sx={{ display: "flex", gap: 0.5, alignItems: "center" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 0.5,
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}
+              >
                 <MyAccount />
               </Box>
             </Box>

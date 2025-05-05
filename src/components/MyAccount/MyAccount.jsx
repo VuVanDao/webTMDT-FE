@@ -7,15 +7,65 @@ import { Avatar, Box, Tooltip, Typography } from "@mui/material";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
+import LoginIcon from "@mui/icons-material/Login";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import { useNavigate } from "react-router-dom";
 const MyAccount = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [user, setUser] = useState(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleLogin = () => {
+    navigate("/login");
+  };
+  if (!user) {
+    return (
+      <>
+        <Tooltip
+          title={"your profile"}
+          id="basic-button"
+          aria-controls={open ? "basic-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          onClick={handleClick}
+          sx={{ color: "white", p: "0", cursor: "pointer" }}
+        >
+          <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+            <Avatar sx={{ width: 24, height: 24 }} />
+            <Typography>Tài khoản</Typography>
+          </Box>
+        </Tooltip>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem onClick={handleLogin}>
+            <ListItemIcon>
+              <LoginIcon fontSize="small" />
+            </ListItemIcon>
+            Đăng nhập
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <AppRegistrationIcon fontSize="small" />
+            </ListItemIcon>
+            Đăng kí
+          </MenuItem>
+        </Menu>
+      </>
+    );
+  }
   return (
     <>
       <Tooltip

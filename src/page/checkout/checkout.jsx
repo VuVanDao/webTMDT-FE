@@ -27,7 +27,11 @@ const CheckoutPage = () => {
   let [searchParams] = useSearchParams();
   const { id } = Object.fromEntries([...searchParams]);
   const location = useLocation();
-  const { price, name, color, quantity, image, size } = location.state.data;
+
+  if (location?.state?.data === undefined) {
+    window.location.href = "/homePage";
+  }
+  const { price, name, color, quantity, image, size } = location?.state?.data;
 
   useEffect(() => {
     const getData = RecommendData.find((item) => item.id == id);
@@ -49,6 +53,7 @@ const CheckoutPage = () => {
 
   const formattedToday = formatVietnameseDate(today);
   const formattedLater = formatVietnameseDate(twoDaysLater);
+
   return (
     <Box>
       <Header showHeader={false} />
