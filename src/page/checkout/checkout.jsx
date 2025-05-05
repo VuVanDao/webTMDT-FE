@@ -57,7 +57,7 @@ const CheckoutPage = () => {
           <Box
             sx={{ display: "flex", alignItems: "center", gap: 2 }}
             component={Link}
-            to={"/"}
+            to={"/homePage"}
           >
             <img
               src={
@@ -131,7 +131,8 @@ const CheckoutPage = () => {
                           </Box>
                           <Box>
                             <Typography sx={{ overflowX: "hidden" }}>
-                              {name} loại ({color}) {`Kích cỡ ${size}`}
+                              {name} loại ({color}){" "}
+                              {size ? `Kích cỡ ${size}` : ""}
                             </Typography>
                           </Box>
                         </Box>

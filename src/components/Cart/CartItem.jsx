@@ -119,7 +119,7 @@ const CartItem = () => {
               fontSize: "14px",
             }}
           >
-            5 sản phẩm có sẵn trong giỏ
+            {data?.cart?.length} sản phẩm có sẵn trong giỏ
           </Typography>
           <Button
             variant="contained"

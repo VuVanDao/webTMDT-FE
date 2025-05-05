@@ -161,31 +161,59 @@ const Detail = () => {
                   </Box>
                   <Box sx={{ display: "flex", gap: 3 }}>
                     {DetailData?.color?.map((item) => {
-                      return (
-                        <Box
-                          key={item.id}
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1,
-                            cursor: "pointer",
-                            mb: 1,
-                            border: "1px solid #757575",
-                            p: "5px",
-                          }}
-                          onClick={() => {
-                            setDisplayImage(item.image);
-                            setSelectColor(item.name);
-                          }}
-                        >
-                          <img
-                            src={item.image}
-                            alt={item.name}
-                            style={{ width: "30px", height: "30px" }}
-                          />
-                          <Typography>{item.name}</Typography>
-                        </Box>
-                      );
+                      if (item.name === SelectColor) {
+                        return (
+                          <Box
+                            key={item.id}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                              cursor: "pointer",
+                              mb: 1,
+                              border: "1px solid red",
+                              p: "5px",
+                            }}
+                            onClick={() => {
+                              setDisplayImage(item.image);
+                              setSelectColor(item.name);
+                            }}
+                          >
+                            <img
+                              src={item.image}
+                              alt={item.name}
+                              style={{ width: "30px", height: "30px" }}
+                            />
+                            <Typography>{item.name}</Typography>
+                          </Box>
+                        );
+                      } else {
+                        return (
+                          <Box
+                            key={item.id}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                              cursor: "pointer",
+                              mb: 1,
+                              border: "1px solid #757575",
+                              p: "5px",
+                            }}
+                            onClick={() => {
+                              setDisplayImage(item.image);
+                              setSelectColor(item.name);
+                            }}
+                          >
+                            <img
+                              src={item.image}
+                              alt={item.name}
+                              style={{ width: "30px", height: "30px" }}
+                            />
+                            <Typography>{item.name}</Typography>
+                          </Box>
+                        );
+                      }
                     })}
                   </Box>
                 </Box>
@@ -197,25 +225,47 @@ const Detail = () => {
                   </Box>
                   <Box sx={{ display: "flex", gap: 3 }}>
                     {DetailData?.size?.map((item) => {
-                      return (
-                        <Box
-                          key={item.id}
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1,
-                            cursor: "pointer",
-                            mb: 1,
-                            border: "1px solid #757575",
-                            p: "5px",
-                          }}
-                          onClick={() => {
-                            setSize(item);
-                          }}
-                        >
-                          <Typography>{item}</Typography>
-                        </Box>
-                      );
+                      if (item === size) {
+                        return (
+                          <Box
+                            key={item.id}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                              cursor: "pointer",
+                              mb: 1,
+                              border: "1px solid red",
+                              p: "5px",
+                            }}
+                            onClick={() => {
+                              setSize(item);
+                            }}
+                          >
+                            <Typography>{item}</Typography>
+                          </Box>
+                        );
+                      } else {
+                        return (
+                          <Box
+                            key={item.id}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                              cursor: "pointer",
+                              mb: 1,
+                              border: "1px solid #757575",
+                              p: "5px",
+                            }}
+                            onClick={() => {
+                              setSize(item);
+                            }}
+                          >
+                            <Typography>{item}</Typography>
+                          </Box>
+                        );
+                      }
                     })}
                   </Box>
                 </Box>
