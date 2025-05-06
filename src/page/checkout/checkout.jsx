@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { Link, Navigate, useLocation, useSearchParams } from "react-router-dom";
 import Header from "../../components/Header";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import { RecommendData } from "../../Data/RecommenData";
@@ -29,7 +29,7 @@ const CheckoutPage = () => {
   const location = useLocation();
 
   if (location?.state?.data === undefined) {
-    window.location.href = "/homePage";
+    return <Navigate to="/homePage" />;
   }
   const { price, name, color, quantity, image, size } = location?.state?.data;
 

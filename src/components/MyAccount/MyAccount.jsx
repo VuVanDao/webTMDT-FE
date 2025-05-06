@@ -24,6 +24,9 @@ const MyAccount = () => {
   const handleLogin = () => {
     navigate("/login");
   };
+  const handleRegister = () => {
+    navigate("/signin");
+  };
   if (!user) {
     return (
       <>
@@ -56,7 +59,7 @@ const MyAccount = () => {
             </ListItemIcon>
             Đăng nhập
           </MenuItem>
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={handleRegister}>
             <ListItemIcon>
               <AppRegistrationIcon fontSize="small" />
             </ListItemIcon>

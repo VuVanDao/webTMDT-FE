@@ -51,19 +51,20 @@ const LoginSigninForm = ({ formState }) => {
         sx={{
           background:
             'url("https://down-vn.img.susercontent.com/file/sg-11134004-7reox-m8yiydanxgiv2e")',
-          height: "600px",
+          height: "720px",
           backgroundRepeat: "no-repeat",
           backgroundSize: "contain",
           backgroundPosition: "center center",
           bgcolor: "#d0011b",
+          display: "flex",
+          alignItems: "center",
         }}
       >
         <Container
           sx={{
-            height: "max-content",
             display: "flex",
             justifyContent: "end",
-            mr: 25,
+            p: 5,
           }}
         >
           {formState === "signin" ? <SigninForm /> : <LoginForm />}

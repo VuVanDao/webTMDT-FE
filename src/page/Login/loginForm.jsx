@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -13,6 +14,8 @@ import { Link, useNavigate } from "react-router-dom";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useForm } from "react-hook-form";
+import { loginUserAPI } from "../../api";
+import { toast } from "react-toastify";
 const LoginForm = () => {
   const fieldsetCommonStyle = {
     "& label": {
@@ -47,21 +50,21 @@ const LoginForm = () => {
   } = useForm();
 
   const submitLogIn = async (data) => {
-    console.log("submit login: ", data);
-    // const res = await authorizedAxiosInstance.post(
-    //   `${API_ROOT}/v1/users/login`,
-    //   data
-    // );
-    // console.log(res.data);
-    // const userInfo = {
-    //   id: res.data?.id,
-    //   email: res.data?.email,
-    //   role: res.data?.role,
-    // };
-    // localStorage.setItem("accessToken", res?.data?.accessToken);
-    // localStorage.setItem("refreshToken", res?.data?.refreshToken);
-    // localStorage.setItem("userInfo", JSON.stringify(userInfo));
-    // navigate("/dashboard");
+    const { email, password } = data;
+
+    toast
+      .promise(loginUserAPI({ email, password }), {
+        pending: "currently logged in.....",
+      })
+      .then((user) => {
+        console.log("🚀 ~ .then ~ user:", user);
+        localStorage.setItem("userInfo", JSON.stringify(user));
+        navigate(`/homePage`);
+      })
+      .catch((error) => {
+        console.log(error);
+        navigate(`/login`);
+      });
   };
   const navigate = useNavigate();
   const handleChangeForm = () => {
@@ -77,7 +80,6 @@ const LoginForm = () => {
           sx={{
             minWidth: 380,
             maxWidth: 380,
-            marginTop: "4em",
             p: "0.5em 0",
             borderRadius: 2,
           }}
@@ -100,17 +102,17 @@ const LoginForm = () => {
                 })}
                 sx={fieldsetCommonStyle}
               />
-              {/* {errors.email && (
-                      <Alert
-                        severity="error"
-                        sx={{
-                          mt: "0.7em",
-                          ".MuiAlert-message": { overflow: "hidden" },
-                        }}
-                      >
-                        {errors.email.message}
-                      </Alert>
-                    )} */}
+              {errors.email && (
+                <Alert
+                  severity="error"
+                  sx={{
+                    mt: "0.7em",
+                    ".MuiAlert-message": { overflow: "hidden" },
+                  }}
+                >
+                  {errors.email.message}
+                </Alert>
+              )}
             </Box>
 
             <Box sx={{ marginTop: "1em" }}>
@@ -126,17 +128,17 @@ const LoginForm = () => {
                 sx={fieldsetCommonStyle}
               />
 
-              {/* {errors.password && (
-                      <Alert
-                        severity="error"
-                        sx={{
-                          mt: "0.7em",
-                          ".MuiAlert-message": { overflow: "hidden" },
-                        }}
-                      >
-                        {errors.password.message}
-                      </Alert>
-                    )} */}
+              {errors.password && (
+                <Alert
+                  severity="error"
+                  sx={{
+                    mt: "0.7em",
+                    ".MuiAlert-message": { overflow: "hidden" },
+                  }}
+                >
+                  {errors.password.message}
+                </Alert>
+              )}
             </Box>
           </Box>
           <CardActions

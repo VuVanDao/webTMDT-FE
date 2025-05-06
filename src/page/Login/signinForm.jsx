@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -10,6 +11,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import {
+  apiRoot,
   EMAIL_RULE,
   EMAIL_RULE_MESSAGE,
   PASSWORD_RULE,
@@ -19,6 +21,9 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import authorizeAxiosInstance from "../../utils/authorizeAxios";
+import { toast } from "react-toastify";
+import { registerUserAPI } from "../../api";
 const SigninForm = () => {
   const {
     register,
@@ -27,21 +32,14 @@ const SigninForm = () => {
     watch,
   } = useForm();
   const submitLogIn = async (data) => {
-    console.log("submit login: ", data);
-    // const res = await authorizedAxiosInstance.post(
-    //   `${API_ROOT}/v1/users/login`,
-    //   data
-    // );
-    // console.log(res.data);
-    // const userInfo = {
-    //   id: res.data?.id,
-    //   email: res.data?.email,
-    //   role: res.data?.role,
-    // };
-    // localStorage.setItem("accessToken", res?.data?.accessToken);
-    // localStorage.setItem("refreshToken", res?.data?.refreshToken);
-    // localStorage.setItem("userInfo", JSON.stringify(userInfo));
-    // navigate("/dashboard");
+    const { email, password } = data;
+    toast
+      .promise(registerUserAPI({ email, password }), {
+        pending: "registering.....",
+      })
+      .then((user) => {
+        navigate(`/login?registeredEmail=${user.email}`);
+      });
   };
   const fieldsetCommonStyle = {
     "& label": {
@@ -82,7 +80,6 @@ const SigninForm = () => {
           sx={{
             minWidth: 380,
             maxWidth: 380,
-            marginTop: "3em",
             p: "0.5em 0",
             borderRadius: 2,
           }}
@@ -110,6 +107,17 @@ const SigninForm = () => {
                 })}
                 sx={fieldsetCommonStyle}
               />
+              {errors.email && (
+                <Alert
+                  severity="error"
+                  sx={{
+                    mt: "0.7em",
+                    ".MuiAlert-message": { overflow: "hidden" },
+                  }}
+                >
+                  {errors.email.message}
+                </Alert>
+              )}
             </Box>
 
             {/* PASSWORD */}
@@ -129,6 +137,17 @@ const SigninForm = () => {
                 })}
                 sx={fieldsetCommonStyle}
               />
+              {errors.password && (
+                <Alert
+                  severity="error"
+                  sx={{
+                    mt: "0.7em",
+                    ".MuiAlert-message": { overflow: "hidden" },
+                  }}
+                >
+                  {errors.password.message}
+                </Alert>
+              )}
             </Box>
 
             {/* CONFIRM PASSWORD */}
@@ -148,6 +167,17 @@ const SigninForm = () => {
                 })}
                 sx={fieldsetCommonStyle}
               />
+              {errors.password_confirmation && (
+                <Alert
+                  severity="error"
+                  sx={{
+                    mt: "0.7em",
+                    ".MuiAlert-message": { overflow: "hidden" },
+                  }}
+                >
+                  {errors.password_confirmation.message}
+                </Alert>
+              )}
             </Box>
           </Box>
 

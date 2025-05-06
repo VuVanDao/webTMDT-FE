@@ -6,3 +6,4 @@ export const PASSWORD_RULE_MESSAGE =
   "Password must include at least 1 letter, a number, and at least 8 characters.";
 export const PASSWORD_CONFIRMATION_MESSAGE =
   "Password Confirmation does not match!";
+export const apiRoot = "http://localhost:8017";
