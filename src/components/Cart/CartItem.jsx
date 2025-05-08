@@ -28,6 +28,9 @@ const CartItem = () => {
     });
     setAnchorEl(null);
   };
+  const handleCartDetail = () => {
+    navigate("/cartDetail");
+  };
   return (
     <Box>
       <Tooltip
@@ -82,6 +85,7 @@ const CartItem = () => {
                       width: "40px",
                       height: "40px",
                       borderRadius: "5px",
+                      border: "1px solid",
                     }}
                   />
                   <Typography
@@ -128,6 +132,7 @@ const CartItem = () => {
               color: "white",
               fontSize: "12px",
             }}
+            onClick={handleCartDetail}
           >
             Xem giỏ hàng
           </Button>

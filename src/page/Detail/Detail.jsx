@@ -20,7 +20,7 @@ const Detail = () => {
   const navigate = useNavigate();
   let [searchParams] = useSearchParams();
   const { id } = Object.fromEntries([...searchParams]);
-
+  const userInfo = localStorage.getItem("userInfo");
   useEffect(() => {
     if (id) {
       const getData = RecommendData.find((item) => item.id == id);
@@ -40,6 +40,12 @@ const Detail = () => {
     setSelectQuantity(newQuantity);
   };
   const handleSelect = (choose) => {
+    if (!userInfo) {
+      toast.warn("you need to login first");
+      navigate("/login");
+      return;
+    }
+
     if (choose === "buy") {
       if (!SelectColor) {
         toast.error("Vui lòng chọn phân loại sản phẩm");
@@ -236,7 +242,7 @@ const Detail = () => {
                               cursor: "pointer",
                               mb: 1,
                               border: "1px solid red",
-                              p: "5px",
+                              p: "5px 25px",
                             }}
                             onClick={() => {
                               setSize(item);
@@ -256,7 +262,7 @@ const Detail = () => {
                               cursor: "pointer",
                               mb: 1,
                               border: "1px solid #757575",
-                              p: "5px",
+                              p: "5px 25px",
                             }}
                             onClick={() => {
                               setSize(item);
@@ -318,9 +324,15 @@ const Detail = () => {
                           borderRadius: "0px",
                         }}
                         onClick={() => {
-                          if (SelectQuantity < DetailData?.quantity) {
+                          if (
+                            SelectQuantity <
+                            DetailData?.quantity - DetailData?.sold
+                          ) {
                             handleIncrement();
-                          } else if (SelectQuantity === DetailData?.quantity) {
+                          } else if (
+                            SelectQuantity ===
+                            DetailData?.quantity - DetailData?.sold
+                          ) {
                             toast.error(`Vượt quá số lượng có sẵn`);
                           }
                         }}
@@ -337,7 +349,8 @@ const Detail = () => {
                       }}
                     >
                       <Typography>
-                        Số lượng có sẵn {DetailData?.quantity}
+                        Số lượng có sẵn:{" "}
+                        {DetailData?.quantity - DetailData?.sold}
                       </Typography>
                     </Box>
                   </Box>

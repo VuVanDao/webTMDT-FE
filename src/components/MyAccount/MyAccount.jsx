@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
@@ -15,6 +15,12 @@ const MyAccount = () => {
   const [user, setUser] = useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
+  useEffect(() => {
+    const userInfo = localStorage.getItem("userInfo");
+    if (userInfo) {
+      setUser(JSON.parse(userInfo));
+    }
+  }, []);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -26,6 +32,11 @@ const MyAccount = () => {
   };
   const handleRegister = () => {
     navigate("/signin");
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("userInfo");
+    navigate("/login");
   };
   if (!user) {
     return (
@@ -81,8 +92,8 @@ const MyAccount = () => {
         sx={{ color: "white", p: "0", cursor: "pointer" }}
       >
         <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-          <Avatar sx={{ width: 24, height: 24 }} />
-          <Typography>VuVanDao</Typography>
+          <Avatar sx={{ width: 24, height: 24 }} src={user?.avatar} />
+          <Typography>{user?.username}</Typography>
         </Box>
       </Tooltip>
       <Menu
@@ -104,7 +115,7 @@ const MyAccount = () => {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

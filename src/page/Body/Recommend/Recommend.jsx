@@ -1,10 +1,13 @@
 import { Box, Grid, Stack, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { RecommendData } from "../../../Data/RecommenData";
 import { Link } from "react-router-dom";
 import { formatPrice } from "../../../utils/formatter";
 
 const Recommend = () => {
+  // useEffect(() => {
+  //   RecommendData.sort((a, b) => a.sold - b.sold);
+  // });
   return (
     <Box>
       {/* <Stack direction={"row"} spacing={1}>
@@ -80,7 +83,7 @@ const Recommend = () => {
                     >
                       <Typography>{formatPrice(item?.price)}</Typography>
                       <Typography sx={{ fontSize: "14px" }}>
-                        Đã bán: 10
+                        Đã bán: {item?.sold}
                       </Typography>
                     </Box>
                   </Box>

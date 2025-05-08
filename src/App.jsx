@@ -5,6 +5,7 @@ import CheckoutPage from "./page/checkout/checkout";
 import SearchData from "./page/Body/SearchData/searchData";
 import LoginForm from "./page/Login/LoginSigninForm";
 import AccountVerification from "./page/Auth/AccountVerification";
+import CartDetail from "./components/Cart/CartDetail";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/detail" element={<Detail />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/cartDetail" element={<CartDetail />} />
         </Route>
         <Route path="/search" element={<SearchData />} />
         <Route element={<UnauthorizedRoute />}>

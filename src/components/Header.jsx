@@ -252,11 +252,18 @@ const Header = ({ showHeader }) => {
                       sm: "400px",
                     },
                     "& .MuiOutlinedInput-root": {
+                      color: "white",
+                      "& fieldset": {
+                        borderColor: "white",
+                        color: "white",
+                      },
                       "&:hover fieldset": {
-                        borderColor: (theme) => theme.commonColor,
+                        borderColor: "white",
+                        color: "white",
                       },
                       "&.Mui-focused fieldset": {
                         borderColor: "white",
+                        color: "white",
                       },
                     },
                   }}
