@@ -90,16 +90,16 @@ const Body = () => {
       </Box>
 
       {/* flashSale */}
-      <Box sx={{ bgcolor: "#f5f5f5", p: 3 }}>
+      {/* <Box sx={{ bgcolor: "#f5f5f5", p: 3 }}>
         <Container>
           <Box sx={{ bgcolor: "white" }}>
             <FlashSale />
           </Box>
         </Container>
-      </Box>
+      </Box> */}
 
       {/* Top search */}
-      <TopSearch />
+      {/* <TopSearch /> */}
 
       {/* recommend */}
       <Box sx={{ bgcolor: "#f5f5f5", p: 3 }}>

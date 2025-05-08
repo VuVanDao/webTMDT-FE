@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import LanguageIcon from "@mui/icons-material/Language";
 import LanguageChange from "./Language/Language";
@@ -23,6 +22,7 @@ import MyAccount from "./MyAccount/MyAccount";
 import { Link, useNavigate } from "react-router-dom";
 import { RecommendData } from "../Data/RecommenData";
 import SearchIcon from "@mui/icons-material/Search";
+import Notification from "./Notification/Notification";
 
 const Header = ({ showHeader }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -95,8 +95,7 @@ const Header = ({ showHeader }) => {
             <Box>
               <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
                 <Box sx={{ display: "flex", gap: 0.5, alignItems: "center" }}>
-                  <NotificationsNoneIcon />
-                  <Typography>Thông báo</Typography>
+                  <Notification />
                 </Box>
                 <Box sx={{ display: "flex", gap: 0.5, alignItems: "center" }}>
                   <HelpOutlineIcon />
@@ -179,8 +178,7 @@ const Header = ({ showHeader }) => {
           <Box>
             <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
               <Box sx={{ display: "flex", gap: 0.5, alignItems: "center" }}>
-                <NotificationsNoneIcon />
-                <Typography>Thông báo</Typography>
+                <Notification />
               </Box>
               <Box sx={{ display: "flex", gap: 0.5, alignItems: "center" }}>
                 <HelpOutlineIcon />

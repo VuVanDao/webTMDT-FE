@@ -14,12 +14,21 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Link, Navigate, useLocation, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  Navigate,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import Header from "../../components/Header";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import { RecommendData } from "../../Data/RecommenData";
 import { formatPrice } from "../../utils/formatter";
 import Footer from "../../components/Footer";
+import { data } from "../../Data/CartData";
+import { toast } from "react-toastify";
+import { NotificationData } from "../../components/Notification/NotificationData";
 const CheckoutPage = () => {
   const [DetailData, setDetailData] = useState(null);
   const [displayImage, setDisplayImage] = useState(null);
@@ -32,6 +41,7 @@ const CheckoutPage = () => {
     return <Navigate to="/homePage" />;
   }
   const { price, name, color, quantity, image, size } = location?.state?.data;
+  // const { check} = location?.state?.check;
 
   useEffect(() => {
     const getData = RecommendData.find((item) => item.id == id);
@@ -53,7 +63,19 @@ const CheckoutPage = () => {
 
   const formattedToday = formatVietnameseDate(today);
   const formattedLater = formatVietnameseDate(twoDaysLater);
-
+  const navigate = useNavigate();
+  const handleCheckOut = () => {
+    data.cart = data.cart.filter((i) => {
+      return i.id !== +id;
+    });
+    NotificationData.push({ name, id });
+    toast.success("Đặt hàng thành công");
+    if (location?.state?.check) {
+      navigate("/cartDetail");
+      return;
+    }
+    navigate("/homePage");
+  };
   return (
     <Box>
       <Header showHeader={false} />
@@ -354,6 +376,7 @@ const CheckoutPage = () => {
                         bgcolor: (theme) => theme.commonColors,
                         color: "white",
                       }}
+                      onClick={handleCheckOut}
                     >
                       Đặt hàng
                     </Button>

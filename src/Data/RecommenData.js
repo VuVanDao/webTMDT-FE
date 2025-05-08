@@ -1,4 +1,5 @@
 export const RecommendData = [
+  //id:1
   {
     id: 1,
     name: "Bàn phím cơ K2 V9 Tiroshi blue switch, hotswap, cục chống nhiễu từ tính kèm quà tặng dùng cho laptop và máy tính bàn",
@@ -28,6 +29,7 @@ export const RecommendData = [
       },
     ],
   },
+  //id:2
   {
     id: 2,
     name: "Bàn phím cơ Gaming K550 Ziyou V4 Có hot-swap Trục cơ Red switch / Blue Switch TKL 87 phím, , Chống Nước - Led Rainbow",
@@ -57,6 +59,7 @@ export const RecommendData = [
       },
     ],
   },
+  //id:3
   {
     id: 3,
     name: "Màn hình Gaming E-dra EGM24F100H (23.8/FHD/IPS/100Hz/1ms) /EGM24F100PV 23.8 / EGM22F100 21.5",

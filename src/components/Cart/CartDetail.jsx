@@ -29,7 +29,7 @@ const CartDetail = () => {
   }, [data]);
   const handleCheckOut = (item) => {
     navigate(`/checkout?id=${item.id}`, {
-      state: { data: item },
+      state: { data: item, check: true },
     });
   };
   const deleteFromCart = (id) => {

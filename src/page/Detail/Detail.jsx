@@ -86,7 +86,8 @@ const Detail = () => {
       };
       data.cart.push({
         ...dataSend,
-        id: data.cart.length + 1,
+        // id: data.cart.length + 1,
+        id: +id,
         image: dataSend.image,
       });
       setSelection(dataSend);
