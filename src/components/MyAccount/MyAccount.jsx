@@ -38,6 +38,9 @@ const MyAccount = () => {
     localStorage.removeItem("userInfo");
     navigate("/login");
   };
+  const handleAccount = () => {
+    navigate("/MyAccount");
+  };
   if (!user) {
     return (
       <>
@@ -105,8 +108,8 @@ const MyAccount = () => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose} sx={{ display: "flex", gap: 1 }}>
-          <Avatar sx={{ width: 24, height: 24 }} /> Profile
+        <MenuItem onClick={handleAccount} sx={{ display: "flex", gap: 1 }}>
+          <Avatar sx={{ width: 24, height: 24 }} src={user?.avatar} /> Profile
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleClose}>
