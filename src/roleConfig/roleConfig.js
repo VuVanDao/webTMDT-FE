@@ -4,9 +4,22 @@ export const roles = {
   SHOP_OWNER: "shop_owner",
 };
 export const permission = {
-  detail_shop: "detail_shop",
-  dashboard: "dashboard",
-  messages: "messages",
-  revenue: "revenue",
-  admin_tool: "admin_tool",
+  admin_manage_shop: "admin_manage_shop",
+  admin_dashboard: "admin_dashboard",
+  admin_manage_user: "admin_manage_user",
+  shop_detail: "shop_detail",
+  create_products: "create_products",
+  list_products: "list_products",
+  update_info_products: "update_info_products",
+  delete_products: "delete_products",
+};
+export const rolePermission = {
+  [roles.ADMIN]: Object.values(permission),
+  [roles.SHOP_OWNER]: [
+    permission.shop_detail,
+    permission.create_products,
+    permission.list_products,
+    permission.update_info_products,
+    permission.delete_products,
+  ],
 };
