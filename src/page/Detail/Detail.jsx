@@ -68,10 +68,19 @@ const Detail = () => {
         state: { data: dataSend },
       });
     } else {
-      if (!SelectColor) {
-        toast.error("Vui lòng chọn phân loại sản phẩm");
-        return;
+      if (DetailData.color.length > 0) {
+        if (!SelectColor) {
+          toast.error("Vui lòng chọn phân loại sản phẩm");
+          return;
+        }
       }
+      if (DetailData?.size && DetailData?.size?.length > 0) {
+        if (!size) {
+          toast.error("Vui lòng chọn phân loại kích cỡ");
+          return;
+        }
+      }
+
       let price = DetailData?.price;
       if (SelectQuantity > 1) {
         price *= SelectQuantity;

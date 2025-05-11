@@ -464,20 +464,7 @@ export const RecommendData = [
       "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-ltpkcmw2416y46@resize_w900_nl.webp",
     quantity: 300,
     sold: 190,
-    color: [
-      {
-        id: 1,
-        name: "version cũ",
-        image:
-          "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m8o78bjc5402d4@resize_w900_nl.webp",
-      },
-      {
-        id: 2,
-        name: "version mới",
-        image:
-          "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m8o78bjc5402d4@resize_w900_nl.webp",
-      },
-    ],
+    color: [],
   },
   {
     id: 22,
