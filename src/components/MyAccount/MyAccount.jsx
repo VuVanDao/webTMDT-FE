@@ -10,6 +10,8 @@ import Logout from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import { useNavigate } from "react-router-dom";
+import { logoutUserAPI } from "../../api";
+import { toast } from "react-toastify";
 const MyAccount = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [user, setUser] = useState(null);
@@ -36,7 +38,10 @@ const MyAccount = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("userInfo");
-    navigate("/login");
+    logoutUserAPI().then((res) => {
+      toast.success(res);
+      navigate("/login");
+    });
   };
   const handleAccount = () => {
     navigate("/MyAccount");

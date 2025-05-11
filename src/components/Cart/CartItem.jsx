@@ -23,9 +23,10 @@ const CartItem = () => {
     setAnchorEl(null);
   };
   const handleCheckOut = (item) => {
-    navigate(`/checkout?id=${item.id}`, {
-      state: { data: item },
-    });
+    // navigate(`/checkout?id=${item.id}`, {
+    //   state: { data: item },
+    // });
+    navigate(`/detail?id=${item.id}`);
     setAnchorEl(null);
   };
   const handleCartDetail = () => {

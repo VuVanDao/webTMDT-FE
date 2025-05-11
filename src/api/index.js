@@ -34,3 +34,10 @@ export const loginUserAPI = async (data) => {
   toast.success("Login successful 😁😁😁", { theme: "colored" });
   return response.data;
 };
+export const logoutUserAPI = async () => {
+  const response = await authorizeAxiosInstance.delete(
+    `${apiRoot}/v1/users/logout`
+  );
+  toast.success("Logout successful 😁😁😁", { theme: "colored" });
+  return response.data;
+};

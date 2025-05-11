@@ -30,7 +30,7 @@ const Detail = () => {
       setDetailData(getData);
       setDisplayImage(getData?.image);
     }
-  }, []);
+  }, [id]);
   const handleDecrement = () => {
     const newQuantity = SelectQuantity - 1;
     setSelectQuantity(newQuantity);

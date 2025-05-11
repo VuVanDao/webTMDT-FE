@@ -1,13 +1,43 @@
 import { Box, Grid, Stack, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { RecommendData } from "../../../Data/RecommenData";
 import { Link } from "react-router-dom";
 import { formatPrice } from "../../../utils/formatter";
-
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 const Recommend = () => {
-  // useEffect(() => {
-  //   RecommendData.sort((a, b) => a.sold - b.sold);
-  // });
+  const [optionSortPrice, setOptionSortPrice] = useState(false);
+  const [change, setChange] = useState(false);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    setData(RecommendData);
+  }, [RecommendData, change, optionSortPrice]);
+  const styleOption = {
+    bgcolor: "white",
+    p: "10px 25px",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+  };
+  const handleSortPrice = (id) => {
+    switch (id) {
+      case "sell":
+        setChange(!change);
+        setData(data.sort((a, b) => b.sold - a.sold));
+        break;
+      case "high":
+        setData(data.sort((a, b) => a.price - b.price));
+        setOptionSortPrice(!optionSortPrice);
+        break;
+      case "low":
+        setData(data.sort((a, b) => b.price - a.price));
+        setOptionSortPrice(!optionSortPrice);
+        break;
+      default:
+        break;
+    }
+  };
   return (
     <Box>
       {/* <Stack direction={"row"} spacing={1}>
@@ -32,8 +62,32 @@ const Recommend = () => {
             Gợi ý hôm nay
           </Typography>
         </Box>
+        <Box
+          sx={{
+            bgcolor: "#ededed",
+            width: "100%",
+            p: 2.25,
+            display: "flex",
+            gap: 2,
+            alignItems: "center",
+          }}
+        >
+          <Typography>Sắp xếp theo:</Typography>
+          <Box sx={styleOption} onClick={() => handleSortPrice("sell")}>
+            Bán chạy
+          </Box>
+          {optionSortPrice ? (
+            <Box sx={styleOption} onClick={() => handleSortPrice("high")}>
+              Giá từ cao đến thấp <KeyboardArrowDownIcon />
+            </Box>
+          ) : (
+            <Box sx={styleOption} onClick={() => handleSortPrice("low")}>
+              Giá từ thấp đến cao <KeyboardArrowUpIcon />
+            </Box>
+          )}
+        </Box>
         <Grid container spacing={2} sx={{ bgcolor: (theme) => theme.bgColor }}>
-          {RecommendData.map((item) => {
+          {data.map((item) => {
             return (
               <Grid
                 size={{ xs: 6, sm: 4, md: 3, lg: 2 }}

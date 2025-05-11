@@ -1,4 +1,4 @@
-import { Box, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
+import { Badge, Box, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { NotificationData } from "./NotificationData";
@@ -31,8 +31,10 @@ const Notification = () => {
         sx={{ color: "white", p: "0" }}
       >
         <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-          <NotificationsNoneIcon />
-          <Typography>Thông báo</Typography>
+          <Badge badgeContent={Notification?.length}>
+            <NotificationsNoneIcon />
+            <Typography>Thông báo</Typography>
+          </Badge>
         </Box>
       </Tooltip>
       <Menu
