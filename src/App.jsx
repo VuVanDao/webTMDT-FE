@@ -10,6 +10,7 @@ import DetailAccount from "./page/Account/DetailAccount";
 import RouteCheckRole from "./RouteCheckRole/RouteCheckRole";
 import { permission } from "./roleConfig/roleConfig";
 import DeniedPage from "./components/DeniedPage/DeniedPage";
+import Dashboard from "./page/Admin/Dashboard";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -62,7 +63,7 @@ const App = () => {
             }
           >
             {" "}
-            <Route path="/admin_dashboard" element={<DetailAccount />} />
+            <Route path="/admin_dashboard" element={<Dashboard />} />
           </Route>
 
           {/* admin_manage_user */}

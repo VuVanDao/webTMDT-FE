@@ -7,6 +7,7 @@ const RouteCheckRole = ({
   requiredPermission,
   redirectTo = "/access-denied",
 }) => {
+  // console.log("🚀 ~ requiredPermission:", requiredPermission);
   const user = JSON.parse(localStorage.getItem("userInfo"));
   const userRole = user?.role || roles.CUSTOMER;
   const { hasPermission } = usePermission(userRole);
