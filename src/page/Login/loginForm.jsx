@@ -9,7 +9,6 @@ import {
   Typography,
   Zoom,
 } from "@mui/material";
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GoogleIcon from "@mui/icons-material/Google";

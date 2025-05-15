@@ -10,6 +10,7 @@ export const theme = extendTheme({
   },
   commonColors: "#fa5130",
   bgColor: "#f5f5f5",
+  whiteColor: "white",
   colorSchemes: {
     light: {
       palette: {

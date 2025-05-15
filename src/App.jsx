@@ -11,6 +11,12 @@ import RouteCheckRole from "./RouteCheckRole/RouteCheckRole";
 import { permission } from "./roleConfig/roleConfig";
 import DeniedPage from "./components/DeniedPage/DeniedPage";
 import Dashboard from "./page/Admin/Dashboard";
+import ShopDetail from "./page/ShopOwner/ShopDetail";
+import MyShop from "./page/ShopOwner/MyShop";
+import GetAllProduct from "./page/ShopOwner/CRUDProduct/GetAllProduct";
+import AddNewProduct from "./page/ShopOwner/CRUDProduct/AddNewProduct";
+import UpdateProduct from "./page/ShopOwner/CRUDProduct/UpdateProduct";
+import DeleteProduct from "./page/ShopOwner/CRUDProduct/DeleteProduct";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -26,6 +32,7 @@ const UnauthorizedRoute = () => {
   }
   return <Outlet />;
 };
+// console.log(process.env.BUILD_MODE);
 const App = () => {
   return (
     <>
@@ -52,7 +59,6 @@ const App = () => {
               />
             }
           >
-            {" "}
             <Route path="/admin_manage_shop" element={<DetailAccount />} />
           </Route>
 
@@ -62,7 +68,6 @@ const App = () => {
               <RouteCheckRole requiredPermission={permission.admin_dashboard} />
             }
           >
-            {" "}
             <Route path="/admin_dashboard" element={<Dashboard />} />
           </Route>
 
@@ -74,7 +79,6 @@ const App = () => {
               />
             }
           >
-            {" "}
             <Route path="/admin_manage_user" element={<DetailAccount />} />
           </Route>
 
@@ -84,8 +88,55 @@ const App = () => {
               <RouteCheckRole requiredPermission={permission.shop_detail} />
             }
           >
-            {" "}
-            <Route path="/shop_detail" element={<DetailAccount />} />
+            <Route path="/shop_detail" element={<ShopDetail />}>
+              <Route
+                path=""
+                element={<Navigate to={"myShop"} replace={true} />}
+              />
+              <Route path="myShop" element={<MyShop />} />
+              <Route path="getAllProduct" element={<GetAllProduct />} />
+              <Route path="addNewProduct" element={<AddNewProduct />} />
+              <Route path="updateProduct" element={<UpdateProduct />} />
+              <Route path="deleteProduct" element={<DeleteProduct />} />
+            </Route>
+          </Route>
+
+          {/* create_products */}
+          <Route
+            element={
+              <RouteCheckRole requiredPermission={permission.create_products} />
+            }
+          >
+            <Route path="/create_products" element={<DetailAccount />} />
+          </Route>
+
+          {/* list_products */}
+          <Route
+            element={
+              <RouteCheckRole requiredPermission={permission.list_products} />
+            }
+          >
+            <Route path="/list_products" element={<DetailAccount />} />
+          </Route>
+
+          {/* update_info_products */}
+          <Route
+            element={
+              <RouteCheckRole
+                requiredPermission={permission.update_info_products}
+              />
+            }
+          >
+            <Route path="/update_info_products" element={<DetailAccount />} />
+          </Route>
+
+          {/* delete_products */}
+          <Route
+            element={
+              <RouteCheckRole requiredPermission={permission.delete_products} />
+            }
+          >
+            <Route path="/delete_products" element={<DetailAccount />} />
           </Route>
         </Route>
 
