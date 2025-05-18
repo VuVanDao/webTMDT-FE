@@ -43,7 +43,19 @@ const Step_2 = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const dataFormRegisterShop = useSelector(DataFormRegisterShopSelector);
+  const validateBefore = (data) => {
+    const condition = ["name", "address", "email", "phoneNumber"];
+    condition.map((item) => {
+      if (!data[item]) {
+        return false;
+      }
+    });
+    return true;
+  };
   useEffect(() => {
+    if (!validateBefore(dataFormRegisterShop)) {
+      navigate("/register_shop/step_1");
+    }
     if (dataFormRegisterShop?.delivery_type?.length > 0) {
       setDelivery(dataFormRegisterShop?.delivery_type);
     }

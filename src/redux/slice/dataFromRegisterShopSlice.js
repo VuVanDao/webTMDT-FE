@@ -2,14 +2,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authorizeAxiosInstance from "../../utils/authorizeAxios";
 
 // hanh dong goi api bat dong bo, cap nhat du lieu vao redux, dung middleware createAsyncThunk di kem vs extraReducer
-export const registerShop = createAsyncThunk(
-  "dataFormRegisterShop/registerShop",
-  async (data) => {
-    console.log("🚀 ~ data:", data);
-    // const response = await authorizeAxiosInstance.get(data);
-    // return response.data;
-  }
-);
+// export const registerShop = createAsyncThunk(
+//   "dataFormRegisterShop/registerShop",
+//   async (data) => {
+//     console.log("🚀 ~ data:", data);
+//     // const response = await authorizeAxiosInstance.get(data);
+//     // return response.data;
+//   }
+// );
 
 export const dataFormRegisterShopSlice = createSlice({
   name: "dataFormRegisterShop",
@@ -35,16 +35,16 @@ export const dataFormRegisterShopSlice = createSlice({
     },
   },
   //extraReducer : noi xu li du lieu bat dong bo
-  extraReducers: (builder) => {
-    builder.addCase(
-      registerShop.fulfilled /*ten function */,
-      (state, action) => {
-        // action.payload chinh la response.data
-        const data = action.payload;
-        state.dataFromRegister = data;
-      }
-    );
-  },
+  // extraReducers: (builder) => {
+  //   builder.addCase(
+  //     registerShop.fulfilled /*ten function */,
+  //     (state, action) => {
+  //       // action.payload chinh la response.data
+  //       const data = action.payload;
+  //       state.dataFromRegister = data;
+  //     }
+  //   );
+  // },
 });
 
 export const {

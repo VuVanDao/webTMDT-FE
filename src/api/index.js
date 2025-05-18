@@ -47,3 +47,10 @@ export const refreshTokenAPI = async () => {
   );
   return response.data;
 };
+export const registerShop = async (data) => {
+  const response = await authorizeAxiosInstance.post(
+    `${apiRoot}/v1/shops/register_shop`,
+    data
+  );
+  return response.data;
+};
