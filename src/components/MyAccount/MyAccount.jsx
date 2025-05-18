@@ -8,6 +8,8 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import { useNavigate } from "react-router-dom";
 import { logoutUserAPI } from "../../api";
 import { toast } from "react-toastify";
@@ -44,6 +46,9 @@ const MyAccount = () => {
   };
   const handleAccount = () => {
     navigate("/MyAccount");
+  };
+  const registerShop = () => {
+    navigate("/register_shop");
   };
   if (!user) {
     return (
@@ -112,9 +117,28 @@ const MyAccount = () => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleAccount} sx={{ display: "flex", gap: 1 }}>
-          <Avatar sx={{ width: 24, height: 24 }} src={user?.avatar} /> Profile
+        <MenuItem onClick={handleAccount}>
+          <ListItemIcon>
+            <Avatar sx={{ width: 24, height: 24 }} src={user?.avatar} />{" "}
+          </ListItemIcon>
+          Profile
         </MenuItem>
+        {user.role === "shop_owner" ? (
+          <MenuItem onClick={() => navigate("/shop_detail")}>
+            <ListItemIcon>
+              <ShoppingCartIcon fontSize="small" />
+            </ListItemIcon>
+            My shop
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={registerShop}>
+            <ListItemIcon>
+              <DriveFileRenameOutlineIcon fontSize="small" />
+            </ListItemIcon>
+            Đăng kí mở shop
+          </MenuItem>
+        )}
+
         <Divider />
         <MenuItem onClick={handleClose}>
           <ListItemIcon>

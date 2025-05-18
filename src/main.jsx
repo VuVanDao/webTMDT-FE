@@ -13,15 +13,21 @@ import "slick-carousel/slick/slick-theme.css";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ConfirmProvider } from "material-ui-confirm";
+// import { ConfirmProvider } from "material-ui-confirm";
+
+//redux store
+import store from "./redux/store.js";
+import { Provider } from "react-redux";
+
 createRoot(document.getElementById("root")).render(
-  <BrowserRouter basename="/">
-    <CssVarsProvider theme={theme}>
-      <ConfirmProvider
-        defaultOptions={{
-          allowClose: false,
-        }}
-      >
+  <Provider store={store}>
+    <BrowserRouter basename="/">
+      <CssVarsProvider theme={theme}>
+        {/* <ConfirmProvider
+          defaultOptions={{
+            allowClose: false,
+          }}
+        > */}
         <GlobalStyles
           styles={{
             a: {
@@ -43,7 +49,8 @@ createRoot(document.getElementById("root")).render(
           pauseOnHover
           theme="light"
         />
-      </ConfirmProvider>
-    </CssVarsProvider>
-  </BrowserRouter>
+        {/* </ConfirmProvider> */}
+      </CssVarsProvider>
+    </BrowserRouter>
+  </Provider>
 );

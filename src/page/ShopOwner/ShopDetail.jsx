@@ -35,7 +35,7 @@ const ShopDetail = () => {
   const sidebarItems = [
     { label: "Vận chuyển", icon: "LocalShipping" },
     {
-      label: "Quản Lý Đơn Hàng",
+      label: "Quản Lý Sản Phẩm",
       icon: "ShoppingCart",
       children: [
         { id: 1, title: "Xem sản phẩm", link: "/shop_detail/getAllProduct" },
@@ -44,7 +44,7 @@ const ShopDetail = () => {
         { id: 4, title: "Xoá sản phẩm", link: "/shop_detail/deleteProduct" },
       ],
     },
-    { label: "Quản Lý Sản Phẩm", icon: "Inventory" },
+    { label: "Quản Lý Đơn Hàng", icon: "Inventory" },
     { label: "Kênh Marketing", icon: "Campaign" },
     { label: "Quản lý khách hàng", icon: "Group" },
     { label: "Tài Chính", icon: "AttachMoney" },
@@ -82,13 +82,6 @@ const ShopDetail = () => {
                     </ListItemButton>
                   );
                 })}
-
-                {/* <ListItemButton sx={{ pl: 4 }}>
-                  <ListItemText
-                    primary="Tùy chọn 2"
-                    onClick={toggleDrawer(false)}
-                  />
-                </ListItemButton> */}
               </List>
             </Collapse>
           </React.Fragment>
@@ -99,7 +92,7 @@ const ShopDetail = () => {
 
   return (
     <Box sx={{ bgcolor: (theme) => theme.bgColor, width: "100%" }}>
-      <ShopOwnerHeader toggleDrawer={toggleDrawer} />
+      <ShopOwnerHeader toggleDrawer={toggleDrawer} myShopHeader={true} />
 
       <Outlet />
 

@@ -16,5 +16,6 @@ export const apiRoot =
 //   api_Root = "https://be-5kst.onrender.com";
 // }
 console.log(process.env);
-
+export const PHONE_RULE = /^0[0-9]{9}$/;
+export const PHONE_RULE_MESSAGE = "Plz supply your phoneNumber";
 // export const apiRoot = api_Root;

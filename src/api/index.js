@@ -41,3 +41,9 @@ export const logoutUserAPI = async () => {
   toast.success("Logout successful 😁😁😁", { theme: "colored" });
   return response.data;
 };
+export const refreshTokenAPI = async () => {
+  const response = await authorizeAxiosInstance.post(
+    `${apiRoot}/v1/users/refresh_token`
+  );
+  return response.data;
+};

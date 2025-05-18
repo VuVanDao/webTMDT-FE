@@ -17,6 +17,12 @@ import GetAllProduct from "./page/ShopOwner/CRUDProduct/GetAllProduct";
 import AddNewProduct from "./page/ShopOwner/CRUDProduct/AddNewProduct";
 import UpdateProduct from "./page/ShopOwner/CRUDProduct/UpdateProduct";
 import DeleteProduct from "./page/ShopOwner/CRUDProduct/DeleteProduct";
+import Welcome from "./page/RegisterShop/welcome";
+import RegisterPage from "./page/RegisterShop/RegisterPage";
+import Step_1 from "./page/RegisterShop/FormStep/Step_1";
+import Step_2 from "./page/RegisterShop/FormStep/Step_2";
+import Step_3 from "./page/RegisterShop/FormStep/Step_3";
+import FinalStep from "./page/RegisterShop/FormStep/FinalStep";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -49,6 +55,22 @@ const App = () => {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/cartDetail" element={<CartDetail />} />
           <Route path="/MyAccount" element={<DetailAccount />} />
+          <Route path="/register_shop" element={<Welcome />} />
+
+          <Route path="/register_shop" element={<RegisterPage />}>
+            <Route
+              path=""
+              element={<Navigate to={"welcome"} replace={true} />}
+            />
+            <Route path="welcome" element={<Welcome />} />
+            <Route path="step_1" element={<Step_1 />} />
+            <Route path="step_2" element={<Step_2 />} />
+            <Route path="step_3" element={<Step_3 />} />
+            <Route path="final_step" element={<FinalStep />} />
+            {/* <Route path="addNewProduct" element={<AddNewProduct />} /> */}
+            {/* <Route path="updateProduct" element={<UpdateProduct />} /> */}
+            {/* <Route path="deleteProduct" element={<DeleteProduct />} /> */}
+          </Route>
 
           {/* admin */}
           {/*admin_manage_shop  */}

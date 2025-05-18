@@ -7,6 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
+import { useState } from "react";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -20,29 +21,27 @@ const MenuProps = {
 };
 
 const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
+  "Thời trang nam",
+  "Điện thoại & phụ kiện",
+  "Thiết bị điện tử",
+  "Laptop",
+  "Máy ảnh & Máy quay phim",
+  "Đồng hồ",
+  "Giày dép nam",
+  "Thiết bị gia dụng",
+  "Thời trang nữ",
+  "Quần áo",
+  "Mẹ và bé",
+  "Sắc đẹp",
+  "Giày dép nữ",
+  "Sách",
+  "Đồ chơi",
+  "Thời trang trẻ em",
+  "Giặt giũ & chăm sóc nhà cửa",
 ];
 
-const getStyles = (name, personName, theme) => {
-  return {
-    fontWeight: personName.includes(name)
-      ? theme.typography.fontWeightMedium
-      : theme.typography.fontWeightRegular,
-  };
-};
-
-export const ListCategory = () => {
-  const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
+export const ListCategory = ({ handleSelectCategory }) => {
+  const [personName, setPersonName] = useState([]);
 
   const handleChange = (event) => {
     const {
@@ -52,19 +51,39 @@ export const ListCategory = () => {
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
+    handleSelectCategory(value);
   };
 
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
+        <InputLabel
+          id="demo-multiple-chip-label"
+          sx={{
+            "&.Mui-focused": {
+              color: "black",
+            },
+          }}
+        >
+          Chọn phân loại sản phẩm
+        </InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
           value={personName}
           onChange={handleChange}
-          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+          sx={{
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: "black",
+            },
+          }}
+          input={
+            <OutlinedInput
+              id="select-multiple-chip"
+              label="Chọn phân loại sản phẩm"
+            />
+          }
           renderValue={(selected) => (
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
               {selected.map((value) => (
@@ -75,11 +94,7 @@ export const ListCategory = () => {
           MenuProps={MenuProps}
         >
           {names.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
-            >
+            <MenuItem key={name} value={name}>
               {name}
             </MenuItem>
           ))}

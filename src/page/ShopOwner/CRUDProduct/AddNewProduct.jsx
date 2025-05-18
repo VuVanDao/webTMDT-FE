@@ -14,6 +14,9 @@ import { ListCategory } from "../../../components/ListCategory/ListCategory";
 
 const AddNewProduct = () => {
   const [listImage, setListImage] = useState([]);
+  const [listImageFileToSend, setListImageFileToSend] = useState([]);
+  const [listCategory, setListCategory] = useState([]);
+
   const {
     register,
     handleSubmit,
@@ -44,23 +47,33 @@ const AddNewProduct = () => {
     ".MuiSvgIcon-root": {
       color: "black",
     },
-    // width: "100%",
   };
   const boxStyle = {
     my: 2,
   };
-  const handleUploadImage = (event) => {
-    // console.log("e.target?.files[0]: ", event.target?.files[0]);
+  const handleSetImage = (event) => {
+    console.log("e.target?.files[0]: ", event.target?.files[0]);
     const dataImage = [...listImage];
+    const dataImageToSend = [...listImageFileToSend];
     dataImage.push(URL.createObjectURL(event.target?.files[0]));
+    dataImageToSend.push(event.target?.files[0]);
     setListImage(dataImage);
+    setListImageFileToSend(dataImageToSend);
   };
   const handleDeleteImage = (item) => {
-    console.log("🚀 ~ handleDeleteImage ~ item:", item);
     const dataImage = [...listImage];
     setListImage(dataImage.filter((i) => i !== item));
   };
-  const onSubmit = (data) => console.log(data);
+  const handleSelectCategory = (result) => {
+    setListCategory(result);
+  };
+  const onSubmit = (data) => {
+    console.log("🚀 ~ onSubmit ~ data:", {
+      ...data,
+      categoryId: [...listCategory],
+      image: [...listImageFileToSend],
+    });
+  };
   return (
     <Container sx={{ my: 3, bgcolor: (theme) => theme.whiteColor, p: 3 }}>
       <form
@@ -176,7 +189,7 @@ const AddNewProduct = () => {
             }}
           >
             Upload
-            <CustomInputFile type="file" onChange={handleUploadImage} />
+            <CustomInputFile type="file" onChange={handleSetImage} />
           </Button>
           <Grid
             container
@@ -190,11 +203,11 @@ const AddNewProduct = () => {
               <Alert
                 severity="warning"
                 sx={{
-                  mt: "0.7em",
+                  m: "0.7em",
                   ".MuiAlert-message": { overflow: "hidden" },
                 }}
               >
-                Vui lòng chọn hình ảnh cho sản phẩm
+                Vui lòng chọn hình ảnh cho sản phẩm (Tối đa 10 ảnh)
               </Alert>
             ) : (
               listImage?.map((item, index) => (
@@ -216,7 +229,7 @@ const AddNewProduct = () => {
         </Box>
 
         {/* category */}
-        <ListCategory />
+        <ListCategory handleSelectCategory={handleSelectCategory} />
 
         <Button
           type="submit"
