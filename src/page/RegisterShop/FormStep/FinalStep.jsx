@@ -8,40 +8,24 @@ import { registerShop } from "../../../api";
 
 const FinalStep = () => {
   const navigate = useNavigate();
-  const dataFormRegisterShop = useSelector(DataFormRegisterShopSelector);
-  const validateBefore = (data) => {
-    const condition = [
-      "name",
-      "address",
-      "email",
-      "phoneNumber",
-      "delivery_type",
-      "logo",
-    ];
-    condition.map((item) => {
-      if (!data[item]) {
-        return false;
-      }
-    });
-    return true;
-  };
-  const sendFormRegister = async (ownerId) => {
-    console.log("🚀 ~ sendFormRegister ~ ownerId:", ownerId);
 
-    const res = await registerShop({
-      ...dataFormRegisterShop,
-      ownerId: ownerId,
-    });
-    console.log("🚀 ~ handleConfirmLogo ~ res:", res);
-  };
-  useEffect(() => {
-    if (!validateBefore(dataFormRegisterShop)) {
-      navigate("/register_shop/step_2");
-    }
-    const ownerId = JSON.parse(localStorage.getItem("userInfo"))._id;
+  // const validateBefore = (data) => {
+  //   const condition = [
+  //     "name",
+  //     "address",
+  //     "email",
+  //     "phoneNumber",
+  //     "delivery_type",
+  //     "logo",
+  //   ];
+  //   condition.map((item) => {
+  //     if (!data[item]) {
+  //       return false;
+  //     }
+  //   });
+  //   return true;
+  // };
 
-    sendFormRegister(ownerId);
-  }, []);
   return (
     <Box>
       <StepperExample activeStep={3} />

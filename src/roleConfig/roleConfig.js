@@ -7,6 +7,7 @@ export const permission = {
   admin_manage_shop: "admin_manage_shop",
   admin_dashboard: "admin_dashboard",
   admin_manage_user: "admin_manage_user",
+  admin: "admin",
   shop_detail: "shop_detail",
   create_products: "create_products",
   list_products: "list_products",

@@ -11,6 +11,7 @@ import {
 } from "../../../redux/slice/dataFromRegisterShopSlice";
 import { useNavigate } from "react-router-dom";
 import { useConfirm } from "material-ui-confirm";
+import { registerShop } from "../../../api";
 
 const Step_3 = () => {
   const [logoImage, setLogoImage] = useState(null);
@@ -51,8 +52,25 @@ const Step_3 = () => {
       toast.error(err);
       return;
     }
+
     setLogoImage(URL.createObjectURL(event.target?.files[0]));
     setLogoImageForSend(event.target?.files[0]);
+  };
+  const sendFormRegister = async (ownerId) => {
+    let reqData = new FormData();
+    reqData.append("logo", logoImageForSend);
+    // for (const value of reqData.values()) {
+    //   const res = await registerShop({
+    //     ...dataFormRegisterShop,
+    //     ownerId: ownerId,
+    //     reqData,
+    //   });
+    // }
+    const res = await registerShop({
+      ...dataFormRegisterShop,
+      ownerId: ownerId,
+      logo: logoImage,
+    });
   };
   const handleConfirmLogo = async () => {
     const { confirmed, reason } = await confirmRegister({
@@ -61,8 +79,9 @@ const Step_3 = () => {
     });
 
     if (confirmed) {
+      const ownerId = JSON.parse(localStorage.getItem("userInfo"))._id;
+      sendFormRegister(ownerId);
       navigate("/register_shop/final_step");
-      dispatch(updateDataFormRegisterShopStep3(logoImage));
     }
   };
 

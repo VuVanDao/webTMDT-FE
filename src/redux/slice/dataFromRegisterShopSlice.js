@@ -27,12 +27,12 @@ export const dataFormRegisterShopSlice = createSlice({
         delivery_type: action.payload,
       };
     },
-    updateDataFormRegisterShopStep3: (state, action) => {
-      state.dataFromRegister = {
-        ...state.dataFromRegister,
-        logo: action.payload,
-      };
-    },
+    // updateDataFormRegisterShopStep3: (state, action) => {
+    //   state.dataFromRegister = {
+    //     ...state.dataFromRegister,
+    //     logo: action.payload,
+    //   };
+    // },
   },
   //extraReducer : noi xu li du lieu bat dong bo
   // extraReducers: (builder) => {

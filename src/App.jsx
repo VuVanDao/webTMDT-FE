@@ -23,6 +23,8 @@ import Step_1 from "./page/RegisterShop/FormStep/Step_1";
 import Step_2 from "./page/RegisterShop/FormStep/Step_2";
 import Step_3 from "./page/RegisterShop/FormStep/Step_3";
 import FinalStep from "./page/RegisterShop/FormStep/FinalStep";
+import ShopAdminManager from "./page/Admin/ShopAdminManager";
+import AdminPage from "./page/Admin/AdminPage";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -75,26 +77,28 @@ const App = () => {
           {/* admin */}
           {/*admin_manage_shop  */}
           <Route
-            element={
-              <RouteCheckRole
-                requiredPermission={permission.admin_manage_shop}
-              />
-            }
+            element={<RouteCheckRole requiredPermission={permission.admin} />}
           >
-            <Route path="/admin_manage_shop" element={<DetailAccount />} />
+            <Route path="/admin" element={<AdminPage />}>
+              <Route
+                path=""
+                element={<Navigate to={"admin_manage_shop"} replace={true} />}
+              />
+              <Route path="admin_manage_shop" element={<ShopAdminManager />} />
+            </Route>
           </Route>
 
           {/* admin_dashboard */}
-          <Route
+          {/* <Route
             element={
               <RouteCheckRole requiredPermission={permission.admin_dashboard} />
             }
           >
             <Route path="/admin_dashboard" element={<Dashboard />} />
-          </Route>
+          </Route> */}
 
           {/* admin_manage_user */}
-          <Route
+          {/* <Route
             element={
               <RouteCheckRole
                 requiredPermission={permission.admin_manage_user}
@@ -102,7 +106,7 @@ const App = () => {
             }
           >
             <Route path="/admin_manage_user" element={<DetailAccount />} />
-          </Route>
+          </Route> */}
 
           {/* shop_detail */}
           <Route
@@ -121,44 +125,6 @@ const App = () => {
               <Route path="updateProduct" element={<UpdateProduct />} />
               <Route path="deleteProduct" element={<DeleteProduct />} />
             </Route>
-          </Route>
-
-          {/* create_products */}
-          <Route
-            element={
-              <RouteCheckRole requiredPermission={permission.create_products} />
-            }
-          >
-            <Route path="/create_products" element={<DetailAccount />} />
-          </Route>
-
-          {/* list_products */}
-          <Route
-            element={
-              <RouteCheckRole requiredPermission={permission.list_products} />
-            }
-          >
-            <Route path="/list_products" element={<DetailAccount />} />
-          </Route>
-
-          {/* update_info_products */}
-          <Route
-            element={
-              <RouteCheckRole
-                requiredPermission={permission.update_info_products}
-              />
-            }
-          >
-            <Route path="/update_info_products" element={<DetailAccount />} />
-          </Route>
-
-          {/* delete_products */}
-          <Route
-            element={
-              <RouteCheckRole requiredPermission={permission.delete_products} />
-            }
-          >
-            <Route path="/delete_products" element={<DetailAccount />} />
           </Route>
         </Route>
 

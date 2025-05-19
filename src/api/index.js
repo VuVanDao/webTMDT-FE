@@ -54,3 +54,9 @@ export const registerShop = async (data) => {
   );
   return response.data;
 };
+export const getAllShop = async () => {
+  const response = await authorizeAxiosInstance.get(
+    `${apiRoot}/v1/users/get_all_shop`
+  );
+  return response.data;
+};
