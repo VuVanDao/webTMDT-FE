@@ -7,7 +7,9 @@ export const PASSWORD_RULE_MESSAGE =
 export const PASSWORD_CONFIRMATION_MESSAGE =
   "Password Confirmation does not match!";
 export const apiRoot =
-  process.env.BUILD_MODE === "dev" ? "http://localhost:8017" : "";
+  process.env.BUILD_MODE === "dev"
+    ? "http://localhost:8017"
+    : "https://webtmdt-be.onrender.com";
 // export const apiRoot = "http://localhost:8017";
 // let api_Root = "";
 // if (process.env.BUILD_MODE === "dev") {
