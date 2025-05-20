@@ -47,16 +47,29 @@ export const refreshTokenAPI = async () => {
   );
   return response.data;
 };
-export const registerShop = async (data) => {
+export const registerShop = async (data, logo) => {
   const response = await authorizeAxiosInstance.post(
     `${apiRoot}/v1/shops/register_shop`,
     data
   );
   return response.data;
 };
+export const registerShopLogo = async (logo, id) => {
+  const response = await authorizeAxiosInstance.post(
+    `${apiRoot}/v1/shops/register_shop_logo/${id}`,
+    logo
+  );
+  return response.data;
+};
 export const getAllShop = async () => {
   const response = await authorizeAxiosInstance.get(
     `${apiRoot}/v1/users/get_all_shop`
+  );
+  return response.data;
+};
+export const getDetailShop = async (id) => {
+  const response = await authorizeAxiosInstance.get(
+    `${apiRoot}/v1/shops/get_detail_shop/${id}`
   );
   return response.data;
 };

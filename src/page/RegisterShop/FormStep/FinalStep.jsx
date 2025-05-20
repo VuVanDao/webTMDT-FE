@@ -1,10 +1,6 @@
 import { Box, Button, Divider } from "@mui/material";
-import React, { useEffect } from "react";
 import StepperExample from "../../../components/Stepper/StepperExample";
-import { useSelector } from "react-redux";
-import { DataFormRegisterShopSelector } from "../../../redux/slice/dataFromRegisterShopSlice";
 import { useNavigate } from "react-router-dom";
-import { registerShop } from "../../../api";
 
 const FinalStep = () => {
   const navigate = useNavigate();
@@ -28,7 +24,7 @@ const FinalStep = () => {
 
   return (
     <Box>
-      <StepperExample activeStep={3} />
+      <StepperExample activeStep={4} />
       <Divider sx={{ my: 3 }} />
       <Box sx={{ textAlign: "center" }}>
         <p>Đăng kí thành công</p>

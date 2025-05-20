@@ -27,12 +27,15 @@ export const dataFormRegisterShopSlice = createSlice({
         delivery_type: action.payload,
       };
     },
-    // updateDataFormRegisterShopStep3: (state, action) => {
-    //   state.dataFromRegister = {
-    //     ...state.dataFromRegister,
-    //     logo: action.payload,
-    //   };
-    // },
+    updateDataFormRegisterShopStep2extra: (state, action) => {
+      state.dataFromRegister = {
+        ...state.dataFromRegister,
+        description: action.payload,
+      };
+    },
+    clearData: (state, action) => {
+      state.dataFromRegister = null;
+    },
   },
   //extraReducer : noi xu li du lieu bat dong bo
   // extraReducers: (builder) => {
@@ -50,7 +53,8 @@ export const dataFormRegisterShopSlice = createSlice({
 export const {
   updateDataFormRegisterShopStep1,
   updateDataFormRegisterShopStep2,
-  updateDataFormRegisterShopStep3,
+  updateDataFormRegisterShopStep2extra,
+  clearData,
 } = dataFormRegisterShopSlice.actions; //actions: danh cho cac component goi = dispatch() cap nhat du lieu dong bo
 
 //Selector

@@ -13,7 +13,13 @@ const ColorLibConnector = styled(StepConnector)(({ theme }) => ({
   },
 }));
 
-const steps = ["Thông tin Shop", "Cài đặt vận chuyển", "Ảnh", "Hoàn tất"];
+const steps = [
+  "Thông tin Shop",
+  "Cài đặt vận chuyển",
+  "Miêu tả",
+  "Ảnh",
+  "Hoàn tất",
+];
 
 const StepperExample = ({ activeStep = 0 }) => {
   return (

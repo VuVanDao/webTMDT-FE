@@ -67,7 +67,7 @@ const Step_2 = () => {
       return;
     }
     dispatch(updateDataFormRegisterShopStep2(Delivery));
-    navigate("/register_shop/step_3");
+    navigate("/register_shop/step_2_extra");
   };
   return (
     <Box>

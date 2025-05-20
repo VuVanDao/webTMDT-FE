@@ -1,9 +1,11 @@
 import { Box, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getAllShop } from "../../api";
+import { getAllShop, getDetailShop } from "../../api";
+import { useNavigate } from "react-router-dom";
 
 const ShopAdminManger = () => {
   const [listShop, setListShop] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     const handleGetAllShop = async () => {
       const res = await getAllShop();
@@ -12,6 +14,13 @@ const ShopAdminManger = () => {
     };
     handleGetAllShop();
   }, []);
+  const handleGetDetailShop = async (id) => {
+    const res = await getDetailShop(id);
+    console.log("🚀 ~ handleGetDetailShop ~ res:", res);
+    if (res) {
+      // navigate()
+    }
+  };
   return (
     <Box>
       <Typography variant="h6">Danh sách các shop đăng kí</Typography>
@@ -34,6 +43,7 @@ const ShopAdminManger = () => {
                 p: 1,
                 borderRadius: "10px",
               }}
+              onClick={() => handleGetDetailShop(item._id)}
             >
               <Box>
                 <img

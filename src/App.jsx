@@ -25,6 +25,7 @@ import Step_3 from "./page/RegisterShop/FormStep/Step_3";
 import FinalStep from "./page/RegisterShop/FormStep/FinalStep";
 import ShopAdminManager from "./page/Admin/ShopAdminManager";
 import AdminPage from "./page/Admin/AdminPage";
+import Step_2_extra from "./page/RegisterShop/FormStep/Step_2_extra";
 
 const ProtectedRoute = () => {
   const user = JSON.parse(localStorage.getItem("userInfo"));
@@ -67,6 +68,7 @@ const App = () => {
             <Route path="welcome" element={<Welcome />} />
             <Route path="step_1" element={<Step_1 />} />
             <Route path="step_2" element={<Step_2 />} />
+            <Route path="step_2_extra" element={<Step_2_extra />} />
             <Route path="step_3" element={<Step_3 />} />
             <Route path="final_step" element={<FinalStep />} />
             {/* <Route path="addNewProduct" element={<AddNewProduct />} /> */}
