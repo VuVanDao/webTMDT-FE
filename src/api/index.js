@@ -26,14 +26,6 @@ export const verifyUserAPI = async (data) => {
   );
   return response.data;
 };
-export const loginUserAPI = async (data) => {
-  const response = await authorizeAxiosInstance.post(
-    `${apiRoot}/v1/users/login`,
-    data
-  );
-  toast.success("Login successful 😁😁😁", { theme: "colored" });
-  return response.data;
-};
 export const logoutUserAPI = async () => {
   const response = await authorizeAxiosInstance.delete(
     `${apiRoot}/v1/users/logout`
@@ -79,6 +71,15 @@ export const getDetailShop = async (id) => {
 export const browseShop = async (data) => {
   const response = await authorizeAxiosInstance.post(
     `${apiRoot}/v1/shops/browseShop`,
+    data
+  );
+  return response.data;
+};
+
+//product
+export const createNew = async (data) => {
+  const response = await authorizeAxiosInstance.post(
+    `${apiRoot}/v1/shops/create_new`,
     data
   );
   return response.data;

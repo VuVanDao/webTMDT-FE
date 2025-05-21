@@ -13,8 +13,10 @@ import { Link, useNavigate } from "react-router-dom";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useForm } from "react-hook-form";
-import { loginUserAPI } from "../../api";
+// import { loginUserAPI } from "../../api";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { loginUserAPI } from "../../redux/slice/userInfoSlice";
 const LoginForm = () => {
   const fieldsetCommonStyle = {
     "& label": {
@@ -47,18 +49,18 @@ const LoginForm = () => {
     formState: { errors },
     watch,
   } = useForm();
-
+  const dispatch = useDispatch();
   const submitLogIn = async (data) => {
     const { email, password } = data;
 
     toast
-      .promise(loginUserAPI({ email, password }), {
+      .promise(dispatch(loginUserAPI({ email, password })), {
         pending: "currently logged in.....",
       })
       .then((user) => {
-        console.log("🚀 ~ .then ~ user:", user);
-        localStorage.setItem("userInfo", JSON.stringify(user));
-        navigate(`/homePage`);
+        if (!user.error) {
+          navigate(`/homePage`);
+        }
       })
       .catch((error) => {
         console.log(error);

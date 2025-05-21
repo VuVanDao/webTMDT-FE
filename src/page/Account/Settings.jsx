@@ -3,12 +3,14 @@ import React, { useEffect, useState } from "react";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
+import { useSelector } from "react-redux";
+import { userInfoSelector } from "../../redux/slice/userInfoSlice";
 const Settings = () => {
   const [user, setUser] = useState(null);
+  const userInfo = useSelector(userInfoSelector);
   useEffect(() => {
-    const userInfo = localStorage.getItem("userInfo");
     if (userInfo) {
-      setUser(JSON.parse(userInfo));
+      setUser(userInfo);
     }
   }, []);
   const SettingStyles = {

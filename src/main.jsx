@@ -15,43 +15,50 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 //redux store
-import store from "./redux/store.js";
+import { store } from "./redux/store.js";
 import { Provider } from "react-redux";
 
 import { ConfirmProvider } from "material-ui-confirm";
 
+//redux-persist
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+const persistor = persistStore(store);
+
 createRoot(document.getElementById("root")).render(
-  <Provider store={store}>
-    <BrowserRouter basename="/">
-      <CssVarsProvider theme={theme}>
-        <ConfirmProvider
-          defaultOptions={{
-            allowClose: false,
-          }}
-        >
-          <GlobalStyles
-            styles={{
-              a: {
-                textDecoration: "none",
-              },
+  <BrowserRouter basename="/">
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <CssVarsProvider theme={theme}>
+          <ConfirmProvider
+            defaultOptions={{
+              allowClose: false,
             }}
-          />
-          <CssBaseline />
-          <App />
-          <ToastContainer
-            position="bottom-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick={false}
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
-        </ConfirmProvider>
-      </CssVarsProvider>
-    </BrowserRouter>
-  </Provider>
+          >
+            <GlobalStyles
+              styles={{
+                a: {
+                  textDecoration: "none",
+                },
+              }}
+            />
+            <CssBaseline />
+            <App />
+            <ToastContainer
+              position="bottom-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+          </ConfirmProvider>
+        </CssVarsProvider>
+      </PersistGate>
+    </Provider>
+  </BrowserRouter>
 );

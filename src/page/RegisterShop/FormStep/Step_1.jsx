@@ -23,6 +23,7 @@ import {
   PHONE_RULE,
   PHONE_RULE_MESSAGE,
 } from "../../../utils/constants";
+import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
 const CustomTextField = styled(TextField)(({ theme }) => ({
   "& input": {
     height: "1px",
@@ -58,8 +59,8 @@ const Step_1 = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const { email, phoneNumber } = JSON.parse(localStorage.getItem("userInfo"));
+  const userInfo = useSelector(userInfoSelector);
+  const { email, phoneNumber } = userInfo;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const dataFormRegisterShop = useSelector(DataFormRegisterShopSelector);

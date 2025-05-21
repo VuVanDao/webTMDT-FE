@@ -12,6 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useConfirm } from "material-ui-confirm";
 import { registerShop, registerShopLogo } from "../../../api";
+import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
 
 const Step_3 = () => {
   const [logoImage, setLogoImage] = useState(null);
@@ -92,7 +93,7 @@ const Step_3 = () => {
 
     // const res = await registerShop(data, reqData);
   };
-
+  const userInfo = useSelector(userInfoSelector);
   const handleConfirmLogo = async () => {
     const { confirmed, reason } = await confirmRegister({
       description: "Sau khi gửi sẽ không thay đổi được thông tin",
@@ -100,7 +101,7 @@ const Step_3 = () => {
     });
 
     if (confirmed) {
-      const ownerId = JSON.parse(localStorage.getItem("userInfo"))._id;
+      const ownerId = userInfo._id;
       sendFormRegister(ownerId);
     }
   };

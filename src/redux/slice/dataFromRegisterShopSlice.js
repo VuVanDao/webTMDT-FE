@@ -1,15 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import authorizeAxiosInstance from "../../utils/authorizeAxios";
-
-// hanh dong goi api bat dong bo, cap nhat du lieu vao redux, dung middleware createAsyncThunk di kem vs extraReducer
-// export const registerShop = createAsyncThunk(
-//   "dataFormRegisterShop/registerShop",
-//   async (data) => {
-//     console.log("🚀 ~ data:", data);
-//     // const response = await authorizeAxiosInstance.get(data);
-//     // return response.data;
-//   }
-// );
 
 export const dataFormRegisterShopSlice = createSlice({
   name: "dataFormRegisterShop",

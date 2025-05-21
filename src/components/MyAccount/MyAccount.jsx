@@ -11,18 +11,24 @@ import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import { Navigate, useNavigate } from "react-router-dom";
-import { logoutUserAPI } from "../../api";
+// import { logoutUserAPI } from "../../api";
 import { toast } from "react-toastify";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  logoutUserAPI,
+  userInfoSelector,
+} from "../../redux/slice/userInfoSlice";
 const MyAccount = ({ color }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [user, setUser] = useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
+  const userInfo = useSelector(userInfoSelector);
+  const dispatch = useDispatch();
   useEffect(() => {
-    const userInfo = localStorage.getItem("userInfo");
     if (userInfo) {
-      setUser(JSON.parse(userInfo));
+      setUser(userInfo);
     }
   }, []);
   const handleClick = (event) => {
@@ -39,11 +45,14 @@ const MyAccount = ({ color }) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("userInfo");
-    logoutUserAPI().then((res) => {
+    dispatch(logoutUserAPI()).then((res) => {
       toast.success(res);
       navigate("/login");
     });
+    // logoutUserAPI().then((res) => {
+    //   toast.success(res);
+    //   navigate("/login");
+    // });
   };
   const handleAccount = () => {
     navigate("/MyAccount");

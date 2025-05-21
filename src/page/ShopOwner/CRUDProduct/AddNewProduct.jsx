@@ -7,7 +7,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import CustomInputFile from "../../../components/customInputFile/customInputFile";
 import { ListCategory } from "../../../components/ListCategory/ListCategory";
@@ -52,7 +52,6 @@ const AddNewProduct = () => {
     my: 2,
   };
   const handleSetImage = (event) => {
-    console.log("e.target?.files[0]: ", event.target?.files[0]);
     const dataImage = [...listImage];
     const dataImageToSend = [...listImageFileToSend];
     dataImage.push(URL.createObjectURL(event.target?.files[0]));
@@ -68,10 +67,16 @@ const AddNewProduct = () => {
     setListCategory(result);
   };
   const onSubmit = (data) => {
+    let listImageFormData = [...listImageFileToSend];
+    let reqData = new FormData();
+    listImageFormData.forEach((i) => reqData.append("files[]", i));
+    for (const value of reqData.values()) {
+      console.log("reqData Value: ", value);
+    }
     console.log("🚀 ~ onSubmit ~ data:", {
       ...data,
       categoryId: [...listCategory],
-      image: [...listImageFileToSend],
+      image: [...listImage],
     });
   };
   return (
@@ -157,7 +162,7 @@ const AddNewProduct = () => {
         {/* quantity */}
         <Box sx={boxStyle}>
           <TextField
-            label="Giá cả"
+            label="Số lượng"
             type="number"
             error={errors.quantity}
             {...register("quantity", {

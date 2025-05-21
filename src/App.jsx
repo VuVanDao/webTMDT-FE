@@ -26,16 +26,18 @@ import FinalStep from "./page/RegisterShop/FormStep/FinalStep";
 import ShopAdminManager from "./page/Admin/ShopAdminManager";
 import AdminPage from "./page/Admin/AdminPage";
 import Step_2_extra from "./page/RegisterShop/FormStep/Step_2_extra";
+import { useSelector } from "react-redux";
+import { userInfoSelector } from "./redux/slice/userInfoSlice";
 
 const ProtectedRoute = () => {
-  const user = JSON.parse(localStorage.getItem("userInfo"));
+  const user = useSelector(userInfoSelector);
   if (!user) {
     return <Navigate to={"/login"} />;
   }
   return <Outlet />;
 };
 const UnauthorizedRoute = () => {
-  const user = JSON.parse(localStorage.getItem("userInfo"));
+  const user = useSelector(userInfoSelector);
   if (user) {
     return <Navigate to={"/homePage"} />;
   }

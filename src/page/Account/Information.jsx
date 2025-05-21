@@ -10,13 +10,15 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { userInfoSelector } from "../../redux/slice/userInfoSlice";
 
 const Information = () => {
   const [user, setUser] = useState("");
+  const userInfo = useSelector(userInfoSelector);
   useEffect(() => {
-    const userInfo = localStorage.getItem("userInfo");
     if (userInfo) {
-      setUser(JSON.parse(userInfo));
+      setUser(userInfo);
     }
   }, []);
   const initialGeneralForm = {

@@ -9,6 +9,8 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { toast } from "react-toastify";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { data } from "../../Data/CartData";
+import { useSelector } from "react-redux";
+import { userInfoSelector } from "../../redux/slice/userInfoSlice";
 
 const Detail = () => {
   const [DetailData, setDetailData] = useState(null);
@@ -20,7 +22,7 @@ const Detail = () => {
   const navigate = useNavigate();
   let [searchParams] = useSearchParams();
   const { id } = Object.fromEntries([...searchParams]);
-  const userInfo = localStorage.getItem("userInfo");
+  const userInfo = useSelector(userInfoSelector);
   useEffect(() => {
     if (id) {
       const getData = RecommendData.find((item) => item.id == id);

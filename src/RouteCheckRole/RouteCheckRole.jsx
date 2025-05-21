@@ -2,13 +2,16 @@ import React from "react";
 import { usePermission } from "../customHook/usePermission";
 import { roles } from "../roleConfig/roleConfig";
 import { Navigate, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { userInfoSelector } from "../redux/slice/userInfoSlice";
 
 const RouteCheckRole = ({
   requiredPermission,
   redirectTo = "/access-denied",
 }) => {
   // console.log("🚀 ~ requiredPermission:", requiredPermission);
-  const user = JSON.parse(localStorage.getItem("userInfo"));
+
+  const user = useSelector(userInfoSelector);
   const userRole = user?.role || roles.CUSTOMER;
   const { hasPermission } = usePermission(userRole);
 
