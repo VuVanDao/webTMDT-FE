@@ -13,24 +13,24 @@ const Step_2_extra = () => {
       color: "#ccc",
     },
     "& input": {
-      color: "black",
+      color: "black !important",
     },
     "& label.Mui-focused": {
-      color: "black",
+      color: "black !important",
     },
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
         borderColor: "#ccc",
+        color: "black !important",
       },
       "&:hover fieldset": {
         borderColor: "black",
+        color: "black !important",
       },
       "&.Mui-focused fieldset": {
         borderColor: "black",
+        color: "black !important",
       },
-    },
-    ".MuiSvgIcon-root": {
-      color: "black",
     },
   };
   const boxStyle = {
@@ -71,6 +71,7 @@ const Step_2_extra = () => {
             bgcolor: (theme) => theme.commonColors,
             cursor: "pointer",
             my: 3,
+            color: "white",
           }}
           onClick={handleConfirmDes}
         >

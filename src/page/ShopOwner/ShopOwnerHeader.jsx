@@ -120,7 +120,7 @@ const ShopOwnerHeader = ({ toggleDrawer, myShopHeader }) => {
           </Box>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <MyAccount />
+          <MyAccount color={true} />
         </Box>
       </Box>
     );

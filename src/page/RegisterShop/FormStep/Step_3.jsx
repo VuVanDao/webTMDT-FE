@@ -117,6 +117,7 @@ const Step_3 = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          color: "black",
         }}
       >
         <Typography mb={2}>Logo shop</Typography>
@@ -138,6 +139,7 @@ const Step_3 = () => {
               bgcolor: (theme) => theme.commonColors,
               cursor: "pointer",
               my: 3,
+              color: "white",
             }}
             onClick={handleConfirmLogo}
           >

@@ -2,6 +2,7 @@ import { experimental_extendTheme as extendTheme } from "@mui/material";
 const Header = "120px";
 const Footer = "285px";
 const Body = `calc(100vh - ${Header} - ${Footer})`;
+
 export const theme = extendTheme({
   customHeight: {
     Header: Header,
@@ -22,11 +23,12 @@ export const theme = extendTheme({
     dark: {
       palette: {
         // primary: "#fa5130",
-        // secondary: orange,
+        // secondary: "#fa5130",
       },
       spacing: (factor) => `${0.25 * factor}rem`,
     },
   },
+
   component: {
     MuiTableCell: {
       styleOverrides: {
@@ -38,6 +40,16 @@ export const theme = extendTheme({
           color: "#fff",
           fontWeight: "bold",
         },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          color: theme.palette.mode === "dark" ? "#90caf9" : "black",
+          "&.Mui-focused": {
+            color: theme.palette.mode === "dark" ? "red" : "black",
+          },
+        }),
       },
     },
   },

@@ -13,7 +13,7 @@ import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutli
 import { useNavigate } from "react-router-dom";
 import { logoutUserAPI } from "../../api";
 import { toast } from "react-toastify";
-const MyAccount = () => {
+const MyAccount = ({ color }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [user, setUser] = useState(null);
   const open = Boolean(anchorEl);
@@ -105,7 +105,11 @@ const MyAccount = () => {
       >
         <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
           <Avatar sx={{ width: 24, height: 24 }} src={user?.avatar} />
-          <Typography>{user?.username}</Typography>
+          {color ? (
+            <Typography sx={{ color: "black" }}>{user?.username}</Typography>
+          ) : (
+            <Typography>{user?.username}</Typography>
+          )}
         </Box>
       </Tooltip>
       <Menu

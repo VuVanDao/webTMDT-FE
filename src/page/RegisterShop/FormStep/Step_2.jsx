@@ -73,8 +73,18 @@ const Step_2 = () => {
     <Box>
       <StepperExample activeStep={1} />
       <Divider sx={{ my: 3 }} />
-      <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-name-label">
+      <FormControl
+        sx={{ m: 1, width: 300, color: "black", borderColor: "black" }}
+      >
+        <InputLabel
+          id="demo-multiple-name-label"
+          sx={{
+            "&.Mui-focused": {
+              color: "black",
+            },
+            color: "black",
+          }}
+        >
           Phương thức vận chuyển
         </InputLabel>
         <Select
@@ -85,6 +95,22 @@ const Step_2 = () => {
           onChange={handleChange}
           input={<OutlinedInput label="Phương thức vận chuyển" />}
           MenuProps={MenuProps}
+          sx={{
+            "& .MuiOutlinedInput-notchedOutline": {
+              borderColor: "rgb(196 196 196)",
+            },
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: "black",
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: "black",
+              color: "black",
+            },
+            ".MuiSvgIcon-root": {
+              color: "black",
+            },
+            color: "black",
+          }}
         >
           {names.map((item, index) => (
             <MenuItem key={index} value={item.key}>
@@ -109,7 +135,7 @@ const Step_2 = () => {
       <Box sx={{ textAlign: "end" }}>
         <Button
           variant="contained"
-          sx={{ bgcolor: (theme) => theme.commonColors }}
+          sx={{ bgcolor: (theme) => theme.commonColors, color: "white" }}
           onClick={handleSelectDelivery}
         >
           Tiếp theo

@@ -25,16 +25,16 @@ const Welcome = () => {
           my: 3,
         }}
       >
-        <Typography sx={{ fontSize: "20px" }}>
+        <Typography sx={{ fontSize: "20px", color: "black" }}>
           Chào mừng đến với Shopee!
         </Typography>
-        <Typography sx={{ fontSize: "14px" }}>
+        <Typography sx={{ fontSize: "14px", color: "black" }}>
           Vui lòng cung cấp thông tin để thành lập tài khoản người bán trên
           Shopee
         </Typography>
         <Button
           variant="contained"
-          sx={{ mt: 3, bgcolor: (theme) => theme.commonColors }}
+          sx={{ mt: 3, bgcolor: (theme) => theme.commonColors, color: "White" }}
           onClick={() => navigate("/register_shop/step_1")}
         >
           Bắt đầu đăng kí

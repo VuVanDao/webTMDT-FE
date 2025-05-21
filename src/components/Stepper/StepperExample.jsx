@@ -33,14 +33,24 @@ const StepperExample = ({ activeStep = 0 }) => {
           <StepLabel
             sx={{
               "& .MuiStepLabel-label": {
-                color: activeStep === index ? "black" : "#bdbdbd",
+                color: activeStep === index ? "black !important" : "#bdbdbd",
                 fontWeight: activeStep === index ? "600" : "400",
               },
               "& .Mui-active .MuiStepIcon-root": {
                 color: activeStep === index ? "#f44336" : "#bdbdbd",
               },
+              "& .MuiStepIcon-root": {
+                color: activeStep === index ? "#f44336" : "#bdbdbd",
+              },
+              "& .MuiStepIcon-root .MuiStepIcon-text": {
+                fill: "white",
+              },
+              "& .Mui-active .MuiStepIcon-root .MuiStepIcon-text": {
+                fill: activeStep === index ? "white !important" : "#bdbdbd",
+              },
               "& .Mui-completed .MuiStepIcon-root": {
-                color: "#f44336",
+                color: (theme) =>
+                  theme.palette.mode === "light" ? "#f44336" : "#f44336",
               },
             }}
           >

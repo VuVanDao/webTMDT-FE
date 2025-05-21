@@ -27,6 +27,7 @@ const CustomTextField = styled(TextField)(({ theme }) => ({
   "& input": {
     height: "1px",
     width: "500px",
+    color: "black",
   },
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
@@ -48,6 +49,7 @@ const boxStyle = {
   gap: 5,
   width: "100%",
   //   border: "1px solid",
+  color: "black",
 };
 
 const Step_1 = () => {
@@ -176,7 +178,6 @@ const Step_1 = () => {
               <Box>
                 <CustomTextField
                   defaultValue={email}
-                  disabled
                   error={errors.email}
                   {...register("email", {
                     required: "This field is required.",
@@ -249,7 +250,7 @@ const Step_1 = () => {
           <Box sx={{ textAlign: "end" }}>
             <Button
               variant="contained"
-              sx={{ bgcolor: (theme) => theme.commonColors }}
+              sx={{ bgcolor: (theme) => theme.commonColors, color: "white" }}
               type="submit"
             >
               Tiếp theo

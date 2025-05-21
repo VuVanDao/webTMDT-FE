@@ -2,9 +2,12 @@ import { Box, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getAllShop, getDetailShop } from "../../api";
 import { useNavigate } from "react-router-dom";
+import { DetailModal } from "./DetailModal";
 
 const ShopAdminManger = () => {
   const [listShop, setListShop] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [dataDetailShop, setDataDetailShop] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
     const handleGetAllShop = async () => {
@@ -18,9 +21,11 @@ const ShopAdminManger = () => {
     const res = await getDetailShop(id);
     console.log("🚀 ~ handleGetDetailShop ~ res:", res);
     if (res) {
-      // navigate()
+      setDataDetailShop(res);
+      setOpenModal(!openModal);
     }
   };
+
   return (
     <Box>
       <Typography variant="h6">Danh sách các shop đăng kí</Typography>
@@ -50,7 +55,8 @@ const ShopAdminManger = () => {
                   src={item?.logo}
                   alt={item?.name}
                   style={{
-                    width: "70%",
+                    width: "170px",
+                    height: "170px",
                     border: "1px solid black",
                     borderRadius: "50%",
                   }}
@@ -72,6 +78,12 @@ const ShopAdminManger = () => {
           );
         })}
       </Grid>
+      <DetailModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        dataDetailShop={dataDetailShop}
+        setDataDetailShop={setDataDetailShop}
+      />
     </Box>
   );
 };
