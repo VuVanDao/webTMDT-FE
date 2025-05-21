@@ -10,9 +10,10 @@ import LoginIcon from "@mui/icons-material/Login";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { logoutUserAPI } from "../../api";
 import { toast } from "react-toastify";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 const MyAccount = ({ color }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [user, setUser] = useState(null);
@@ -132,7 +133,7 @@ const MyAccount = ({ color }) => {
             <ListItemIcon>
               <ShoppingCartIcon fontSize="small" />
             </ListItemIcon>
-            My shop
+            Cửa hàng của tôi
           </MenuItem>
         ) : (
           <MenuItem onClick={registerShop}>
@@ -142,7 +143,18 @@ const MyAccount = ({ color }) => {
             Đăng kí mở shop
           </MenuItem>
         )}
-
+        {user.role === "admin" && (
+          <MenuItem
+            onClick={() => {
+              navigate("/admin");
+            }}
+          >
+            <ListItemIcon>
+              <AdminPanelSettingsIcon fontSize="small" />
+            </ListItemIcon>
+            Trang quản lí
+          </MenuItem>
+        )}
         <Divider />
         <MenuItem onClick={handleClose}>
           <ListItemIcon>

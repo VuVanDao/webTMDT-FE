@@ -4,18 +4,35 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import CancelIcon from "@mui/icons-material/Cancel";
-
+import { Avatar } from "@mui/material";
+import { Lightbox } from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
+import { browseShop } from "../../api";
+import { toast } from "react-toastify";
 export const DetailModal = ({
   openModal,
   setOpenModal,
   dataDetailShop,
   setDataDetailShop,
+  handleGetAllShop,
 }) => {
+  console.log("🚀 ~ dataDetailShop:", dataDetailShop);
   const handleClose = () => {
     setDataDetailShop(null);
     setOpenModal(!openModal);
   };
-
+  const [open, setOpen] = React.useState(false);
+  const handleBrowseShop = async (data) => {
+    const res = await browseShop({
+      selection: data,
+      shopId: dataDetailShop._id,
+    });
+    if (!res.error) {
+      toast.success("Đã duyệt");
+      handleGetAllShop();
+      setOpenModal(!openModal);
+    }
+  };
   return (
     <div>
       <Modal
@@ -59,12 +76,13 @@ export const DetailModal = ({
               <img
                 style={{
                   width: "100%",
-                  height: "320px",
+                  height: "220px",
                   borderRadius: "6px",
                   objectFit: "cover",
                 }}
                 src={dataDetailShop?.logo}
                 alt="card-cover"
+                onClick={() => setOpen(true)}
               />
             </Box>
           )}
@@ -75,16 +93,72 @@ export const DetailModal = ({
               mt: -3,
               pr: 2.5,
               display: "flex",
-              alignItems: "center",
+              // alignItems: "center",
               gap: 1,
+              flexDirection: "column",
             }}
           >
-            <Typography variant="h5">
-              Tên shop:{dataDetailShop?.name}
+            <Typography variant="h6">
+              Tên shop: {dataDetailShop?.name}
             </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+              }}
+            >
+              Tên chủ sở hữu: &nbsp;
+              <Typography
+                variant="span"
+                sx={{
+                  fontWeight: "bold",
+                  "&:hover": { color: "#fdba26" },
+                  cursor: "pointer",
+                }}
+              >
+                {dataDetailShop?.Owner[0]?.username}
+              </Typography>
+              &nbsp;
+              <Avatar src={dataDetailShop?.Owner[0]?.avatar} />
+            </Box>
+            <Typography>Email: {dataDetailShop?.Owner[0]?.email}</Typography>
+            <Typography>
+              Số điện thoại: {dataDetailShop?.phoneNumber}
+            </Typography>
+            <Typography>Địa chỉ lấy hàng: {dataDetailShop?.address}</Typography>
+            <Typography>Miêu tả: {dataDetailShop?.description}</Typography>
+          </Box>
+          <Box
+            sx={{
+              width: "100%",
+              bgcolor: (theme) => theme.bgColor,
+              borderRadius: "5px",
+              p: 2,
+              textAlign: "center",
+            }}
+          >
+            <Button
+              variant="contained"
+              sx={{ mr: 5, bgcolor: (theme) => theme.commonColors }}
+              onClick={() => handleBrowseShop("accept")}
+            >
+              Chấp nhận
+            </Button>
+            <Button
+              variant="contained"
+              onClick={() => handleBrowseShop("deny")}
+            >
+              Từ chối
+            </Button>
           </Box>
         </Box>
       </Modal>
+      <Lightbox
+        open={open}
+        close={() => setOpen(false)}
+        slides={[{ src: dataDetailShop?.logo }]}
+      />
     </div>
   );
 };

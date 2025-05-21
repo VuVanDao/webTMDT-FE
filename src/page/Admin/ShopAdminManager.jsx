@@ -1,31 +1,32 @@
 import { Box, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { getAllShop, getDetailShop } from "../../api";
-import { useNavigate } from "react-router-dom";
+import { getAllShop } from "../../api";
 import { DetailModal } from "./DetailModal";
+import { LoadingPage } from "../../components/LoadingPage/LoadingPage";
 
 const ShopAdminManger = () => {
   const [listShop, setListShop] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [dataDetailShop, setDataDetailShop] = useState(null);
-  const navigate = useNavigate();
+  const handleGetAllShop = async () => {
+    const res = await getAllShop();
+    console.log("🚀 ~ handleGetAllShop ~ res:", res);
+    setListShop(res);
+  };
   useEffect(() => {
-    const handleGetAllShop = async () => {
-      const res = await getAllShop();
-      console.log("🚀 ~ handleGetAllShop ~ res:", res);
-      setListShop(res);
-    };
     handleGetAllShop();
   }, []);
   const handleGetDetailShop = async (id) => {
-    const res = await getDetailShop(id);
-    console.log("🚀 ~ handleGetDetailShop ~ res:", res);
+    const listShopClone = [...listShop];
+    const res = listShopClone.find((i) => i._id === id);
     if (res) {
       setDataDetailShop(res);
       setOpenModal(!openModal);
     }
   };
-
+  if (!listShop) {
+    return <LoadingPage />;
+  }
   return (
     <Box>
       <Typography variant="h6">Danh sách các shop đăng kí</Typography>
@@ -83,6 +84,7 @@ const ShopAdminManger = () => {
         setOpenModal={setOpenModal}
         dataDetailShop={dataDetailShop}
         setDataDetailShop={setDataDetailShop}
+        handleGetAllShop={handleGetAllShop}
       />
     </Box>
   );

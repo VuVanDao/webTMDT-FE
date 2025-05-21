@@ -73,10 +73,9 @@ const Step_3 = () => {
         if (!res.error) {
           toast
             .promise(registerShopLogo(reqData, ownerId), {
-              pending: "Đang gửi ảnh của shop",
+              pending: "Đang gửi thông tin đăng kí của khách hàng",
             })
             .then((res) => {
-              // console.log("🚀 ~ .then ~ res:", res);
               if (!res.error) {
                 toast.success("Gửi thông tin đăng kí thành công");
               }
