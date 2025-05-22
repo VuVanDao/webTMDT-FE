@@ -89,6 +89,7 @@ export const RecommendData = [
       },
     ],
   },
+  //id:4
   {
     id: 4,
     name: "Loa đồng hồ đa chức năng HSON, loa bluetooth mini kiêm đồng hồ, báo thức, nghe FM, hiện thị đèn led màn hình tráng gương",
@@ -118,6 +119,7 @@ export const RecommendData = [
       },
     ],
   },
+  //id:5
   {
     id: 5,
     name: "Máy Nintendo Switch Oled Bảo Hành 12 Tháng",
@@ -147,6 +149,7 @@ export const RecommendData = [
       },
     ],
   },
+  //id:6
   {
     id: 6,
     name: "Áo thun Local Brand Bảy Viên Ngọc Rồng chất thôi rồi - GTA Dragon Ball | Áo Vớ Vẩn | Cotton Oversize 100% Unisex Nam Nữ",
@@ -177,6 +180,7 @@ export const RecommendData = [
     ],
     size: ["S(<50kg)", "M(<60kg)", "L(<70kg)"],
   },
+  //id:7
   {
     id: 7,
     name: "Áo Vớ Vẩn Hoodie Ratatouille x Jojo Chú chuột đầu bếp cơ bắp - Hoodie nỉ bông 350gsm Thu Đông dày dặn",
@@ -201,6 +205,7 @@ export const RecommendData = [
     ],
     size: ["S(<50kg)", "M(<60kg)", "L(<70kg)"],
   },
+  //id:8
   {
     id: 8,
     name: "Áo Vớ Vẩn - Áo Thun Developer Lập Trình Viên, Quà tặng IT, Coder, Áo meme hài - Cotton 100% Oversize Nam Nữ",

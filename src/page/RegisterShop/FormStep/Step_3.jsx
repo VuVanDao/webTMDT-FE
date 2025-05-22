@@ -93,7 +93,9 @@ const Step_3 = () => {
 
     // const res = await registerShop(data, reqData);
   };
+
   const userInfo = useSelector(userInfoSelector);
+
   const handleConfirmLogo = async () => {
     const { confirmed, reason } = await confirmRegister({
       description: "Sau khi gửi sẽ không thay đổi được thông tin",

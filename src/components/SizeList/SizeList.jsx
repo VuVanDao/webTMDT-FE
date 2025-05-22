@@ -20,32 +20,15 @@ const MenuProps = {
   },
 };
 
-const names = [
-  "Thời trang nam",
-  "Điện thoại & phụ kiện",
-  "Thiết bị điện tử",
-  "Laptop",
-  "Máy ảnh & Máy quay phim",
-  "Đồng hồ",
-  "Giày dép nam",
-  "Thiết bị gia dụng",
-  "Thời trang nữ",
-  "Quần áo",
-  "Mẹ và bé",
-  "Sắc đẹp",
-  "Giày dép nữ",
-  "Sách",
-  "Đồ chơi",
-  "Thời trang trẻ em",
-  "Giặt giũ & chăm sóc nhà cửa",
-  "Đồ ăn",
-  "Đồ uống",
+const sizes = [
+  "S (<50kg)",
+  "M (<60kg)",
+  "l (<70kg)",
+  "XL (<90kg)",
+  "2XL (<120kg)",
 ];
 
-export const ListCategory = ({
-  handleSelectCategory,
-  handleResetSelectCategory,
-}) => {
+export const SizesList = ({ handleSelectSize, open }) => {
   const [personName, setPersonName] = useState([]);
 
   const handleChange = (event) => {
@@ -56,8 +39,11 @@ export const ListCategory = ({
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
-    handleSelectCategory(value);
+    handleSelectSize(value);
   };
+  if (!open) {
+    return "";
+  }
 
   return (
     <div>
@@ -98,7 +84,7 @@ export const ListCategory = ({
           )}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
+          {sizes.map((name) => (
             <MenuItem key={name} value={name}>
               {name}
             </MenuItem>

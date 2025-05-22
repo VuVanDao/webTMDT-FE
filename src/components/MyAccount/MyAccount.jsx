@@ -11,7 +11,6 @@ import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 import { Navigate, useNavigate } from "react-router-dom";
-// import { logoutUserAPI } from "../../api";
 import { toast } from "react-toastify";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,10 +48,6 @@ const MyAccount = ({ color }) => {
       toast.success(res);
       navigate("/login");
     });
-    // logoutUserAPI().then((res) => {
-    //   toast.success(res);
-    //   navigate("/login");
-    // });
   };
   const handleAccount = () => {
     navigate("/MyAccount");

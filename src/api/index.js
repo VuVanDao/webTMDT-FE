@@ -26,13 +26,7 @@ export const verifyUserAPI = async (data) => {
   );
   return response.data;
 };
-export const logoutUserAPI = async () => {
-  const response = await authorizeAxiosInstance.delete(
-    `${apiRoot}/v1/users/logout`
-  );
-  toast.success("Logout successful 😁😁😁", { theme: "colored" });
-  return response.data;
-};
+
 export const refreshTokenAPI = async () => {
   const response = await authorizeAxiosInstance.post(
     `${apiRoot}/v1/users/refresh_token`
@@ -79,8 +73,21 @@ export const browseShop = async (data) => {
 //product
 export const createNew = async (data) => {
   const response = await authorizeAxiosInstance.post(
-    `${apiRoot}/v1/shops/create_new`,
+    `${apiRoot}/v1/products/create_new`,
     data
+  );
+  return response.data;
+};
+export const addImage = async (data, id) => {
+  const response = await authorizeAxiosInstance.put(
+    `${apiRoot}/v1/products/add_image/${id}`,
+    data
+  );
+  return response.data;
+};
+export const getAllProduct = async (id) => {
+  const response = await authorizeAxiosInstance.get(
+    `${apiRoot}/v1/products/get_All_Product/${id}`
   );
   return response.data;
 };

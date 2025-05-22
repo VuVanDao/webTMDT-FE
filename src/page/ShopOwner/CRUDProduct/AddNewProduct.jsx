@@ -11,18 +11,32 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import CustomInputFile from "../../../components/customInputFile/customInputFile";
 import { ListCategory } from "../../../components/ListCategory/ListCategory";
+import { useSelector } from "react-redux";
+import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
+import { toast } from "react-toastify";
+import { useConfirm } from "material-ui-confirm";
+import { addImage, createNew } from "../../../api";
+import { SizesList } from "../../../components/SizeList/SizeList";
 
 const AddNewProduct = () => {
   const [listImage, setListImage] = useState([]);
   const [listImageFileToSend, setListImageFileToSend] = useState([]);
   const [listCategory, setListCategory] = useState([]);
+  const [listSizes, setListSizes] = useState([]);
+  const [openSizeList, setOpenSizeList] = useState(false);
 
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
+
+  const userInfo = useSelector(userInfoSelector);
+
+  const confirmData = useConfirm();
+
   const fieldsetCommonStyle100 = {
     "& label": {
       color: "#ccc",
@@ -48,9 +62,11 @@ const AddNewProduct = () => {
       color: "black",
     },
   };
+
   const boxStyle = {
     my: 2,
   };
+
   const handleSetImage = (event) => {
     const dataImage = [...listImage];
     const dataImageToSend = [...listImageFileToSend];
@@ -59,26 +75,77 @@ const AddNewProduct = () => {
     setListImage(dataImage);
     setListImageFileToSend(dataImageToSend);
   };
+
   const handleDeleteImage = (item) => {
     const dataImage = [...listImage];
     setListImage(dataImage.filter((i) => i !== item));
   };
+
   const handleSelectCategory = (result) => {
-    setListCategory(result);
-  };
-  const onSubmit = (data) => {
-    let listImageFormData = [...listImageFileToSend];
-    let reqData = new FormData();
-    listImageFormData.forEach((i) => reqData.append("files[]", i));
-    for (const value of reqData.values()) {
-      console.log("reqData Value: ", value);
-    }
-    console.log("🚀 ~ onSubmit ~ data:", {
-      ...data,
-      categoryId: [...listCategory],
-      image: [...listImage],
+    setListCategory((preState) => {
+      handleSetSize(result);
+      return result;
     });
   };
+  const handleSelectSize = (result) => {
+    setListSizes(result);
+  };
+
+  const handleSetSize = (data) => {
+    const listSize = [...data];
+    let result = listSize.some(
+      (item) => item.includes("Thời trang") || item.includes("Quần áo")
+    );
+    setOpenSizeList(result);
+  };
+
+  const handleCreateNewAProduct = (data, image) => {
+    toast
+      .promise(createNew(data), {
+        pending: "Đang gửi thông tin",
+      })
+      .then((res) => {
+        if (!res.error) {
+          toast
+            .promise(addImage(image, res._id), {
+              pending: "Đang gửi thông tin",
+            })
+            .then((res) => {
+              if (!res.error) {
+                toast.success("Thành công");
+                setListImage([]);
+                setListImageFileToSend([]);
+                reset();
+              }
+            });
+        }
+      });
+  };
+
+  const onSubmit = async (data) => {
+    let listImageFormData = [...listImageFileToSend];
+    let reqData = new FormData();
+    listImageFormData.forEach((i) => reqData.append("imageProduct", i));
+    // for (const value of reqData.values()) {
+    //   console.log("reqData Value: ", value);
+    // }
+    const { confirmed, reason } = await confirmData({
+      description: "Sau khi gửi sẽ không thay đổi được thông tin",
+      title: "Xác nhận thêm mới sản phẩm này",
+    });
+    if (confirmed) {
+      handleCreateNewAProduct(
+        {
+          ...data,
+          categoryId: [...listCategory],
+          size: listSizes?.length > 0 ? listSizes : [],
+          shopId: userInfo.shopId,
+        },
+        reqData
+      );
+    }
+  };
+
   return (
     <Container sx={{ my: 3, bgcolor: (theme) => theme.whiteColor, p: 3 }}>
       <form
@@ -90,13 +157,13 @@ const AddNewProduct = () => {
             // defaultValue="test"
             fullWidth
             label="Tên sản phẩm"
-            error={errors.productName}
-            {...register("productName", {
+            error={errors.name}
+            {...register("name", {
               required: "This field is required.",
             })}
             sx={fieldsetCommonStyle100}
           />
-          {errors.productName && (
+          {errors.name && (
             <Alert
               severity="error"
               sx={{
@@ -104,7 +171,7 @@ const AddNewProduct = () => {
                 ".MuiAlert-message": { overflow: "hidden" },
               }}
             >
-              {errors.productName.message}
+              {errors.name.message}
             </Alert>
           )}
         </Box>
@@ -116,13 +183,13 @@ const AddNewProduct = () => {
             multiline
             label="Miêu tả sản phẩm "
             rows={4}
-            error={errors.productDescription}
-            {...register("productDescription", {
+            error={errors.description}
+            {...register("description", {
               required: "This field is required.",
             })}
             sx={fieldsetCommonStyle100}
           />
-          {errors.productDescription && (
+          {errors.description && (
             <Alert
               severity="error"
               sx={{
@@ -130,7 +197,7 @@ const AddNewProduct = () => {
                 ".MuiAlert-message": { overflow: "hidden" },
               }}
             >
-              {errors.productDescription.message}
+              {errors.description.message}
             </Alert>
           )}
         </Box>
@@ -204,7 +271,7 @@ const AddNewProduct = () => {
             }}
             size={{ lg: 2, md: 3, sm: 4, xs: 6 }}
           >
-            {listImage.length === 0 ? (
+            {listImage?.length === 0 ? (
               <Alert
                 severity="warning"
                 sx={{
@@ -235,6 +302,9 @@ const AddNewProduct = () => {
 
         {/* category */}
         <ListCategory handleSelectCategory={handleSelectCategory} />
+
+        {/* size */}
+        <SizesList open={openSizeList} handleSelectSize={handleSelectSize} />
 
         <Button
           type="submit"
