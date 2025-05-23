@@ -5,11 +5,11 @@ const TodoList = () => {
   const dataTest = [
     {
       num: 1,
-      title: "Chờ xác nhận",
+      title: "Đơn chờ xác nhận",
     },
     {
       num: 2,
-      title: "Chờ lấy hàng",
+      title: "Đơn chờ lấy hàng",
     },
     {
       num: 3,

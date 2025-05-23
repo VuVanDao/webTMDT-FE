@@ -18,9 +18,11 @@ import {
 import { toast } from "react-toastify";
 import CustomInputFile from "../../components/customInputFile/customInputFile";
 import { singleFileValidator } from "../../utils/valiodatorFile";
+import Lightbox from "yet-another-react-lightbox";
 
 const Information = () => {
   const userInfo = useSelector(userInfoSelector);
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {}, []);
 
@@ -185,6 +187,12 @@ const Information = () => {
               sx={{ width: 100, height: 100, mb: 1 }}
               alt="TrungQuanDev"
               src={userInfo?.avatar}
+              onClick={() => setOpen(!open)}
+            />
+            <Lightbox
+              open={open}
+              close={() => setOpen(false)}
+              slides={[{ src: userInfo?.avatar }]}
             />
             <Tooltip title="Upload a new image to update your avatar immediately.">
               <Button

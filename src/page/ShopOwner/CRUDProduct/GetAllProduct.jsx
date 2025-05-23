@@ -6,6 +6,10 @@ import { useSelector } from "react-redux";
 import { formatPrice } from "../../../utils/formatter";
 import { ModalDetailProduct } from "./Modal/ModalDetailProduct";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
+
 const GetAllProduct = () => {
   const [listProduct, setListProduct] = useState([]);
   const [open, setOpen] = useState(false);
@@ -105,6 +109,47 @@ const GetAllProduct = () => {
             );
           })}
         </Grid>
+      </Box>
+      <Box
+        p={5}
+        border={"1px solid"}
+        mt={3}
+        sx={{
+          "& .swiper": {
+            width: "100%",
+            height: "100%",
+          },
+          "& .swiper-slide": {
+            textAlign: "center",
+            fontSize: "18px",
+          },
+          "& .swiper-slide img": {
+            display: "block",
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          },
+        }}
+      >
+        <Swiper
+          slidesPerView={3}
+          spaceBetween={30}
+          pagination={{
+            clickable: true,
+          }}
+          modules={[Pagination]}
+          className="mySwiper"
+        >
+          <SwiperSlide>Slide 1</SwiperSlide>
+          <SwiperSlide>Slide 2</SwiperSlide>
+          <SwiperSlide>Slide 3</SwiperSlide>
+          <SwiperSlide>Slide 4</SwiperSlide>
+          <SwiperSlide>Slide 5</SwiperSlide>
+          <SwiperSlide>Slide 6</SwiperSlide>
+          <SwiperSlide>Slide 7</SwiperSlide>
+          <SwiperSlide>Slide 8</SwiperSlide>
+          <SwiperSlide>Slide 9</SwiperSlide>
+        </Swiper>
       </Box>
       <ModalDetailProduct
         open={open}

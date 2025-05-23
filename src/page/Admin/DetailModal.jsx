@@ -6,7 +6,6 @@ import Modal from "@mui/material/Modal";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { Avatar } from "@mui/material";
 import { Lightbox } from "yet-another-react-lightbox";
-import "yet-another-react-lightbox/styles.css";
 import { browseShop } from "../../api";
 import { toast } from "react-toastify";
 export const DetailModal = ({

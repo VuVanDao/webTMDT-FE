@@ -14,6 +14,12 @@ import "slick-carousel/slick/slick-theme.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+//preview image
+import "yet-another-react-lightbox/styles.css";
+
+//swiper
+import "swiper/css";
+
 //redux store
 import { store } from "./redux/store.js";
 import { Provider } from "react-redux";
