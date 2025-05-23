@@ -4,11 +4,18 @@ import { getAllProduct } from "../../../api";
 import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
 import { useSelector } from "react-redux";
 import { formatPrice } from "../../../utils/formatter";
+import { ModalDetailProduct } from "./Modal/ModalDetailProduct";
 
 const GetAllProduct = () => {
   const [listProduct, setListProduct] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [detailProduct, setDetailProduct] = useState({});
   const userInfo = useSelector(userInfoSelector);
 
+  const handleOpenModalDetail = (item) => {
+    setDetailProduct(item);
+    setOpen(!open);
+  };
   const handleGetAllProduct = async () => {
     const res = await getAllProduct(userInfo.shopId);
     if (!res.error) {
@@ -23,13 +30,6 @@ const GetAllProduct = () => {
 
   return (
     <Container sx={{ my: 3, bgcolor: (theme) => theme.whiteColor, p: 3 }}>
-      {!listProduct.length === 0 && (
-        <Box my={2} textAlign={"center"}>
-          <Typography variant="h5">
-            Hiện danh sách đang trống không {`(${listProduct?.length})`}
-          </Typography>
-        </Box>
-      )}
       <Box my={2}>
         <Typography variant="h5">Danh sách sản phẩm của bạn</Typography>
         <Typography variant="button">
@@ -42,7 +42,7 @@ const GetAllProduct = () => {
             return (
               <Grid
                 size={{ xs: 6, sm: 4, md: 3, lg: 2 }}
-                key={item?.id}
+                key={item?._id}
                 sx={{ display: "flex" }}
               >
                 <Box
@@ -61,8 +61,9 @@ const GetAllProduct = () => {
                     borderRadius: "5px",
                     cursor: "pointer",
                   }}
-                  // component={Link}
-                  // to={`/detail?id=${item.id}`}
+                  onClick={() => {
+                    handleOpenModalDetail(item);
+                  }}
                 >
                   <img
                     src={item?.image[0]}
@@ -105,6 +106,11 @@ const GetAllProduct = () => {
           })}
         </Grid>
       </Box>
+      <ModalDetailProduct
+        open={open}
+        handleOpenModalDetail={handleOpenModalDetail}
+        detailProduct={detailProduct}
+      />
     </Container>
   );
 };

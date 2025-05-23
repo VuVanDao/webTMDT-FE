@@ -42,10 +42,7 @@ const names = [
   "Đồ uống",
 ];
 
-export const ListCategory = ({
-  handleSelectCategory,
-  handleResetSelectCategory,
-}) => {
+export const ListTags = ({ handleSelectTags }) => {
   const [personName, setPersonName] = useState([]);
 
   const handleChange = (event) => {
@@ -56,7 +53,7 @@ export const ListCategory = ({
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
-    handleSelectCategory(value);
+    handleSelectTags(value);
   };
 
   return (
@@ -70,7 +67,7 @@ export const ListCategory = ({
             },
           }}
         >
-          Chọn phân loại sản phẩm
+          Chọn nhãn sản phẩm
         </InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
@@ -86,7 +83,7 @@ export const ListCategory = ({
           input={
             <OutlinedInput
               id="select-multiple-chip"
-              label="Chọn phân loại sản phẩm"
+              label="Chọn nhãn sản phẩm"
             />
           }
           renderValue={(selected) => (

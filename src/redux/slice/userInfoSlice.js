@@ -23,6 +23,16 @@ export const logoutUserAPI = createAsyncThunk(
     return response.data;
   }
 );
+export const updateUserAPI = createAsyncThunk(
+  "userInfo/updateUserAPI",
+  async (data) => {
+    const response = await authorizeAxiosInstance.put(
+      `${apiRoot}/v1/users/update`,
+      data
+    );
+    return response.data;
+  }
+);
 
 export const userInfoSlice = createSlice({
   name: "userInfo",
@@ -47,6 +57,12 @@ export const userInfoSlice = createSlice({
       (state, action) => {
         state.userInfo = null;
         toast.success("Logout successful 😁😁😁", { theme: "colored" });
+      }
+    );
+    builder.addCase(
+      updateUserAPI.fulfilled /*ten function */,
+      (state, action) => {
+        state.userInfo = action.payload;
       }
     );
   },

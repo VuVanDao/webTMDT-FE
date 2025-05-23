@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import CustomInputFile from "../../../components/customInputFile/customInputFile";
-import { ListCategory } from "../../../components/ListCategory/ListCategory";
+import { ListTags } from "../../../components/ListTags/ListTags";
 import { useSelector } from "react-redux";
 import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
 import { toast } from "react-toastify";
@@ -21,7 +21,7 @@ import { SizesList } from "../../../components/SizeList/SizeList";
 const AddNewProduct = () => {
   const [listImage, setListImage] = useState([]);
   const [listImageFileToSend, setListImageFileToSend] = useState([]);
-  const [listCategory, setListCategory] = useState([]);
+  const [listTags, setListTags] = useState([]);
   const [listSizes, setListSizes] = useState([]);
   const [openSizeList, setOpenSizeList] = useState(false);
 
@@ -81,8 +81,8 @@ const AddNewProduct = () => {
     setListImage(dataImage.filter((i) => i !== item));
   };
 
-  const handleSelectCategory = (result) => {
-    setListCategory((preState) => {
+  const handleSelectTags = (result) => {
+    setListTags((preState) => {
       handleSetSize(result);
       return result;
     });
@@ -137,7 +137,7 @@ const AddNewProduct = () => {
       handleCreateNewAProduct(
         {
           ...data,
-          categoryId: [...listCategory],
+          tagsId: [...listTags],
           size: listSizes?.length > 0 ? listSizes : [],
           shopId: userInfo.shopId,
         },
@@ -300,8 +300,8 @@ const AddNewProduct = () => {
           </Grid>
         </Box>
 
-        {/* category */}
-        <ListCategory handleSelectCategory={handleSelectCategory} />
+        {/* thuc ra ten la tag */}
+        <ListTags handleSelectTags={handleSelectTags} />
 
         {/* size */}
         <SizesList open={openSizeList} handleSelectSize={handleSelectSize} />

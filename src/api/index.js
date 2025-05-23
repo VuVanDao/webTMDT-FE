@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import authorizeAxiosInstance from "../utils/authorizeAxios";
 import { apiRoot } from "../utils/constants";
 
+// user
 export const registerUserAPI = async (data) => {
   const response = await authorizeAxiosInstance.post(
     `${apiRoot}/v1/users/register`,

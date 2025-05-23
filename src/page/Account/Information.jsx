@@ -10,28 +10,74 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
-import { userInfoSelector } from "../../redux/slice/userInfoSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateUserAPI,
+  userInfoSelector,
+} from "../../redux/slice/userInfoSlice";
+import { toast } from "react-toastify";
+import CustomInputFile from "../../components/customInputFile/customInputFile";
+import { singleFileValidator } from "../../utils/valiodatorFile";
 
 const Information = () => {
-  const [user, setUser] = useState("");
   const userInfo = useSelector(userInfoSelector);
-  useEffect(() => {
-    if (userInfo) {
-      setUser(userInfo);
-    }
-  }, []);
-  const initialGeneralForm = {
-    username: user?.username,
-  };
+  const dispatch = useDispatch();
+  useEffect(() => {}, []);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    defaultValues: initialGeneralForm,
-  });
-  const submitChangeGeneralInformation = () => {};
+  } = useForm({});
+
+  const submitChangeGeneralInformation = (data) => {
+    if (data.username === userInfo?.username) {
+      toast.warning("hãy nhập 1 cái tên mới");
+    } else {
+      toast
+        .promise(dispatch(updateUserAPI(data)), {
+          pending: "updating...",
+        })
+        .then((res) => {
+          if (!res.error) {
+            toast.success("Update successfully!");
+          }
+        });
+    }
+  };
+
+  const uploadAvatar = (e) => {
+    // Lấy file thông qua e.target?.files[0] và validate nó trước khi xử lý
+    // console.log("e.target?.files[0]: ", e.target?.files[0]);
+    const error = singleFileValidator(e.target?.files[0]);
+    if (error) {
+      toast.error(error);
+      return;
+    }
+
+    // Sử dụng FormData để xử lý dữ liệu liên quan tới file khi gọi API
+    let reqData = new FormData();
+    reqData.append("avatar", e.target?.files[0]);
+    // Cách để log được dữ liệu thông qua FormData
+    // console.log("reqData: ", reqData);
+    // for (const value of reqData.values()) {
+    //   console.log("reqData Value: ", value);
+    // }
+
+    toast
+      .promise(dispatch(updateUserAPI(reqData)), {
+        pending: "updating... ",
+      })
+      .then((res) => {
+        console.log(res);
+        // Nếu không có lỗi gì thì update lại avatar cho currentUser
+        if (!res.error) {
+          toast.success("Update successfully!");
+        }
+        e.target.value = ""; // Reset lại input file
+      });
+  };
+
   return (
     <Box
       sx={{
@@ -77,7 +123,7 @@ const Information = () => {
               <TextField
                 fullWidth
                 label="Your UserName"
-                defaultValue={user?.username}
+                defaultValue={userInfo?.username}
                 type="text"
                 variant="outlined"
                 {...register("username", {
@@ -85,6 +131,9 @@ const Information = () => {
                 })}
                 error={!!errors["username"]}
                 sx={{
+                  "& label.Mui-focused": {
+                    color: (theme) => theme.commonColors,
+                  },
                   "& .MuiOutlinedInput-root": {
                     color: (theme) => theme.commonColors,
                     "& fieldset": {
@@ -135,7 +184,7 @@ const Information = () => {
             <Avatar
               sx={{ width: 100, height: 100, mb: 1 }}
               alt="TrungQuanDev"
-              src={user?.avatar}
+              src={userInfo?.avatar}
             />
             <Tooltip title="Upload a new image to update your avatar immediately.">
               <Button
@@ -145,7 +194,7 @@ const Information = () => {
                 sx={{ bgcolor: (theme) => theme.commonColors }}
               >
                 Upload
-                {/* <VisuallyHiddenInput type="file" onChange={uploadAvatar} /> */}
+                <CustomInputFile type="file" onChange={uploadAvatar} />
               </Button>
             </Tooltip>
           </Box>

@@ -6,13 +6,8 @@ import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import { useSelector } from "react-redux";
 import { userInfoSelector } from "../../redux/slice/userInfoSlice";
 const Settings = () => {
-  const [user, setUser] = useState(null);
   const userInfo = useSelector(userInfoSelector);
-  useEffect(() => {
-    if (userInfo) {
-      setUser(userInfo);
-    }
-  }, []);
+  useEffect(() => {}, []);
   const SettingStyles = {
     display: "flex",
     alignItems: "center",
@@ -33,8 +28,11 @@ const Settings = () => {
             cursor: "pointer",
           }}
         >
-          <Avatar src={user?.avatar} sx={{ width: "50px", height: "50px" }} />
-          <Typography>{user?.username}</Typography>
+          <Avatar
+            src={userInfo?.avatar}
+            sx={{ width: "50px", height: "50px" }}
+          />
+          <Typography>{userInfo?.username}</Typography>
         </Box>
         <Box>
           <Typography sx={SettingStyles}>

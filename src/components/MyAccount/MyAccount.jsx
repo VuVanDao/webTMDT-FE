@@ -20,16 +20,12 @@ import {
 } from "../../redux/slice/userInfoSlice";
 const MyAccount = ({ color }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [user, setUser] = useState(null);
+
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
   const userInfo = useSelector(userInfoSelector);
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (userInfo) {
-      setUser(userInfo);
-    }
-  }, []);
+  useEffect(() => {}, []);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -55,7 +51,7 @@ const MyAccount = ({ color }) => {
   const registerShop = () => {
     navigate("/register_shop");
   };
-  if (!user) {
+  if (!userInfo) {
     return (
       <>
         <Tooltip
@@ -109,11 +105,13 @@ const MyAccount = ({ color }) => {
         sx={{ color: "white", p: "0", cursor: "pointer" }}
       >
         <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-          <Avatar sx={{ width: 24, height: 24 }} src={user?.avatar} />
+          <Avatar sx={{ width: 24, height: 24 }} src={userInfo?.avatar} />
           {color ? (
-            <Typography sx={{ color: "black" }}>{user?.username}</Typography>
+            <Typography sx={{ color: "black" }}>
+              {userInfo?.username}
+            </Typography>
           ) : (
-            <Typography>{user?.username}</Typography>
+            <Typography>{userInfo?.username}</Typography>
           )}
         </Box>
       </Tooltip>
@@ -128,11 +126,11 @@ const MyAccount = ({ color }) => {
       >
         <MenuItem onClick={handleAccount}>
           <ListItemIcon>
-            <Avatar sx={{ width: 24, height: 24 }} src={user?.avatar} />{" "}
+            <Avatar sx={{ width: 24, height: 24 }} src={userInfo?.avatar} />{" "}
           </ListItemIcon>
           Profile
         </MenuItem>
-        {user.role === "shop_owner" ? (
+        {userInfo.role === "shop_owner" ? (
           <MenuItem onClick={() => navigate("/shop_detail")}>
             <ListItemIcon>
               <ShoppingCartIcon fontSize="small" />
@@ -147,7 +145,7 @@ const MyAccount = ({ color }) => {
             Đăng kí mở shop
           </MenuItem>
         )}
-        {user.role === "admin" && (
+        {userInfo.role === "admin" && (
           <MenuItem
             onClick={() => {
               navigate("/admin");
