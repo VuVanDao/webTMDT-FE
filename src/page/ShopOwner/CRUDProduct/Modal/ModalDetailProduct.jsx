@@ -3,14 +3,22 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { formatPrice } from "../../../../utils/formatter";
-import { Grid, Rating } from "@mui/material";
+import { Grid, Rating, TextField, Tooltip } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
+import ToggleFocusInput from "../../../../components/customInputFile/ToggleFocusInput";
+import { useDispatch } from "react-redux";
+import { updateUserAPI } from "../../../../redux/slice/userInfoSlice";
+import { getProductById, update } from "../../../../api";
+import { ListTags } from "../../../../components/ListTags/ListTags";
+import { SizesList } from "../../../../components/SizeList/SizeList";
+import FormUpdateCategory from "./formUpdateCategory";
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -21,36 +29,128 @@ const style = {
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  width: "1100px",
 };
 
 export const ModalDetailProduct = ({
   handleOpenModalDetail,
   open,
-  detailProduct,
+  detailProductId,
+  handleGetAllProduct,
 }) => {
-  const [size, setSize] = useState(null);
+  const [detailProduct, setDetailProduct] = useState({});
+
   const [imageProduct, setImageProduct] = useState(null);
-  const [SelectQuantity, setSelectQuantity] = useState(1);
   const [Category, setCategory] = useState("");
-  console.log("🚀 ~ detailProduct:", detailProduct);
+  const [listTags, setListTags] = useState([]);
+  const [listSizes, setListSizes] = useState([]);
+
+  const [updateProductName, setUpdateProductName] = useState(false);
+  const [updatePrice, setUpdatePrice] = useState(false);
+  const [updateTags, setUpdateTags] = useState(false);
+  const [updateCategoryId, setUpdateCategoryId] = useState(false);
+
+  const [openSizeList, setOpenSizeList] = useState(false);
 
   const handleClose = () => {
-    setSize(null);
     setImageProduct(null);
+    setUpdateProductName(false);
+    setUpdatePrice(false);
+    setUpdateTags(false);
+    setOpenSizeList(false);
     handleOpenModalDetail();
   };
 
-  const handleDecrement = () => {
-    const newQuantity = SelectQuantity - 1;
-    setSelectQuantity(newQuantity);
-  };
-  const handleIncrement = () => {
-    const newQuantity = SelectQuantity + 1;
-    setSelectQuantity(newQuantity);
-  };
   const handleSetImageProduct = (i) => {
     setImageProduct(i);
   };
+
+  const handleSelectSize = (result) => {
+    setListSizes(result);
+  };
+
+  const handleSetSize = (data) => {
+    const listSize = [...data];
+    let result = listSize.some(
+      (item) => item.includes("Thời trang") || item.includes("Quần áo")
+    );
+    setOpenSizeList(result);
+  };
+
+  const handleSelectTags = (result) => {
+    setListTags((preState) => {
+      handleSetSize(result);
+      return result;
+    });
+  };
+
+  const updateDataProduct = (data) => {
+    const id = detailProduct?._id;
+    toast
+      .promise(update({ ...data, id }), {
+        pending: "Đang cập nhật chỉnh sửa",
+      })
+      .then((res) => {
+        if (!res.error) {
+          toast.success("Cập nhật thành công");
+          handleGetAllProduct();
+        }
+      });
+  };
+
+  const handleUpdate = (newName, key) => {
+    let data = {};
+    if (key === "tagsId" || key === "size" || key === "tagsId&Size") {
+      switch (key) {
+        case "tagsId":
+          data = { [key]: listTags, size: [] };
+          break;
+        case "size":
+          data = { [key]: listSizes };
+          break;
+        case "tagsId&Size":
+          data = { tagsId: listTags, size: listSizes };
+          break;
+        default:
+          break;
+      }
+    } else {
+      data = { [key]: newName };
+    }
+    updateDataProduct(data);
+  };
+
+  const handleUpdateCategoryId = async (categoryData) => {
+    const uploadPromises = categoryData.map(async (item) => {
+      let formData = new FormData();
+      formData.append("file", item?.image);
+      formData.append("upload_preset", "ReactUpload");
+      delete item["imageToDisplay"];
+      const res = await axios.post(
+        "https://api.cloudinary.com/v1_1/dlb4ooi7n/upload",
+        formData
+      );
+      if (res) {
+        item.image = res.data.secure_url;
+      }
+      return item;
+    });
+    const updatedItems = await Promise.all(uploadPromises);
+
+    let data = { categoryId: updatedItems };
+    updateDataProduct(data);
+  };
+
+  const handleGetProductById = async (id) => {
+    const res = await getProductById(id);
+    if (!res.error) {
+      setDetailProduct(res);
+    }
+  };
+
+  useEffect(() => {
+    if (detailProductId) handleGetProductById(detailProductId);
+  }, [handleGetAllProduct]);
   return (
     <div>
       <Modal
@@ -60,45 +160,8 @@ export const ModalDetailProduct = ({
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          {/* <Box
-            p={5}
-            border={"1px solid"}
-            my={3}
-            sx={{
-              "& .swiper": {
-                width: "800px",
-                height: "20px",
-              },
-              "& .swiper-slide": {
-                textAlign: "center",
-                fontSize: "18px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              },
-            }}
-          >
-            <Swiper
-              navigation={true}
-              modules={[Navigation]}
-              slidesPerView={3}
-              spaceBetween={30}
-              pagination={{
-                clickable: true,
-              }}
-            >
-              <SwiperSlide>Slide 1</SwiperSlide>
-              <SwiperSlide>Slide 2</SwiperSlide>
-              <SwiperSlide>Slide 3</SwiperSlide>
-              <SwiperSlide>Slide 4</SwiperSlide>
-              <SwiperSlide>Slide 5</SwiperSlide>
-              <SwiperSlide>Slide 6</SwiperSlide>
-              <SwiperSlide>Slide 7</SwiperSlide>
-              <SwiperSlide>Slide 8</SwiperSlide>
-              <SwiperSlide>Slide 9</SwiperSlide>
-            </Swiper>
-          </Box> */}
           <Box sx={{ display: "flex", flexDirection: "row", gap: 10 }}>
+            {/* right */}
             <Box
               sx={{
                 width: "500px",
@@ -147,18 +210,17 @@ export const ModalDetailProduct = ({
                 <Swiper
                   navigation={true}
                   modules={[Navigation]}
-                  slidesPerView={2}
+                  slidesPerView={1}
                   spaceBetween={30}
                 >
                   {detailProduct?.image?.map((i, index) => {
                     return (
-                      <SwiperSlide>
+                      <SwiperSlide key={index}>
                         <Grid>
                           <img
                             src={i}
                             alt={i}
                             style={{ width: "80px", border: "1px solid" }}
-                            key={index}
                             onClick={() => handleSetImageProduct(i)}
                           />
                         </Grid>
@@ -169,140 +231,204 @@ export const ModalDetailProduct = ({
               </Box>
             </Box>
 
-            <Box>
-              <Typography variant="h6">{detailProduct?.name}</Typography>
+            {/* left */}
+            <Box sx={{ width: "1000px" }}>
+              {/* name */}
+              <Tooltip title="click to update">
+                <Typography
+                  variant="h6"
+                  onClick={() => setUpdateProductName(!updateProductName)}
+                >
+                  {detailProduct?.name}
+                </Typography>
+              </Tooltip>
+              {updateProductName && (
+                <ToggleFocusInput
+                  multiline
+                  value={detailProduct?.name}
+                  onChangedValue={(e) => handleUpdate(e, "name")}
+                  // inputFontSize="15px"
+                />
+              )}
 
               {/* Gia ca */}
-              <Box sx={{ p: 2, bgcolor: "#f5f5f5", color: "red", mt: 3 }}>
-                <Typography variant="h5">
+              <Box
+                sx={{
+                  p: 2,
+                  bgcolor: "#f5f5f5",
+                  color: "red",
+                  mt: 3,
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  variant="h5"
+                  onClick={() => setUpdatePrice(!updatePrice)}
+                >
                   {formatPrice(detailProduct?.price)}
                 </Typography>
+                {updatePrice && (
+                  <ToggleFocusInput
+                    multiline
+                    value={detailProduct?.price}
+                    onChangedValue={(e) => handleUpdate(e, "price")}
+                    // inputFontSize="15px"
+                  />
+                )}
               </Box>
 
               {/* tags */}
-              <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
-                <Box sx={{ color: "#757575", width: "25%" }}>Loại sản phẩm</Box>
-                <Box sx={{ display: "flex", gap: 3 }}>
-                  {detailProduct?.tagsId?.map((item) => {
-                    return (
-                      <Box
-                        key={item?._id}
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 1,
-                          cursor: "pointer",
-                          mb: 1,
-                          border: "1px solid black",
-                          p: "5px 10px",
-                        }}
-                      >
-                        <Typography variant="caption">{item}</Typography>
-                      </Box>
-                    );
-                  })}
+              <Box sx={{ mt: 3, width: "100%" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    mt: 3,
+                    width: "100%",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      color: "#757575",
+                      width: "25%",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Typography onClick={() => setUpdateTags(!updateTags)}>
+                      Loại sản phẩm
+                    </Typography>
+                  </Box>
+                  {detailProduct?.tagsId?.length === 0 ? (
+                    <Typography onClick={() => setUpdateTags(!updateTags)}>
+                      Thêm loại
+                    </Typography>
+                  ) : (
+                    <Box sx={{ display: "flex", gap: 3 }}>
+                      {detailProduct?.tagsId?.map((item, index) => {
+                        return (
+                          <Box
+                            key={index}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                              cursor: "pointer",
+                              mb: 1,
+                              border: "1px solid black",
+                              p: "5px 10px",
+                            }}
+                          >
+                            <Typography variant="caption">{item}</Typography>
+                          </Box>
+                        );
+                      })}
+                    </Box>
+                  )}
                 </Box>
+
+                {updateTags && (
+                  <ListTags
+                    tagsIdData={detailProduct?.tagsId}
+                    handleSelectTags={handleSelectTags}
+                  />
+                )}
+                {openSizeList && detailProduct?.size?.length === 0 && (
+                  <SizesList
+                    open={openSizeList}
+                    handleSelectSize={handleSelectSize}
+                  />
+                )}
+                {updateTags && (
+                  <Button
+                    variant="contained"
+                    sx={{ bgcolor: (theme) => theme.commonColors }}
+                    onClick={(e) =>
+                      handleUpdate(e, openSizeList ? "tagsId&Size" : "tagsId")
+                    }
+                  >
+                    Xong!
+                  </Button>
+                )}
               </Box>
 
               {/* phan loai */}
-              <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
-                <Box sx={{ color: "#757575", width: "20%" }}>
-                  {detailProduct?.categoryId?.length > 0 && "Phân loại"}
+              <Box sx={{ mt: 3, width: "100%" }}>
+                <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
+                  <Box
+                    sx={{
+                      color: "#757575",
+                      width: "20%",
+                      cursor: "pointer",
+                      mb: 2,
+                    }}
+                  >
+                    <Typography
+                      onClick={() => setUpdateCategoryId(!updateCategoryId)}
+                    >
+                      Phân loại
+                    </Typography>
+                  </Box>
+                  {detailProduct?.categoryId?.length === 0 ? (
+                    <Typography
+                      onClick={() => setUpdateCategoryId(!updateCategoryId)}
+                      sx={{ color: "#757575", cursor: "pointer" }}
+                    >
+                      Thêm các phân loại sủa sản phẩm
+                    </Typography>
+                  ) : (
+                    <Box sx={{ display: "flex", gap: 3 }}>
+                      {detailProduct?.categoryId?.map((item, index) => {
+                        return (
+                          <Box
+                            key={index}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                              cursor: "pointer",
+                              mb: 1,
+                              border: "1px solid #757575",
+                              p: "5px",
+                            }}
+                            // onClick={() => {
+                            //   setDisplayImage(item.image);
+                            //   setSelectColor(item.name);
+                            // }}
+                          >
+                            <img
+                              src={item?.image}
+                              alt={item?.name}
+                              style={{ width: "30px", height: "30px" }}
+                            />
+                            <Typography variant="caption">
+                              {item?.name}
+                            </Typography>
+                          </Box>
+                        );
+                      })}
+                    </Box>
+                  )}
                 </Box>
-                <Box sx={{ display: "flex", gap: 3 }}>
-                  {detailProduct?.categoryId?.map((item) => {
-                    if (item.name === Category) {
-                      return (
-                        <Box
-                          key={item.id}
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1,
-                            cursor: "pointer",
-                            mb: 1,
-                            border: "1px solid red",
-                            p: "5px",
-                          }}
-                          // onClick={() => {
-                          //   setDisplayImage(item.image);
-                          //   setSelectColor(item.name);
-                          // }}
-                        >
-                          <img
-                            src={item?.image}
-                            alt={item?.name}
-                            style={{ width: "30px", height: "30px" }}
-                          />
-                          <Typography variant="caption">
-                            {item?.name}
-                          </Typography>
-                        </Box>
-                      );
-                    } else {
-                      return (
-                        <Box
-                          key={item?.id}
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1,
-                            cursor: "pointer",
-                            mb: 1,
-                            border: "1px solid #757575",
-                            p: "5px",
-                          }}
-                          // onClick={() => {
-                          //   setDisplayImage(item.image);
-                          //   setSelectColor(item.name);
-                          // }}
-                        >
-                          <img
-                            src={item?.image}
-                            alt={item?.name}
-                            style={{ width: "30px", height: "30px" }}
-                          />
-                          <Typography variant="caption">
-                            {item?.name}
-                          </Typography>
-                        </Box>
-                      );
-                    }
-                  })}
-                </Box>
+                <FormUpdateCategory
+                  open={updateCategoryId}
+                  handleUpdateCategoryId={handleUpdateCategoryId}
+                />
               </Box>
 
               {/* kich co */}
-              <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
-                <Box sx={{ color: "#757575", width: "20%" }}>
-                  {detailProduct?.size?.length > 0 && "Kích cỡ"}
-                </Box>
-                <Box sx={{ display: "flex", gap: 3 }}>
-                  {detailProduct?.size?.map((item) => {
-                    if (item === size) {
+              <Box sx={{ mt: 3, width: "100%" }}>
+                <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
+                  <Box
+                    sx={{ color: "#757575", width: "20%", cursor: "pointer" }}
+                    onClick={() => setOpenSizeList(!openSizeList)}
+                  >
+                    {detailProduct?.size?.length > 0 && "Kích cỡ"}
+                  </Box>
+                  <Box sx={{ display: "flex", gap: 3 }}>
+                    {detailProduct?.size?.map((item, index) => {
                       return (
                         <Box
-                          key={item?._id}
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1,
-                            cursor: "pointer",
-                            mb: 1,
-                            border: "1px solid red",
-                            p: "5px 10px",
-                          }}
-                          // onClick={() => {
-                          //   setSize(item);
-                          // }}
-                        >
-                          <Typography variant="caption">{item}</Typography>
-                        </Box>
-                      );
-                    } else {
-                      return (
-                        <Box
-                          key={item?._id}
+                          key={index}
                           sx={{
                             display: "flex",
                             alignItems: "center",
@@ -312,95 +438,38 @@ export const ModalDetailProduct = ({
                             border: "1px solid #757575",
                             p: "5px 10px",
                           }}
-                          // onClick={() => {
-                          //   setSize(item);
-                          // }}
                         >
                           <Typography variant="caption">{item}</Typography>
                         </Box>
                       );
-                    }
-                  })}
+                    })}
+                  </Box>
                 </Box>
+                {openSizeList && detailProduct?.size?.length >= 0 && (
+                  <SizesList
+                    sizeData={detailProduct?.size}
+                    open={openSizeList}
+                    handleSelectSize={handleSelectSize}
+                  />
+                )}
+                {openSizeList && detailProduct?.size?.length >= 0 && (
+                  <Button
+                    variant="contained"
+                    sx={{ bgcolor: (theme) => theme.commonColors }}
+                    onClick={(e) => handleUpdate(e, "size")}
+                  >
+                    Xong!
+                  </Button>
+                )}
               </Box>
 
               {/* so luong */}
               <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
                 <Box sx={{ color: "#757575", width: "20%" }}>Số lượng</Box>
-                <Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 3,
-                      cursor: "pointer",
-                      mb: 1,
-                      border: "1px solid #757575",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Button
-                      sx={{
-                        color: (theme) => theme.commonColors,
-                        border: "1px solid ",
-                        borderColor: "transparent",
-                        borderRightColor: "#757575",
-                        borderRadius: "0px",
-                      }}
-                      onClick={() => {
-                        if (SelectQuantity > 1) {
-                          handleDecrement();
-                        } else if (SelectQuantity === 1) {
-                          toast.error("Vui lòng chọn ít nhất 1 sản phẩm");
-                        }
-                      }}
-                    >
-                      -
-                    </Button>
-                    <Typography
-                      sx={{ color: (theme) => theme.commonColors, mx: 2 }}
-                    >
-                      {SelectQuantity}
-                    </Typography>
-                    <Button
-                      sx={{
-                        color: (theme) => theme.commonColors,
-                        border: "1px solid ",
-                        borderColor: "transparent",
-                        borderLeftColor: "#757575",
-                        borderRadius: "0px",
-                      }}
-                      onClick={() => {
-                        if (
-                          SelectQuantity <
-                          detailProduct?.quantity - detailProduct?.sold
-                        ) {
-                          handleIncrement();
-                        } else if (
-                          SelectQuantity ===
-                          detailProduct?.quantity - detailProduct?.sold
-                        ) {
-                          toast.error(`Vượt quá số lượng có sẵn`);
-                        }
-                      }}
-                    >
-                      +
-                    </Button>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1,
-                      mt: 2,
-                    }}
-                  >
-                    <Typography>
-                      Số lượng có sẵn:{" "}
-                      {detailProduct?.quantity - detailProduct?.sold}
-                    </Typography>
-                  </Box>
-                </Box>
+                <Typography>
+                  Số lượng có sẵn:
+                  {detailProduct?.quantity - detailProduct?.sold}
+                </Typography>
               </Box>
             </Box>
           </Box>

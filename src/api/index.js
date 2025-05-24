@@ -92,3 +92,16 @@ export const getAllProduct = async (id) => {
   );
   return response.data;
 };
+export const getProductById = async (id) => {
+  const response = await authorizeAxiosInstance.get(
+    `${apiRoot}/v1/products/get_Product_By_Id/${id}`
+  );
+  return response.data;
+};
+export const update = async (data) => {
+  const response = await authorizeAxiosInstance.put(
+    `${apiRoot}/v1/products/update`,
+    data
+  );
+  return response.data;
+};

@@ -1,5 +1,3 @@
-import * as React from "react";
-import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -7,7 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -42,20 +40,24 @@ const names = [
   "Đồ uống",
 ];
 
-export const ListTags = ({ handleSelectTags }) => {
-  const [personName, setPersonName] = useState([]);
+export const ListTags = ({ handleSelectTags, tagsIdData }) => {
+  const [tags, setTags] = useState([]);
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
+    setTags(
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
     handleSelectTags(value);
   };
-
+  useEffect(() => {
+    if (tagsIdData) {
+      setTags(tagsIdData);
+    }
+  }, []);
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
@@ -73,7 +75,7 @@ export const ListTags = ({ handleSelectTags }) => {
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
-          value={personName}
+          value={tags}
           onChange={handleChange}
           sx={{
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {

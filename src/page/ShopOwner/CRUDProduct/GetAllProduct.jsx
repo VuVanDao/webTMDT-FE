@@ -13,11 +13,11 @@ import { Pagination } from "swiper/modules";
 const GetAllProduct = () => {
   const [listProduct, setListProduct] = useState([]);
   const [open, setOpen] = useState(false);
-  const [detailProduct, setDetailProduct] = useState({});
+  const [detailProductId, setDetailProductId] = useState(null);
   const userInfo = useSelector(userInfoSelector);
 
   const handleOpenModalDetail = (item) => {
-    setDetailProduct(item);
+    setDetailProductId(item?._id);
     setOpen(!open);
   };
   const handleGetAllProduct = async () => {
@@ -25,7 +25,6 @@ const GetAllProduct = () => {
     if (!res.error) {
       setListProduct(res);
     }
-    console.log("🚀 ~ handleGetAllProduct ~ res:", res);
   };
 
   useEffect(() => {
@@ -151,11 +150,14 @@ const GetAllProduct = () => {
           <SwiperSlide>Slide 9</SwiperSlide>
         </Swiper>
       </Box>
-      <ModalDetailProduct
-        open={open}
-        handleOpenModalDetail={handleOpenModalDetail}
-        detailProduct={detailProduct}
-      />
+      {detailProductId && (
+        <ModalDetailProduct
+          open={open}
+          handleOpenModalDetail={handleOpenModalDetail}
+          detailProductId={detailProductId}
+          handleGetAllProduct={handleGetAllProduct}
+        />
+      )}
     </Container>
   );
 };

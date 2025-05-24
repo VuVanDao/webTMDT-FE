@@ -237,6 +237,7 @@ export const RecommendData = [
     ],
     size: ["S(<50kg)", "M(<60kg)", "L(<70kg)"],
   },
+  // id:9
   {
     id: 9,
     name: "Áo thun cottol local brand Mảvel Người Nhện Thiểu Năng | Áo vớ vẩn | 250gsm 100% cotton vui nhộn | Nhện",
@@ -245,7 +246,6 @@ export const RecommendData = [
       "https://down-vn.img.susercontent.com/file/vn-11134201-23030-4zaq8lbt3sovfc@resize_w450_nl",
     quantity: 10,
     sold: 3,
-
     color: [
       {
         id: 1,
