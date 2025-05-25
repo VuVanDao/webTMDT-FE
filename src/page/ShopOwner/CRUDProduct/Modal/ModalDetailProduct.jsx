@@ -19,6 +19,8 @@ import { ListTags } from "../../../../components/ListTags/ListTags";
 import { SizesList } from "../../../../components/SizeList/SizeList";
 import FormUpdateCategory from "./formUpdateCategory";
 import axios from "axios";
+import CommonButton from "../../../../components/CommonStyleButton/CommonButton";
+import FormUpdateImage from "./formUpdateImage";
 
 const style = {
   position: "absolute",
@@ -41,7 +43,7 @@ export const ModalDetailProduct = ({
   const [detailProduct, setDetailProduct] = useState({});
 
   const [imageProduct, setImageProduct] = useState(null);
-  const [Category, setCategory] = useState("");
+  const [Category, setCategory] = useState([]);
   const [listTags, setListTags] = useState([]);
   const [listSizes, setListSizes] = useState([]);
 
@@ -49,6 +51,8 @@ export const ModalDetailProduct = ({
   const [updatePrice, setUpdatePrice] = useState(false);
   const [updateTags, setUpdateTags] = useState(false);
   const [updateCategoryId, setUpdateCategoryId] = useState(false);
+  const [updateQuantity, setUpdateQuantity] = useState(false);
+  const [updateImage, setUpdateImage] = useState(false);
 
   const [openSizeList, setOpenSizeList] = useState(false);
 
@@ -84,20 +88,6 @@ export const ModalDetailProduct = ({
     });
   };
 
-  const updateDataProduct = (data) => {
-    const id = detailProduct?._id;
-    toast
-      .promise(update({ ...data, id }), {
-        pending: "Đang cập nhật chỉnh sửa",
-      })
-      .then((res) => {
-        if (!res.error) {
-          toast.success("Cập nhật thành công");
-          handleGetAllProduct();
-        }
-      });
-  };
-
   const handleUpdate = (newName, key) => {
     let data = {};
     if (key === "tagsId" || key === "size" || key === "tagsId&Size") {
@@ -131,6 +121,7 @@ export const ModalDetailProduct = ({
       );
       if (res) {
         item.image = res.data.secure_url;
+        item.imageToDisplay = res.data.secure_url;
       }
       return item;
     });
@@ -146,7 +137,38 @@ export const ModalDetailProduct = ({
       setDetailProduct(res);
     }
   };
+  const handleUpdateImage = async (imageDataClone) => {
+    const uploadPromises = imageDataClone.map(async (item) => {
+      let formData = new FormData();
+      formData.append("file", item?.image);
+      formData.append("upload_preset", "ReactUpload");
+      const res = await axios.post(
+        "https://api.cloudinary.com/v1_1/dlb4ooi7n/upload",
+        formData
+      );
+      if (res) {
+        return res.data.secure_url;
+      }
+    });
+    const updatedItems = await Promise.all(uploadPromises);
 
+    let data = { image: updatedItems };
+    updateDataProduct(data);
+  };
+
+  const updateDataProduct = (data) => {
+    const id = detailProduct?._id;
+    toast
+      .promise(update({ ...data, id }), {
+        pending: "Đang cập nhật chỉnh sửa",
+      })
+      .then((res) => {
+        if (!res.error) {
+          toast.success("Cập nhật thành công");
+          handleGetAllProduct();
+        }
+      });
+  };
   useEffect(() => {
     if (detailProductId) handleGetProductById(detailProductId);
   }, [handleGetAllProduct]);
@@ -157,20 +179,28 @@ export const ModalDetailProduct = ({
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        sx={{ overflowY: "scroll" }}
       >
         <Box sx={style}>
-          <Box sx={{ display: "flex", flexDirection: "row", gap: 10 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              gap: 10,
+            }}
+          >
             {/* right */}
             <Box
               sx={{
                 width: "500px",
                 height: "500px",
+                textAlign: "center",
               }}
             >
               {!imageProduct ? (
                 <img
                   src={
-                    detailProduct?.image?.length > 0
+                    detailProduct?.image?.length >= 1
                       ? detailProduct?.image[0]
                       : null
                   }
@@ -196,6 +226,12 @@ export const ModalDetailProduct = ({
                   "& .swiper": {
                     width: "300px",
                     height: "100px",
+                  },
+                  "& .swiper .swiper-button-prev": {
+                    color: (theme) => theme.commonColors,
+                  },
+                  "& .swiper .swiper-button-next": {
+                    color: (theme) => theme.commonColors,
                   },
                   "& .swiper-slide": {
                     textAlign: "center",
@@ -228,155 +264,217 @@ export const ModalDetailProduct = ({
                   })}
                 </Swiper>
               </Box>
+
+              <Box onClick={() => setUpdateImage(!updateImage)}>
+                {updateImage ? (
+                  <CommonButton value={"Trở về"} />
+                ) : (
+                  <CommonButton value={"Thay ảnh"} />
+                )}
+              </Box>
             </Box>
-
             {/* left */}
-            <Box sx={{ width: "1000px" }}>
-              {/* name */}
-              <Tooltip title="click to update">
-                <Typography
-                  variant="h6"
-                  onClick={() => setUpdateProductName(!updateProductName)}
-                >
-                  {detailProduct?.name}
-                </Typography>
-              </Tooltip>
-              {updateProductName && (
-                <ToggleFocusInput
-                  multiline
-                  value={detailProduct?.name}
-                  onChangedValue={(e) => handleUpdate(e, "name")}
-                  // inputFontSize="15px"
-                />
-              )}
-
-              {/* Gia ca */}
-              <Box
-                sx={{
-                  p: 2,
-                  bgcolor: "#f5f5f5",
-                  color: "red",
-                  mt: 3,
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <Typography
-                  variant="h5"
-                  onClick={() => setUpdatePrice(!updatePrice)}
-                >
-                  {formatPrice(detailProduct?.price)}
-                </Typography>
-                {updatePrice && (
+            {updateImage ? (
+              <FormUpdateImage
+                imageDataFromModal={detailProduct?.image}
+                handleUpdateImage={handleUpdateImage}
+              />
+            ) : (
+              <Box sx={{ width: "1000px" }}>
+                {/* name */}
+                <Tooltip title="click to update">
+                  <Typography
+                    variant="h6"
+                    onClick={() => setUpdateProductName(!updateProductName)}
+                  >
+                    {detailProduct?.name}
+                  </Typography>
+                </Tooltip>
+                {updateProductName && (
                   <ToggleFocusInput
                     multiline
-                    value={detailProduct?.price}
-                    onChangedValue={(e) => handleUpdate(e, "price")}
+                    value={detailProduct?.name}
+                    onChangedValue={(e) => handleUpdate(e, "name")}
                     // inputFontSize="15px"
                   />
                 )}
-              </Box>
 
-              {/* tags */}
-              <Box sx={{ mt: 3, width: "100%" }}>
+                {/* Gia ca */}
                 <Box
                   sx={{
-                    display: "flex",
+                    p: 2,
+                    bgcolor: "#f5f5f5",
+                    color: "red",
                     mt: 3,
-                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
                   }}
                 >
-                  <Box
-                    sx={{
-                      color: "#757575",
-                      width: "25%",
-                      cursor: "pointer",
-                    }}
+                  <Typography
+                    variant="h5"
+                    onClick={() => setUpdatePrice(!updatePrice)}
                   >
-                    <Typography onClick={() => setUpdateTags(!updateTags)}>
-                      Loại sản phẩm
-                    </Typography>
-                  </Box>
-                  {detailProduct?.tagsId?.length === 0 ? (
-                    <Typography onClick={() => setUpdateTags(!updateTags)}>
-                      Thêm loại
-                    </Typography>
-                  ) : (
-                    <Box sx={{ display: "flex", gap: 3 }}>
-                      {detailProduct?.tagsId?.map((item, index) => {
-                        return (
-                          <Box
-                            key={index}
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 1,
-                              cursor: "pointer",
-                              mb: 1,
-                              border: "1px solid black",
-                              p: "5px 10px",
-                            }}
-                          >
-                            <Typography variant="caption">{item}</Typography>
-                          </Box>
-                        );
-                      })}
-                    </Box>
+                    {formatPrice(detailProduct?.price)}
+                  </Typography>
+                  {updatePrice && (
+                    <ToggleFocusInput
+                      multiline
+                      value={detailProduct?.price}
+                      onChangedValue={(e) => handleUpdate(e, "price")}
+                      // inputFontSize="15px"
+                    />
                   )}
                 </Box>
 
-                {updateTags && (
-                  <ListTags
-                    tagsIdData={detailProduct?.tagsId}
-                    handleSelectTags={handleSelectTags}
-                  />
-                )}
-                {openSizeList && detailProduct?.size?.length === 0 && (
-                  <SizesList
-                    open={openSizeList}
-                    handleSelectSize={handleSelectSize}
-                  />
-                )}
-                {updateTags && (
-                  <Button
-                    variant="contained"
-                    sx={{ bgcolor: (theme) => theme.commonColors }}
-                    onClick={(e) =>
-                      handleUpdate(e, openSizeList ? "tagsId&Size" : "tagsId")
-                    }
-                  >
-                    Xong!
-                  </Button>
-                )}
-              </Box>
-
-              {/* phan loai */}
-              <Box sx={{ mt: 3, width: "100%" }}>
-                <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
+                {/* tags */}
+                <Box sx={{ mt: 3, width: "100%" }}>
                   <Box
                     sx={{
-                      color: "#757575",
-                      width: "20%",
-                      cursor: "pointer",
-                      mb: 2,
+                      display: "flex",
+                      mt: 3,
+                      width: "100%",
                     }}
                   >
-                    <Typography
-                      onClick={() => setUpdateCategoryId(!updateCategoryId)}
+                    <Box
+                      sx={{
+                        color: "#757575",
+                        width: "25%",
+                        cursor: "pointer",
+                      }}
                     >
-                      Phân loại
-                    </Typography>
+                      <Typography onClick={() => setUpdateTags(!updateTags)}>
+                        Loại sản phẩm
+                      </Typography>
+                    </Box>
+                    {detailProduct?.tagsId?.length === 0 ? (
+                      <Typography onClick={() => setUpdateTags(!updateTags)}>
+                        Thêm loại
+                      </Typography>
+                    ) : (
+                      <Box sx={{ display: "flex", gap: 3 }}>
+                        {detailProduct?.tagsId?.map((item, index) => {
+                          return (
+                            <Box
+                              key={index}
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1,
+                                cursor: "pointer",
+                                mb: 1,
+                                border: "1px solid black",
+                                p: "5px 10px",
+                              }}
+                            >
+                              <Typography variant="caption">{item}</Typography>
+                            </Box>
+                          );
+                        })}
+                      </Box>
+                    )}
                   </Box>
-                  {detailProduct?.categoryId?.length === 0 ? (
-                    <Typography
-                      onClick={() => setUpdateCategoryId(!updateCategoryId)}
-                      sx={{ color: "#757575", cursor: "pointer" }}
+
+                  {updateTags && (
+                    <ListTags
+                      tagsIdData={detailProduct?.tagsId}
+                      handleSelectTags={handleSelectTags}
+                    />
+                  )}
+                  {openSizeList && detailProduct?.size?.length === 0 && (
+                    <SizesList
+                      open={openSizeList}
+                      handleSelectSize={handleSelectSize}
+                    />
+                  )}
+                  {updateTags && (
+                    <Button
+                      variant="contained"
+                      sx={{ bgcolor: (theme) => theme.commonColors }}
+                      onClick={(e) =>
+                        handleUpdate(e, openSizeList ? "tagsId&Size" : "tagsId")
+                      }
                     >
-                      Thêm các phân loại sủa sản phẩm
-                    </Typography>
-                  ) : (
+                      Xong!
+                    </Button>
+                  )}
+                </Box>
+
+                {/* phan loai */}
+                <Box sx={{ mt: 3, width: "100%" }}>
+                  <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
+                    <Box
+                      sx={{
+                        color: "#757575",
+                        width: "20%",
+                        cursor: "pointer",
+                        mb: 2,
+                      }}
+                    >
+                      <Typography
+                        onClick={() => setUpdateCategoryId(!updateCategoryId)}
+                      >
+                        Phân loại
+                      </Typography>
+                    </Box>
+                    {detailProduct?.categoryId?.length === 0 ? (
+                      <Typography
+                        onClick={() => setUpdateCategoryId(!updateCategoryId)}
+                        sx={{ color: "#757575", cursor: "pointer" }}
+                      >
+                        Thêm các phân loại sủa sản phẩm
+                      </Typography>
+                    ) : (
+                      <Box sx={{ display: "flex", gap: 3 }}>
+                        {detailProduct?.categoryId?.map((item, index) => {
+                          return (
+                            <Box
+                              key={index}
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1,
+                                cursor: "pointer",
+                                mb: 1,
+                                border: "1px solid #757575",
+                                p: "5px",
+                              }}
+                              // onClick={() => {
+                              //   setDisplayImage(item.image);
+                              //   setSelectColor(item.name);
+                              // }}
+                            >
+                              <img
+                                src={item?.image}
+                                alt={item?.name}
+                                style={{ width: "30px", height: "30px" }}
+                              />
+                              <Typography variant="caption">
+                                {item?.name}
+                              </Typography>
+                            </Box>
+                          );
+                        })}
+                      </Box>
+                    )}
+                  </Box>
+                  <FormUpdateCategory
+                    open={updateCategoryId}
+                    handleUpdateCategoryId={handleUpdateCategoryId}
+                    categoryIdDataFromModal={detailProduct?.categoryId}
+                  />
+                </Box>
+
+                {/* kich co */}
+                <Box sx={{ mt: 3, width: "100%" }}>
+                  <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
+                    <Box
+                      sx={{ color: "#757575", width: "20%", cursor: "pointer" }}
+                      onClick={() => setOpenSizeList(!openSizeList)}
+                    >
+                      {detailProduct?.size?.length > 0 && "Kích cỡ"}
+                    </Box>
                     <Box sx={{ display: "flex", gap: 3 }}>
-                      {detailProduct?.categoryId?.map((item, index) => {
+                      {detailProduct?.size?.map((item, index) => {
                         return (
                           <Box
                             key={index}
@@ -387,91 +485,55 @@ export const ModalDetailProduct = ({
                               cursor: "pointer",
                               mb: 1,
                               border: "1px solid #757575",
-                              p: "5px",
+                              p: "5px 10px",
                             }}
-                            // onClick={() => {
-                            //   setDisplayImage(item.image);
-                            //   setSelectColor(item.name);
-                            // }}
                           >
-                            <img
-                              src={item?.image}
-                              alt={item?.name}
-                              style={{ width: "30px", height: "30px" }}
-                            />
-                            <Typography variant="caption">
-                              {item?.name}
-                            </Typography>
+                            <Typography variant="caption">{item}</Typography>
                           </Box>
                         );
                       })}
                     </Box>
+                  </Box>
+                  {openSizeList && detailProduct?.size?.length >= 0 && (
+                    <SizesList
+                      sizeData={detailProduct?.size}
+                      open={openSizeList}
+                      handleSelectSize={handleSelectSize}
+                    />
+                  )}
+                  {openSizeList && detailProduct?.size?.length >= 0 && (
+                    <Button
+                      variant="contained"
+                      sx={{ bgcolor: (theme) => theme.commonColors }}
+                      onClick={(e) => handleUpdate(e, "size")}
+                    >
+                      Xong!
+                    </Button>
                   )}
                 </Box>
-                <FormUpdateCategory
-                  open={updateCategoryId}
-                  handleUpdateCategoryId={handleUpdateCategoryId}
-                  categoryIdDataFromModal={detailProduct?.categoryId}
-                />
-              </Box>
 
-              {/* kich co */}
-              <Box sx={{ mt: 3, width: "100%" }}>
+                {/* so luong */}
                 <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
                   <Box
                     sx={{ color: "#757575", width: "20%", cursor: "pointer" }}
-                    onClick={() => setOpenSizeList(!openSizeList)}
+                    onClick={() => setUpdateQuantity(!updateQuantity)}
                   >
-                    {detailProduct?.size?.length > 0 && "Kích cỡ"}
+                    Số lượng
                   </Box>
-                  <Box sx={{ display: "flex", gap: 3 }}>
-                    {detailProduct?.size?.map((item, index) => {
-                      return (
-                        <Box
-                          key={index}
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1,
-                            cursor: "pointer",
-                            mb: 1,
-                            border: "1px solid #757575",
-                            p: "5px 10px",
-                          }}
-                        >
-                          <Typography variant="caption">{item}</Typography>
-                        </Box>
-                      );
-                    })}
-                  </Box>
+                  <Typography>
+                    Số lượng có sẵn:
+                    {detailProduct?.quantity - detailProduct?.sold}
+                  </Typography>
+                  {updateQuantity && (
+                    <ToggleFocusInput
+                      value={detailProduct?.quantity}
+                      onChangedValue={(e) => handleUpdate(e, "quantity")}
+                      // inputFontSize="15px"
+                    />
+                  )}
                 </Box>
-                {openSizeList && detailProduct?.size?.length >= 0 && (
-                  <SizesList
-                    sizeData={detailProduct?.size}
-                    open={openSizeList}
-                    handleSelectSize={handleSelectSize}
-                  />
-                )}
-                {openSizeList && detailProduct?.size?.length >= 0 && (
-                  <Button
-                    variant="contained"
-                    sx={{ bgcolor: (theme) => theme.commonColors }}
-                    onClick={(e) => handleUpdate(e, "size")}
-                  >
-                    Xong!
-                  </Button>
-                )}
               </Box>
-
-              {/* so luong */}
-              <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
-                <Box sx={{ color: "#757575", width: "20%" }}>Số lượng</Box>
-                <Typography>
-                  Số lượng có sẵn:
-                  {detailProduct?.quantity - detailProduct?.sold}
-                </Typography>
-              </Box>
-            </Box>
+            )}
           </Box>
         </Box>
       </Modal>

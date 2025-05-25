@@ -1,97 +1,85 @@
-import { Box, Button, TextField, Tooltip } from "@mui/material";
+import { Box, Button, TextField, Tooltip, Typography } from "@mui/material";
 import CustomInputFile from "../../../../components/customInputFile/customInputFile";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-const FormUpdateCategory = ({
-  open,
-  handleUpdateCategoryId,
-  categoryIdDataFromModal,
-}) => {
-  const [categoryData, setCategoryData] = useState([
+const FormUpdateImage = ({ handleUpdateImage, imageDataFromModal }) => {
+  const [imageData, setImageData] = useState([
     {
       id: uuidv4(),
-      name: null,
       image: null,
       imageToDisplay: null,
     },
   ]);
-  const handleAddNewCategory = () => {
-    let categoryDataClone = {
+
+  const handleAddNewImage = () => {
+    let imageDataClone = {
       id: uuidv4(),
       name: null,
       image: null,
       imageToDisplay: null,
     };
-    setCategoryData([...categoryData, categoryDataClone]);
+    setImageData([...imageData, imageDataClone]);
   };
 
-  const handleDeleteCategory = (id) => {
-    const categoryDataClone = [...categoryData];
-    const res = categoryDataClone.filter((item) => item.id !== id);
-    setCategoryData(res);
-  };
-
-  const handleChangeValue = (e, id) => {
-    const categoryDataClone = [...categoryData];
-    const result = categoryDataClone.find((item) => item.id === id);
-    result.name = e;
+  const handleDeleteImage = (id) => {
+    const imageDataClone = [...imageData];
+    const res = imageDataClone.filter((item) => item.id !== id);
+    setImageData(res);
   };
 
   const handleUploadImage = (e, id) => {
     if (e) {
-      const categoryDataClone = [...categoryData];
-      categoryDataClone.find((item) => item.id === id).image = e[0];
-      categoryDataClone.find((item) => item.id === id).imageToDisplay =
+      const imageDataClone = [...imageData];
+      imageDataClone.find((item) => item.id === id).image = e[0];
+      imageDataClone.find((item) => item.id === id).imageToDisplay =
         URL.createObjectURL(e[0]);
-      setCategoryData(categoryDataClone);
+      setImageData(imageDataClone);
     }
   };
-  const handleDeleteImage = (id) => {
-    const categoryDataClone = [...categoryData];
-    categoryDataClone.find((item) => item.id === id).image = null;
-    categoryDataClone.find((item) => item.id === id).imageToDisplay = null;
-    setCategoryData(categoryDataClone);
-  };
+
   const handleConfirm = () => {
-    const categoryDataClone = [...categoryData];
-    handleUpdateCategoryId(categoryDataClone);
-    let categoryDataClear = {
+    const imageDataClone = [...imageData];
+    handleUpdateImage(imageDataClone);
+    let imageDataClear = {
       id: uuidv4(),
-      name: null,
       image: null,
       imageToDisplay: null,
     };
-    setCategoryData([categoryDataClear]);
+    setImageData([imageDataClear]);
   };
 
   useEffect(() => {
-    if (categoryIdDataFromModal?.length >= 1) {
-      setCategoryData(categoryIdDataFromModal);
+    if (imageDataFromModal?.length >= 1) {
+      imageDataFromModal = imageDataFromModal.map((item) => {
+        return {
+          id: uuidv4(),
+          image: item,
+          imageToDisplay: item,
+        };
+      });
+      setImageData(imageDataFromModal);
     }
-  }, [categoryIdDataFromModal]);
+  }, [imageDataFromModal]);
 
-  if (!open) {
-    return "";
-  }
-
-  if (categoryIdDataFromModal?.length >= 1) {
+  if (imageDataFromModal?.length >= 1) {
     return (
-      <Box>
-        {categoryData?.map(({ id, name, image, imageToDisplay }) => {
+      <Box sx={{ width: "1000px", overflow: "auto" }}>
+        <Typography variant="h5" mb={3}>
+          Ảnh của sản phẩm (Sau khi xác nhận hãy chờ trong vài giây)
+        </Typography>
+        {imageData?.map(({ id, image, imageToDisplay }) => {
           return (
             <Box key={id} mb={2}>
               <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
                 <Box>
-                  <TextField
-                    placeholder="Tên loại"
-                    defaultValue={name}
-                    sx={{
-                      "& input": {
-                        height: "10px",
-                      },
+                  <img
+                    src={imageToDisplay}
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      border: "1px solid",
                     }}
-                    onChange={(e) => handleChangeValue(e.target.value, id)}
                   />
                 </Box>
                 <Box>
@@ -115,31 +103,19 @@ const FormUpdateCategory = ({
                     variant="contained"
                     color="primary"
                     sx={{ mr: 2 }}
-                    onClick={handleAddNewCategory}
+                    onClick={handleAddNewImage}
                   >
                     Thêm
                   </Button>
                   <Button
                     variant="contained"
                     color="error"
-                    onClick={() => handleDeleteCategory(id)}
+                    onClick={() => handleDeleteImage(id)}
                   >
                     Xoá
                   </Button>
                 </Box>
               </Box>
-              <Tooltip
-                title="click to delete"
-                onClick={() => handleDeleteImage(id)}
-              >
-                <img
-                  src={imageToDisplay}
-                  style={{
-                    width: "100px",
-                    //   border: "1px solid",
-                  }}
-                />
-              </Tooltip>
             </Box>
           );
         })}
@@ -153,21 +129,24 @@ const FormUpdateCategory = ({
       </Box>
     );
   }
+
   return (
-    <Box>
-      {categoryData?.map(({ id, name, image, imageToDisplay }) => {
+    <Box sx={{ width: "1000px" }}>
+      <Typography variant="h5" mb={3}>
+        Ảnh của sản phẩm
+      </Typography>
+      {imageData?.map(({ id, image, imageToDisplay }) => {
         return (
           <Box key={id}>
             <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
               <Box>
-                <TextField
-                  placeholder="Tên loại"
-                  sx={{
-                    "& input": {
-                      height: "10px",
-                    },
+                <img
+                  src={imageToDisplay}
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    border: "1px solid",
                   }}
-                  onChange={(e) => handleChangeValue(e.target.value, id)}
                 />
               </Box>
               <Box>
@@ -191,31 +170,19 @@ const FormUpdateCategory = ({
                   variant="contained"
                   color="primary"
                   sx={{ mr: 2 }}
-                  onClick={handleAddNewCategory}
+                  onClick={handleAddNewImage}
                 >
                   Thêm
                 </Button>
                 <Button
                   variant="contained"
                   color="error"
-                  onClick={() => handleDeleteCategory(id)}
+                  onClick={() => handleDeleteImage(id)}
                 >
                   Xoá
                 </Button>
               </Box>
             </Box>
-            <Tooltip
-              title="click to delete"
-              onClick={() => handleDeleteImage(id)}
-            >
-              <img
-                src={imageToDisplay}
-                style={{
-                  width: "100px",
-                  //   border: "1px solid",
-                }}
-              />
-            </Tooltip>
           </Box>
         );
       })}
@@ -230,4 +197,4 @@ const FormUpdateCategory = ({
   );
 };
 
-export default FormUpdateCategory;
+export default FormUpdateImage;
