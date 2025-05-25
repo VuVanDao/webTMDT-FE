@@ -125,7 +125,6 @@ export const ModalDetailProduct = ({
       let formData = new FormData();
       formData.append("file", item?.image);
       formData.append("upload_preset", "ReactUpload");
-      delete item["imageToDisplay"];
       const res = await axios.post(
         "https://api.cloudinary.com/v1_1/dlb4ooi7n/upload",
         formData
@@ -412,6 +411,7 @@ export const ModalDetailProduct = ({
                 <FormUpdateCategory
                   open={updateCategoryId}
                   handleUpdateCategoryId={handleUpdateCategoryId}
+                  categoryIdDataFromModal={detailProduct?.categoryId}
                 />
               </Box>
 
