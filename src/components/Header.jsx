@@ -46,8 +46,7 @@ const Header = ({ showHeader }) => {
     return (
       <Box
         sx={{
-          // height: (theme) => theme.customHeight.Header,
-          width: "100%",
+          minWidth: "100vw !important",
           bgcolor: (theme) => theme.commonColors,
           color: "white",
           p: 0.25,
@@ -120,7 +119,7 @@ const Header = ({ showHeader }) => {
     <Box
       sx={{
         height: (theme) => theme.customHeight.Header,
-        width: "100%",
+        minWidth: "1200px !important",
         bgcolor: (theme) => theme.commonColors,
         color: "white",
         p: 0.25,
@@ -245,10 +244,8 @@ const Header = ({ showHeader }) => {
                   {...params}
                   onChange={(e) => handleSearch(e.target.value)}
                   sx={{
-                    width: {
-                      md: "700px",
-                      sm: "400px",
-                    },
+                    width: "700px",
+
                     "& .MuiOutlinedInput-root": {
                       color: "white",
                       "& fieldset": {

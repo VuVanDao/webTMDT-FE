@@ -4,16 +4,14 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { formatPrice } from "../../../../utils/formatter";
 import { Grid, Rating, TextField, Tooltip } from "@mui/material";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import ToggleFocusInput from "../../../../components/customInputFile/ToggleFocusInput";
-import { useDispatch } from "react-redux";
-import { updateUserAPI } from "../../../../redux/slice/userInfoSlice";
+
 import { getProductById, update } from "../../../../api";
 import { ListTags } from "../../../../components/ListTags/ListTags";
 import { SizesList } from "../../../../components/SizeList/SizeList";
@@ -43,9 +41,9 @@ export const ModalDetailProduct = ({
   const [detailProduct, setDetailProduct] = useState({});
 
   const [imageProduct, setImageProduct] = useState(null);
-  const [Category, setCategory] = useState([]);
   const [listTags, setListTags] = useState([]);
   const [listSizes, setListSizes] = useState([]);
+  const [valueDescription, setValueDescription] = useState(null);
 
   const [updateProductName, setUpdateProductName] = useState(false);
   const [updatePrice, setUpdatePrice] = useState(false);
@@ -53,6 +51,7 @@ export const ModalDetailProduct = ({
   const [updateCategoryId, setUpdateCategoryId] = useState(false);
   const [updateQuantity, setUpdateQuantity] = useState(false);
   const [updateImage, setUpdateImage] = useState(false);
+  const [updateDescription, setUpdateDescription] = useState(false);
 
   const [openSizeList, setOpenSizeList] = useState(false);
 
@@ -273,6 +272,7 @@ export const ModalDetailProduct = ({
                 )}
               </Box>
             </Box>
+
             {/* left */}
             {updateImage ? (
               <FormUpdateImage
@@ -421,7 +421,8 @@ export const ModalDetailProduct = ({
                         onClick={() => setUpdateCategoryId(!updateCategoryId)}
                         sx={{ color: "#757575", cursor: "pointer" }}
                       >
-                        Thêm các phân loại sủa sản phẩm
+                        Thêm các phân loại sủa sản phẩm (sau khi ấn xác nhận,
+                        hãy chờ 1 chút)
                       </Typography>
                     ) : (
                       <Box sx={{ display: "flex", gap: 3 }}>
@@ -438,10 +439,6 @@ export const ModalDetailProduct = ({
                                 border: "1px solid #757575",
                                 p: "5px",
                               }}
-                              // onClick={() => {
-                              //   setDisplayImage(item.image);
-                              //   setSelectColor(item.name);
-                              // }}
                             >
                               <img
                                 src={item?.image}
@@ -529,6 +526,37 @@ export const ModalDetailProduct = ({
                       value={detailProduct?.quantity}
                       onChangedValue={(e) => handleUpdate(e, "quantity")}
                       // inputFontSize="15px"
+                    />
+                  )}
+                </Box>
+
+                {/* mieu ta*/}
+                <Box
+                  sx={{
+                    mt: 3,
+                    width: "100%",
+                  }}
+                >
+                  <Box
+                    sx={{ color: "#757575", width: "45%", cursor: "pointer" }}
+                    onClick={() => setUpdateDescription(!updateDescription)}
+                  >
+                    Miêu tả sản phẩm (Click to open)
+                  </Box>
+                  {updateDescription && (
+                    <TextField
+                      multiline
+                      defaultValue={detailProduct?.description}
+                      onBlur={(e) =>
+                        handleUpdate(e.target.value, "description")
+                      }
+                      sx={{
+                        maxHeight: "220px",
+                        width: "100%",
+                        overflow: "auto",
+                        bgcolor: "#f5f5f5",
+                      }}
+                      onChanged={setValueDescription}
                     />
                   )}
                 </Box>

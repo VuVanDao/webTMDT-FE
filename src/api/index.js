@@ -34,9 +34,17 @@ export const refreshTokenAPI = async () => {
   );
   return response.data;
 };
+
 export const getAllShop = async () => {
   const response = await authorizeAxiosInstance.get(
     `${apiRoot}/v1/users/get_all_shop`
+  );
+  return response.data;
+};
+
+export const getAllProductUser = async () => {
+  const response = await authorizeAxiosInstance.get(
+    `${apiRoot}/v1/users/get_All_Product`
   );
   return response.data;
 };

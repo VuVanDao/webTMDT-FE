@@ -16,17 +16,25 @@ import {
 import Paper from "@mui/material/Paper";
 import Header from "../Header";
 import { formatPrice } from "../../utils/formatter";
-import { RecommendData } from "../../Data/RecommenData";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateUserAPI,
+  userInfoSelector,
+} from "../../redux/slice/userInfoSlice";
+import { toast } from "react-toastify";
 
 const CartDetail = () => {
   const navigate = useNavigate();
   const [dataCardDetail, setDataCardDetail] = useState([]);
+  const userInfo = useSelector(userInfoSelector);
+  const dispatch = useDispatch();
   useEffect(() => {
-    if (data) {
-      setDataCardDetail(data?.cart);
+    if (userInfo) {
+      setDataCardDetail(userInfo?.cartItem);
     }
-  }, [data]);
+  }, [userInfo]);
+
   const handleCheckOut = (item) => {
     navigate(`/checkout?id=${item.id}`, {
       state: { data: item, check: true },
@@ -34,7 +42,25 @@ const CartDetail = () => {
   };
   const deleteFromCart = (id) => {
     const result = [...dataCardDetail];
-    setDataCardDetail(result.filter((i) => i.id !== id));
+    toast
+      .promise(
+        dispatch(
+          updateUserAPI({
+            cartItem:
+              result?.length === 1
+                ? []
+                : [...result.filter((i) => i.id !== id)],
+          })
+        ),
+        {
+          pending: ".....",
+        }
+      )
+      .then((res) => {
+        if (!res.error) {
+          toast.success("Ok");
+        }
+      });
   };
   return (
     <Box>
@@ -88,7 +114,8 @@ const CartDetail = () => {
                   </TableCell>
                   <TableCell align="center">
                     {formatPrice(
-                      RecommendData.find((i) => i.id === item?.id)?.price
+                      dataCardDetail?.find((i) => i.id === item?.id)?.price /
+                        dataCardDetail?.find((i) => i.id === item?.id)?.quantity
                     )}
                   </TableCell>
                   <TableCell align="center">

@@ -26,6 +26,7 @@ const Settings = () => {
             alignItems: "center",
             gap: 1,
             cursor: "pointer",
+            color: "black",
           }}
         >
           <Avatar
@@ -34,19 +35,19 @@ const Settings = () => {
           />
           <Typography>{userInfo?.username}</Typography>
         </Box>
-        <Box>
+        <Box sx={{ color: "black" }}>
           <Typography sx={SettingStyles}>
             <NotificationsNoneIcon sx={SettingText} />
             Thông báo
           </Typography>
         </Box>
-        <Box>
+        <Box sx={{ color: "black" }}>
           <Typography sx={SettingStyles}>
             <PersonOutlineIcon sx={SettingText} />
             Tài khoản của tôi
           </Typography>
         </Box>
-        <Box>
+        <Box sx={{ color: "black" }}>
           <Typography sx={SettingStyles}>
             <ContentPasteIcon sx={SettingText} />
             Đơn mua

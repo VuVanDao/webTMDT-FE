@@ -1,5 +1,12 @@
-import { Box, Button, Container, Rating, Typography } from "@mui/material";
-import React, { use, useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Rating,
+  Typography,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { RecommendData } from "../../Data/RecommenData";
 import Header from "../../components/Header";
@@ -9,28 +16,45 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { toast } from "react-toastify";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { data } from "../../Data/CartData";
-import { useSelector } from "react-redux";
-import { userInfoSelector } from "../../redux/slice/userInfoSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateUserAPI,
+  userInfoSelector,
+} from "../../redux/slice/userInfoSlice";
+import { getProductById } from "../../api";
+
+import "swiper/css/navigation";
+import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 const Detail = () => {
   const [DetailData, setDetailData] = useState(null);
   const [displayImage, setDisplayImage] = useState(null);
   const [SelectQuantity, setSelectQuantity] = useState(1);
-  const [SelectColor, setSelectColor] = useState("");
+  const [SelectCategory, setSelectCategory] = useState("");
   const [size, setSize] = useState("");
-  const [selection, setSelection] = useState({});
+  const [dataCartFromUserSlice, setDataCartFromUserSlice] = useState([]);
+
   const navigate = useNavigate();
   let [searchParams] = useSearchParams();
   const { id } = Object.fromEntries([...searchParams]);
+
   const userInfo = useSelector(userInfoSelector);
+
+  const dispatch = useDispatch();
+
+  const getDataProduct = async (id) => {
+    const getData = await getProductById(id);
+    if (!getData) {
+      navigate("/");
+    }
+    setDetailData(getData);
+    setDisplayImage(getData?.image[0]);
+  };
   useEffect(() => {
+    setDataCartFromUserSlice(userInfo?.cartItem);
     if (id) {
-      const getData = RecommendData.find((item) => item.id == id);
-      if (!getData) {
-        navigate("/");
-      }
-      setDetailData(getData);
-      setDisplayImage(getData?.image);
+      getDataProduct(id);
     }
   }, [id]);
   const handleDecrement = () => {
@@ -49,7 +73,7 @@ const Detail = () => {
     }
 
     if (choose === "buy") {
-      if (!SelectColor) {
+      if (!SelectCategory) {
         toast.error("Vui lòng chọn phân loại sản phẩm");
         return;
       }
@@ -59,19 +83,23 @@ const Detail = () => {
       }
       let dataSend = {
         name: DetailData?.name,
-        color: SelectColor ? SelectColor : DetailData[0]?.color[0]?.name,
-        image: displayImage ? displayImage : DetailData?.color[0]?.image,
+        category: SelectCategory
+          ? SelectCategory
+          : DetailData[0]?.categoryId[0]?.name,
+        image: displayImage ? displayImage : DetailData?.categoryId[0]?.image,
         quantity: SelectQuantity ? SelectQuantity : 1,
         price: price,
         size: size ? size : null,
+        idProduct: id,
+        cartOwnerId: userInfo?._id,
       };
-      setSelection(dataSend);
+
       navigate(`/checkout?id=${id}`, {
         state: { data: dataSend },
       });
     } else {
-      if (DetailData.color.length > 0) {
-        if (!SelectColor) {
+      if (DetailData?.categoryId.length > 0) {
+        if (!SelectCategory) {
           toast.error("Vui lòng chọn phân loại sản phẩm");
           return;
         }
@@ -89,20 +117,40 @@ const Detail = () => {
       }
       let dataSend = {
         name: DetailData?.name,
-        color: SelectColor ? SelectColor : DetailData?.color[0]?.name,
-        image: displayImage ? displayImage : DetailData?.color[0]?.image,
+        category: SelectCategory
+          ? SelectCategory
+          : DetailData?.categoryId[0]?.name,
+        image: displayImage ? displayImage : DetailData?.categoryId[0]?.image,
         quantity: SelectQuantity ? SelectQuantity : 1,
         price: price,
         size: size ? size : null,
+        id,
       };
-      data.cart.push({
-        ...dataSend,
-        // id: data.cart.length + 1,
-        id: +id,
-        image: dataSend.image,
-      });
-      setSelection(dataSend);
-      toast.success("Thêm vào giỏ hàng thành công");
+      toast
+        .promise(
+          dispatch(
+            updateUserAPI({
+              cartItem: [
+                ...dataCartFromUserSlice,
+                {
+                  ...dataSend,
+                  cartOwnerId: userInfo?._id,
+                },
+              ],
+            })
+          ),
+          {
+            pending: "Đang cập nhật giỏ hàng",
+          }
+        )
+        .then((res) => {
+          if (!res.error) {
+            toast.success("Sản phẩm đã thêm vào giỏ hàng thành công");
+          }
+        })
+        .finally((res) => {
+          // console.log("🚀 ~ ).then ~ res:", res);
+        });
     }
   };
 
@@ -115,20 +163,71 @@ const Detail = () => {
           py: 3,
         }}
       >
-        <Container sx={{}}>
+        <Container sx={{ minWidth: "1200px !important" }}>
           <Box sx={{ bgcolor: "white", color: "black", p: 3 }}>
             <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
               <Box
                 sx={{
                   width: "500px",
                   height: "500px",
+                  textAlign: "center",
                 }}
               >
                 <img
                   src={displayImage}
                   alt={DetailData?.name}
-                  style={{ width: "100%" }}
+                  style={{
+                    width: "100%",
+                    border: "1px solid",
+                    maxWidth: "350px",
+                  }}
                 />
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    gap: 1,
+                    "& .swiper": {
+                      width: "300px",
+                      height: "100px",
+                    },
+                    "& .swiper .swiper-button-prev": {
+                      color: (theme) => theme.commonColors,
+                    },
+                    "& .swiper .swiper-button-next": {
+                      color: (theme) => theme.commonColors,
+                    },
+                    "& .swiper-slide": {
+                      textAlign: "center",
+                      fontSize: "18px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    },
+                  }}
+                >
+                  <Swiper
+                    navigation={true}
+                    modules={[Navigation]}
+                    slidesPerView={1}
+                    spaceBetween={30}
+                  >
+                    {DetailData?.image?.map((i, index) => {
+                      return (
+                        <SwiperSlide key={index}>
+                          <Grid>
+                            <img
+                              src={i}
+                              alt={i}
+                              style={{ width: "80px", border: "1px solid" }}
+                              onClick={() => setDisplayImage(i)}
+                            />
+                          </Grid>
+                        </SwiperSlide>
+                      );
+                    })}
+                  </Swiper>
+                </Box>
               </Box>
               <Box>
                 <Typography variant="h6">{DetailData?.name}</Typography>
@@ -142,12 +241,15 @@ const Detail = () => {
                     },
                   }}
                 />
+
+                {/* price */}
                 <Box sx={{ p: 2, bgcolor: "#f5f5f5", color: "red" }}>
                   <Typography variant="h5">
                     {formatPrice(DetailData?.price)}
                   </Typography>
                 </Box>
 
+                {/* ship option */}
                 <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
                   <Box sx={{ color: "#757575", width: "20%" }}>Vận chuyển</Box>
                   <Box>
@@ -175,11 +277,11 @@ const Detail = () => {
                 {/* phan loai */}
                 <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
                   <Box sx={{ color: "#757575", width: "20%" }}>
-                    {DetailData?.color?.length > 0 && "Phân loại"}
+                    {DetailData?.categoryId?.length > 0 && "Phân loại"}
                   </Box>
                   <Box sx={{ display: "flex", gap: 3 }}>
-                    {DetailData?.color?.map((item) => {
-                      if (item.name === SelectColor) {
+                    {DetailData?.categoryId?.map((item) => {
+                      if (item.name === SelectCategory) {
                         return (
                           <Box
                             key={item.id}
@@ -190,11 +292,11 @@ const Detail = () => {
                               cursor: "pointer",
                               mb: 1,
                               border: "1px solid red",
-                              p: "5px",
+                              p: "5px 10px",
                             }}
                             onClick={() => {
                               setDisplayImage(item.image);
-                              setSelectColor(item.name);
+                              setSelectCategory(item.name);
                             }}
                           >
                             <img
@@ -216,11 +318,11 @@ const Detail = () => {
                               cursor: "pointer",
                               mb: 1,
                               border: "1px solid #757575",
-                              p: "5px",
+                              p: "5px 10px",
                             }}
                             onClick={() => {
                               setDisplayImage(item.image);
-                              setSelectColor(item.name);
+                              setSelectCategory(item.name);
                             }}
                           >
                             <img
@@ -242,11 +344,11 @@ const Detail = () => {
                     {DetailData?.size?.length > 0 && "Kích cỡ"}
                   </Box>
                   <Box sx={{ display: "flex", gap: 3 }}>
-                    {DetailData?.size?.map((item) => {
+                    {DetailData?.size?.map((item, index) => {
                       if (item === size) {
                         return (
                           <Box
-                            key={item.id}
+                            key={index}
                             sx={{
                               display: "flex",
                               alignItems: "center",
@@ -254,7 +356,7 @@ const Detail = () => {
                               cursor: "pointer",
                               mb: 1,
                               border: "1px solid red",
-                              p: "5px 25px",
+                              p: "5px 10px",
                             }}
                             onClick={() => {
                               setSize(item);
@@ -266,7 +368,7 @@ const Detail = () => {
                       } else {
                         return (
                           <Box
-                            key={item.id}
+                            key={index}
                             sx={{
                               display: "flex",
                               alignItems: "center",
@@ -274,7 +376,7 @@ const Detail = () => {
                               cursor: "pointer",
                               mb: 1,
                               border: "1px solid #757575",
-                              p: "5px 25px",
+                              p: "5px 10px",
                             }}
                             onClick={() => {
                               setSize(item);

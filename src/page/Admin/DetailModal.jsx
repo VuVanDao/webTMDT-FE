@@ -15,7 +15,6 @@ export const DetailModal = ({
   setDataDetailShop,
   handleGetAllShop,
 }) => {
-  console.log("🚀 ~ dataDetailShop:", dataDetailShop);
   const handleClose = () => {
     setDataDetailShop(null);
     setOpenModal(!openModal);

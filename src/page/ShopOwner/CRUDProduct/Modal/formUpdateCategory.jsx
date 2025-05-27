@@ -2,6 +2,7 @@ import { Box, Button, TextField, Tooltip } from "@mui/material";
 import CustomInputFile from "../../../../components/customInputFile/customInputFile";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { Lightbox } from "yet-another-react-lightbox";
 
 const FormUpdateCategory = ({
   open,
@@ -16,6 +17,9 @@ const FormUpdateCategory = ({
       imageToDisplay: null,
     },
   ]);
+
+  const [openImage, setOpenImage] = useState(false);
+
   const handleAddNewCategory = () => {
     let categoryDataClone = {
       id: uuidv4(),
@@ -129,8 +133,8 @@ const FormUpdateCategory = ({
                 </Box>
               </Box>
               <Tooltip
-                title="click to delete"
-                onClick={() => handleDeleteImage(id)}
+                title="click to view"
+                onClick={() => setOpenImage(!openImage)}
               >
                 <img
                   src={imageToDisplay}
@@ -150,6 +154,11 @@ const FormUpdateCategory = ({
         >
           Xác nhận
         </Button>
+        <Lightbox
+          open={openImage}
+          close={() => setOpenImage(!openImage)}
+          slides={[{ src: categoryData?.map((item) => item?.imageToDisplay) }]}
+        />
       </Box>
     );
   }
@@ -205,8 +214,8 @@ const FormUpdateCategory = ({
               </Box>
             </Box>
             <Tooltip
-              title="click to delete"
-              onClick={() => handleDeleteImage(id)}
+              title="click to view"
+              onClick={() => setOpenImage(!openImage)}
             >
               <img
                 src={imageToDisplay}
@@ -216,6 +225,13 @@ const FormUpdateCategory = ({
                 }}
               />
             </Tooltip>
+            <Lightbox
+              open={openImage}
+              close={() => setOpenImage(false)}
+              slides={[
+                { src: categoryData?.map((item) => item?.imageToDisplay) },
+              ]}
+            />
           </Box>
         );
       })}

@@ -23,16 +23,19 @@ import {
 } from "react-router-dom";
 import Header from "../../components/Header";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
-import { RecommendData } from "../../Data/RecommenData";
 import { formatPrice } from "../../utils/formatter";
 import Footer from "../../components/Footer";
-import { data } from "../../Data/CartData";
 import { toast } from "react-toastify";
 import { NotificationData } from "../../components/Notification/NotificationData";
+import { getProductById } from "../../api";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateUserAPI,
+  userInfoSelector,
+} from "../../redux/slice/userInfoSlice";
+import { socketIoInstance } from "../../main";
 const CheckoutPage = () => {
-  const [DetailData, setDetailData] = useState(null);
-  const [displayImage, setDisplayImage] = useState(null);
-
+  const userInfo = useSelector(userInfoSelector);
   let [searchParams] = useSearchParams();
   const { id } = Object.fromEntries([...searchParams]);
   const location = useLocation();
@@ -40,14 +43,10 @@ const CheckoutPage = () => {
   if (location?.state?.data === undefined) {
     return <Navigate to="/homePage" />;
   }
-  const { price, name, color, quantity, image, size } = location?.state?.data;
-  // const { check} = location?.state?.check;
+  const { price, name, category, quantity, image, size, cartOwnerId } =
+    location?.state?.data;
 
-  useEffect(() => {
-    const getData = RecommendData.find((item) => item.id == id);
-    setDetailData(getData);
-    setDisplayImage(getData?.image);
-  }, []);
+  useEffect(() => {}, []);
   const CustomTableCell = styled(TableCell)(({ theme }) => ({
     color: "black",
   }));
@@ -64,12 +63,46 @@ const CheckoutPage = () => {
   const formattedToday = formatVietnameseDate(today);
   const formattedLater = formatVietnameseDate(twoDaysLater);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleCheckOut = () => {
-    data.cart = data.cart.filter((i) => {
-      return i.id !== +id;
-    });
-    NotificationData.push({ name, id });
-    toast.success("Đặt hàng thành công");
+    toast
+      .promise(
+        dispatch(
+          updateUserAPI({
+            cartItem:
+              userInfo?.cartItem?.length === 1
+                ? []
+                : [...userInfo?.cartItem?.filter((i) => i.id !== id)],
+          })
+        ),
+        {
+          pending: ".....",
+        }
+      )
+      .then((res) => {
+        if (!res.error) {
+          NotificationData.push({ name, id });
+          toast.success("Đặt hàng thành công");
+          const order = {
+            price: +price,
+            name,
+            category,
+            quantity,
+            image,
+            size,
+            customerInfo: {
+              address: userInfo?.address,
+              phoneNumber: userInfo?.phoneNumber,
+              email: userInfo?.email,
+              avatar: userInfo?.avatar,
+            },
+            customerId: userInfo?._id,
+          };
+          socketIoInstance.emit("user_place_an_order_fe", order);
+        }
+      });
+
     if (location?.state?.check) {
       navigate("/cartDetail");
       return;
@@ -119,11 +152,10 @@ const CheckoutPage = () => {
               </Box>
               <Box>
                 <Typography sx={{ color: "black" }} variant="h6">
-                  Vũ Văn Đạo (+84) 779983915
+                  {userInfo?.username} (+84) {userInfo?.phoneNumber}
                 </Typography>
                 <Typography sx={{ color: "black" }}>
-                  Kí Túc Xá A Đại Học Mỏ - Địa Chất, Số 18, Phố Viên, Phường Đức
-                  Thắng, Quận Bắc Từ Liêm, Hà Nội
+                  {userInfo?.address}
                 </Typography>
               </Box>
             </Box>
@@ -158,14 +190,14 @@ const CheckoutPage = () => {
                           </Box>
                           <Box>
                             <Typography sx={{ overflowX: "hidden" }}>
-                              {name} loại ({color}){" "}
+                              {name} loại {category}{" "}
                               {size ? `Kích cỡ ${size}` : ""}
                             </Typography>
                           </Box>
                         </Box>
                       </CustomTableCell>
                       <CustomTableCell align="right">
-                        {formatPrice(DetailData?.price)}
+                        {formatPrice(price / quantity)}
                       </CustomTableCell>
                       <CustomTableCell align="right">
                         {quantity}
@@ -217,6 +249,7 @@ const CheckoutPage = () => {
                     }}
                   />
                 </Box>
+
                 <Box
                   sx={{
                     display: "flex",
@@ -238,6 +271,7 @@ const CheckoutPage = () => {
                   </Box>
                 </Box>
               </Box>
+
               <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 1 }}>
                 <Typography>
                   Thành tiền ({quantity} sản phẩm): {formatPrice(price + 20000)}
@@ -340,7 +374,7 @@ const CheckoutPage = () => {
                         // fontSize: "25px",
                       }}
                     >
-                      {formatPrice(price + 20000)}
+                      {formatPrice(+price + 20000)}
                     </Typography>
                   </Box>
                 </Box>
@@ -352,6 +386,7 @@ const CheckoutPage = () => {
                   p: 3,
                   display: "flex",
                   justifyContent: "space-between",
+                  alignItems: "center",
                 }}
               >
                 <Box>

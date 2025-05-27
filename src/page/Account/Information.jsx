@@ -33,19 +33,28 @@ const Information = () => {
   } = useForm({});
 
   const submitChangeGeneralInformation = (data) => {
-    if (data.username === userInfo?.username) {
-      toast.warning("hãy nhập 1 cái tên mới");
-    } else {
-      toast
-        .promise(dispatch(updateUserAPI(data)), {
-          pending: "updating...",
-        })
-        .then((res) => {
-          if (!res.error) {
-            toast.success("Update successfully!");
-          }
-        });
-    }
+    // if (data.username === userInfo?.username) {
+    //   toast.warning("hãy nhập 1 cái tên mới");
+    // } else {
+    //   toast
+    //     .promise(dispatch(updateUserAPI(data)), {
+    //       pending: "updating...",
+    //     })
+    //     .then((res) => {
+    //       if (!res.error) {
+    //         toast.success("Update successfully!");
+    //       }
+    //     });
+    // }
+    toast
+      .promise(dispatch(updateUserAPI(data)), {
+        pending: "updating...",
+      })
+      .then((res) => {
+        if (!res.error) {
+          toast.success("Update successfully!");
+        }
+      });
   };
 
   const uploadAvatar = (e) => {
@@ -88,7 +97,9 @@ const Information = () => {
         p: "20px 30px",
       }}
     >
-      <Box sx={{ display: "flex", flexDirection: "column", mb: 1 }}>
+      <Box
+        sx={{ display: "flex", flexDirection: "column", mb: 1, color: "black" }}
+      >
         <Typography variant="h6">Hồ sơ của tôi</Typography>
         <Typography>Quản lý thông tin hồ sơ để bảo mật tài khoản</Typography>
       </Box>
@@ -136,6 +147,9 @@ const Information = () => {
                   "& label.Mui-focused": {
                     color: (theme) => theme.commonColors,
                   },
+                  "& label": {
+                    color: (theme) => theme.commonColors,
+                  },
                   "& .MuiOutlinedInput-root": {
                     color: (theme) => theme.commonColors,
                     "& fieldset": {
@@ -157,19 +171,58 @@ const Information = () => {
             </Box>
 
             <Box>
+              <TextField
+                fullWidth
+                label="Địa chỉ nhận hàng"
+                defaultValue={userInfo?.address}
+                type="text"
+                variant="outlined"
+                {...register("address", {
+                  // required: FIELD_REQUIRED_MESSAGE,
+                })}
+                error={!!errors["address"]}
+                sx={{
+                  "& label.Mui-focused": {
+                    color: (theme) => theme.commonColors,
+                  },
+                  "& label": {
+                    color: (theme) => theme.commonColors,
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    color: (theme) => theme.commonColors,
+                    "& fieldset": {
+                      borderColor: (theme) => theme.commonColors,
+                      color: (theme) => theme.commonColors,
+                    },
+                    "&:hover fieldset": {
+                      borderColor: (theme) => theme.commonColors,
+                      color: (theme) => theme.commonColors,
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: (theme) => theme.commonColors,
+                      color: (theme) => theme.commonColors,
+                    },
+                  },
+                }}
+              />
+              {/* <FieldErrorAlert errors={errors} fieldName={"address"} /> */}
+            </Box>
+
+            <Box>
               <Button
                 className="interceptor-loading"
                 type="submit"
                 variant="contained"
                 color="primary"
                 fullWidth
-                sx={{ bgcolor: (theme) => theme.commonColors }}
+                sx={{ bgcolor: (theme) => theme.commonColors, color: "white" }}
               >
                 Update
               </Button>
             </Box>
           </Box>
         </form>
+
         <Divider
           orientation="vertical"
           sx={{ bgcolor: "#f5f5f5", height: "200px" }}
@@ -189,22 +242,23 @@ const Information = () => {
               src={userInfo?.avatar}
               onClick={() => setOpen(!open)}
             />
-            <Lightbox
-              open={open}
-              close={() => setOpen(false)}
-              slides={[{ src: userInfo?.avatar }]}
-            />
+
             <Tooltip title="Upload a new image to update your avatar immediately.">
               <Button
                 component="label"
                 variant="contained"
                 size="small"
-                sx={{ bgcolor: (theme) => theme.commonColors }}
+                sx={{ bgcolor: (theme) => theme.commonColors, color: "white" }}
               >
                 Upload
                 <CustomInputFile type="file" onChange={uploadAvatar} />
               </Button>
             </Tooltip>
+            <Lightbox
+              open={open}
+              close={() => setOpen(false)}
+              slides={[{ src: userInfo?.avatar }]}
+            />
           </Box>
         </Box>
       </Box>

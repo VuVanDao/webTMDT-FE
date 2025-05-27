@@ -1,13 +1,17 @@
 import { experimental_extendTheme as extendTheme } from "@mui/material";
 const Header = "120px";
+const AdminHeader = "80px";
 const Footer = "285px";
 const Body = `calc(100vh - ${Header} - ${Footer})`;
+const AdminBody = `calc(100vh - ${AdminHeader} - ${Footer})`;
 
 export const theme = extendTheme({
   customHeight: {
     Header: Header,
     Footer: Footer,
     Body: Body,
+    AdminHeader: AdminHeader,
+    AdminBody: AdminBody,
   },
   commonColors: "#fa5130",
   bgColor: "#f5f5f5",

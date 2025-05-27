@@ -85,7 +85,13 @@ const AdminPage = () => {
     <Box sx={{ bgcolor: (theme) => theme.bgColor, width: "100%" }}>
       <AdminHeader toggleDrawer={toggleDrawer} myShopHeader={true} />
 
-      <Container sx={{ my: 3, bgcolor: (theme) => theme.whiteColor, p: 3 }}>
+      <Container
+        sx={{
+          my: 3,
+          bgcolor: (theme) => theme.whiteColor,
+          p: 3,
+        }}
+      >
         <Outlet />
       </Container>
 

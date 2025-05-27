@@ -38,7 +38,7 @@ const TodoList = () => {
   ];
   return (
     <Box sx={{ mt: 3, bgcolor: (theme) => theme.whiteColor, p: 3 }}>
-      <Box sx={{ mb: 5 }}>
+      <Box sx={{ mb: 5, color: "black" }}>
         <Typography variant="h5"> Danh sách cần làm</Typography>
         <Typography sx={{ color: "#757575" }}>
           Những việc bạn sẽ phải làm
@@ -55,6 +55,7 @@ const TodoList = () => {
                 borderRadius: "5px",
                 p: 5,
                 textAlign: "center",
+                color: "black",
               }}
             >
               <Typography sx={{ fontSize: "20px" }}> {item.num}</Typography>

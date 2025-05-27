@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AppsIcon from "@mui/icons-material/Apps";
 import MyAccount from "../../components/MyAccount/MyAccount";
+import { theme } from "../../theme";
 const AdminHeader = ({ toggleDrawer, myShopHeader }) => {
   if (myShopHeader) {
     return (
@@ -17,6 +18,7 @@ const AdminHeader = ({ toggleDrawer, myShopHeader }) => {
           position: "sticky",
           top: 0,
           zIndex: 10,
+          height: (theme) => theme.customHeight.AdminHeader,
         }}
       >
         <Box
@@ -66,7 +68,7 @@ const AdminHeader = ({ toggleDrawer, myShopHeader }) => {
         </Box>
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <NotificationsIcon sx={{ color: (theme) => theme.commonColors }} />
-          <MyAccount />
+          <MyAccount color={true} />
         </Box>
       </Box>
     );

@@ -5,14 +5,25 @@ import { Link } from "react-router-dom";
 import { formatPrice } from "../../../utils/formatter";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { useSelector } from "react-redux";
+import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
+import { getAllProduct, getAllProductUser } from "../../../api";
 const Recommend = () => {
   const [optionSortPrice, setOptionSortPrice] = useState(false);
   const [change, setChange] = useState(false);
-  const [data, setData] = useState([]);
+  const [listProduct, setListProduct] = useState([]);
+  const userInfo = useSelector(userInfoSelector);
+
+  const handleGetAllProduct = async () => {
+    const res = await getAllProductUser();
+    if (!res.error) {
+      setListProduct(res);
+    }
+  };
 
   useEffect(() => {
-    setData(RecommendData);
-  }, [RecommendData, change, optionSortPrice]);
+    handleGetAllProduct();
+  }, []);
   const styleOption = {
     bgcolor: "white",
     p: "10px 25px",
@@ -24,14 +35,14 @@ const Recommend = () => {
     switch (id) {
       case "sell":
         setChange(!change);
-        setData(data.sort((a, b) => b.sold - a.sold));
+        setListProduct(listProduct.sort((a, b) => b.sold - a.sold));
         break;
       case "high":
-        setData(data.sort((a, b) => a.price - b.price));
+        setListProduct(listProduct.sort((a, b) => a.price - b.price));
         setOptionSortPrice(!optionSortPrice);
         break;
       case "low":
-        setData(data.sort((a, b) => b.price - a.price));
+        setListProduct(listProduct.sort((a, b) => b.price - a.price));
         setOptionSortPrice(!optionSortPrice);
         break;
       default:
@@ -87,7 +98,7 @@ const Recommend = () => {
           )}
         </Box>
         <Grid container spacing={2} sx={{ bgcolor: (theme) => theme.bgColor }}>
-          {data.map((item) => {
+          {listProduct.map((item) => {
             return (
               <Grid
                 size={{ xs: 6, sm: 4, md: 3, lg: 2 }}
@@ -111,7 +122,7 @@ const Recommend = () => {
                   to={`/detail?id=${item.id}`}
                 >
                   <img
-                    src={item.image}
+                    src={item?.image[0]}
                     alt={item.name}
                     style={{ width: "100%", border: "1px solid black" }}
                   />

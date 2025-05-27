@@ -30,6 +30,9 @@ import { ConfirmProvider } from "material-ui-confirm";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 const persistor = persistStore(store);
+import { io } from "socket.io-client";
+import { apiRoot } from "./utils/constants.js";
+export const socketIoInstance = io(apiRoot);
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter basename="/">

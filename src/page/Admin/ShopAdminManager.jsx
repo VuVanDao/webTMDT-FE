@@ -11,7 +11,9 @@ const ShopAdminManger = () => {
   const handleGetAllShop = async () => {
     const res = await getAllShop();
     console.log("🚀 ~ handleGetAllShop ~ res:", res);
-    setListShop(res);
+    if (!res.error) {
+      setListShop(res);
+    }
   };
   useEffect(() => {
     handleGetAllShop();
@@ -28,7 +30,12 @@ const ShopAdminManger = () => {
     return <LoadingPage />;
   }
   return (
-    <Box>
+    <Box
+      sx={{
+        color: "black",
+        height: (theme) => theme.customHeight.AdminBody,
+      }}
+    >
       <Typography variant="h6">Danh sách các shop đăng kí</Typography>
       <Typography variant="body2">
         Tổng cộng {listShop?.length} shop đang chờ duyệt...
@@ -70,7 +77,7 @@ const ShopAdminManger = () => {
                       color: "black",
                     }}
                   >
-                    <Typography>Chủ shop: {item?.name}</Typography>
+                    <Typography>Tên shop: {item?.name}</Typography>
                     <Typography>Địa chỉ: {item?.address}</Typography>
                   </Box>
                 </Box>

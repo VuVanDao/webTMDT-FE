@@ -629,7 +629,7 @@ export const RecommendData = [
     size: ["M", "L", "XL"],
   },
   {
-    id: 28,
+    id: 1000,
     name: "Quần baggy nam túi hộp màu đen đậm không rách chất kaki cao cấp co dãn nhẹ form thể thao nam Lavado 22 mới",
     price: 169000,
     image:

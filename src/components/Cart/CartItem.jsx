@@ -12,9 +12,14 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { data } from "../../Data/CartData";
 import { formatPrice } from "../../utils/formatter";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { userInfoSelector } from "../../redux/slice/userInfoSlice";
 const CartItem = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const userInfo = useSelector(userInfoSelector);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -23,9 +28,6 @@ const CartItem = () => {
     setAnchorEl(null);
   };
   const handleCheckOut = (item) => {
-    // navigate(`/checkout?id=${item.id}`, {
-    //   state: { data: item },
-    // });
     navigate(`/detail?id=${item.id}`);
     setAnchorEl(null);
   };
@@ -42,7 +44,7 @@ const CartItem = () => {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <Badge badgeContent={data?.cart?.length}>
+        <Badge badgeContent={userInfo?.cartItem?.length}>
           <ShoppingCartIcon
             sx={{
               cursor: "pointer",
@@ -67,10 +69,10 @@ const CartItem = () => {
         >
           Sản phẩm mới thêm
         </Typography>
-        {data &&
-          data.cart.map((item) => {
+        {userInfo &&
+          userInfo?.cartItem?.map((item) => {
             return (
-              <MenuItem key={item.id} onClick={handleClose}>
+              <MenuItem key={item?.id} onClick={handleClose}>
                 <Box
                   sx={{
                     display: "flex",
@@ -124,7 +126,7 @@ const CartItem = () => {
               fontSize: "14px",
             }}
           >
-            {data?.cart?.length} sản phẩm có sẵn trong giỏ
+            {userInfo?.cartItem?.length} sản phẩm có sẵn trong giỏ
           </Typography>
           <Button
             variant="contained"
