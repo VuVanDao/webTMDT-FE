@@ -7,7 +7,7 @@ function ToggleFocusInput({
   inputFontSize = "16px",
   ...props
 }) {
-  console.log("🚀 ~ value:", value);
+  // console.log("🚀 ~ value:", value);
   const [inputValue, setInputValue] = useState(value);
 
   // Blur là khi chúng ta không còn Focus vào phần tử nữa thì sẽ trigger hành động ở đây.
@@ -58,7 +58,7 @@ function ToggleFocusInput({
             borderColor: "black",
           },
         },
-        height: "200px",
+        // height: "200px",
         overflow: "auto",
         // "& .MuiOutlinedInput-input": {
         //   px: "6px",

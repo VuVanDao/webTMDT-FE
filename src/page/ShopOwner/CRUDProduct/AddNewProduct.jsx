@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import { useConfirm } from "material-ui-confirm";
 import { addImage, createNew } from "../../../api";
 import { SizesList } from "../../../components/SizeList/SizeList";
+import MDEditor from "@uiw/react-md-editor";
 
 const AddNewProduct = () => {
   const [listImage, setListImage] = useState([]);
@@ -32,6 +33,8 @@ const AddNewProduct = () => {
     reset,
     formState: { errors },
   } = useForm();
+
+  const [value, setValue] = useState("");
 
   const userInfo = useSelector(userInfoSelector);
 
@@ -115,6 +118,7 @@ const AddNewProduct = () => {
                 toast.success("Thành công");
                 setListImage([]);
                 setListImageFileToSend([]);
+                setValue("");
                 reset();
               }
             });
@@ -134,12 +138,17 @@ const AddNewProduct = () => {
       title: "Xác nhận thêm mới sản phẩm này",
     });
     if (confirmed) {
+      if (value.trim().length === 0) {
+        toast.warning("Yêu cầu 1 chút về mô tả sản phẩm");
+        return;
+      }
       handleCreateNewAProduct(
         {
           ...data,
           tagsId: [...listTags],
           size: listSizes?.length > 0 ? listSizes : [],
           shopId: userInfo.shopId,
+          description: value,
         },
         reqData
       );
@@ -176,7 +185,7 @@ const AddNewProduct = () => {
           )}
         </Box>
 
-        <Box sx={boxStyle}>
+        {/* <Box sx={boxStyle}>
           <TextField
             // defaultValue="test"
             fullWidth
@@ -200,6 +209,15 @@ const AddNewProduct = () => {
               {errors.description.message}
             </Alert>
           )}
+        </Box> */}
+
+        {/* description editor */}
+        <Box>
+          <MDEditor value={value} onChange={setValue} height={"500px"} />
+          {/* <MDEditor.Markdown
+            source={value}
+            style={{ whiteSpace: "pre-wrap" }}
+          /> */}
         </Box>
 
         {/* price */}

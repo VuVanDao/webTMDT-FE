@@ -18,6 +18,7 @@
     "@mui/material": "^7.0.2",
     "@mui/x-data-grid": "^8.2.0",
     "@reduxjs/toolkit": "^2.8.2",
+    "@uiw/react-md-editor": "^4.0.7",
     "axios": "^1.9.0",
     "cross-env": "^7.0.3",
     "material-ui-confirm": "^4.0.0",

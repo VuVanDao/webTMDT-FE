@@ -5,17 +5,14 @@ import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
 import { useSelector } from "react-redux";
 import { formatPrice } from "../../../utils/formatter";
 import { ModalDetailProduct } from "./Modal/ModalDetailProduct";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css/pagination";
-import { Pagination } from "swiper/modules";
+import MDEditor from "@uiw/react-md-editor";
 
 const GetAllProduct = () => {
   const [listProduct, setListProduct] = useState([]);
   const [open, setOpen] = useState(false);
   const [detailProductId, setDetailProductId] = useState(null);
   const userInfo = useSelector(userInfoSelector);
-
+  const [value, setValue] = useState("**Hello world!!!**");
   const handleOpenModalDetail = (item) => {
     setDetailProductId(item?._id);
     setOpen(!open);
@@ -109,47 +106,10 @@ const GetAllProduct = () => {
           })}
         </Grid>
       </Box>
-      <Box
-        p={5}
-        border={"1px solid"}
-        mt={3}
-        sx={{
-          "& .swiper": {
-            width: "100%",
-            height: "100%",
-          },
-          "& .swiper-slide": {
-            textAlign: "center",
-            fontSize: "18px",
-          },
-          "& .swiper-slide img": {
-            display: "block",
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-          },
-        }}
-      >
-        <Swiper
-          slidesPerView={3}
-          spaceBetween={30}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[Pagination]}
-          className="mySwiper"
-        >
-          <SwiperSlide>Slide 1</SwiperSlide>
-          <SwiperSlide>Slide 2</SwiperSlide>
-          <SwiperSlide>Slide 3</SwiperSlide>
-          <SwiperSlide>Slide 4</SwiperSlide>
-          <SwiperSlide>Slide 5</SwiperSlide>
-          <SwiperSlide>Slide 6</SwiperSlide>
-          <SwiperSlide>Slide 7</SwiperSlide>
-          <SwiperSlide>Slide 8</SwiperSlide>
-          <SwiperSlide>Slide 9</SwiperSlide>
-        </Swiper>
-      </Box>
+      {/* <Box>
+        <MDEditor value={value} onChange={setValue} />
+        <MDEditor.Markdown source={value} style={{ whiteSpace: "pre-wrap" }} />
+      </Box> */}
       {detailProductId && (
         <ModalDetailProduct
           open={open}
