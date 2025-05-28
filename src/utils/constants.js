@@ -21,3 +21,11 @@ console.log(process.env);
 export const PHONE_RULE = /^0[0-9]{9}$/;
 export const PHONE_RULE_MESSAGE = "Plz supply your phoneNumber";
 // export const apiRoot = api_Root;
+export const ORDER_STATUS = {
+  PENDING: "PENDING",
+  ACCEPTED: "ACCEPTED",
+  REJECTED: "REJECTED",
+  SHIPPING: "SHIPPING",
+  CANCELLED: "CANCELLED",
+  DONE: "DONE",
+};

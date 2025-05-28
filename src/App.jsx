@@ -28,6 +28,13 @@ import AdminPage from "./page/Admin/AdminPage";
 import Step_2_extra from "./page/RegisterShop/FormStep/Step_2_extra";
 import { useSelector } from "react-redux";
 import { userInfoSelector } from "./redux/slice/userInfoSlice";
+import Information from "./page/Account/Information";
+import PurchaseDetail from "./page/Account/purchaseDetail";
+import AllOrder from "./page/Account/purchaseTab/AllOrder";
+import PendingOrder from "./page/Account/purchaseTab/PendingOrder";
+import DoneOrder from "./page/Account/purchaseTab/DoneOrder";
+import RejectOrder from "./page/Account/purchaseTab/RejectOrder";
+import DeliveringOrder from "./page/Account/purchaseTab/DeliveringOrder";
 
 const ProtectedRoute = () => {
   const user = useSelector(userInfoSelector);
@@ -56,10 +63,31 @@ const App = () => {
         <Route path="/detail" element={<Detail />} />
         <Route path="/search" element={<SearchData />} />
 
+        {/* user */}
+        <Route path="/user" element={<DetailAccount />}>
+          <Route
+            path=""
+            element={<Navigate to={"MyAccount"} replace={true} />}
+          />
+          <Route path="MyAccount" element={<Information />} />
+
+          <Route path="purchase" element={<PurchaseDetail />}>
+            <Route
+              path=""
+              element={<Navigate to={"all_order"} replace={true} />}
+            />
+            <Route path="all_order" element={<AllOrder />} />
+            <Route path="pending_order" element={<PendingOrder />} />
+            <Route path="delivering_order" element={<DeliveringOrder />} />
+            <Route path="done_order" element={<DoneOrder />} />
+            <Route path="reject_order" element={<RejectOrder />} />
+          </Route>
+        </Route>
+
         <Route element={<ProtectedRoute />}>
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/cartDetail" element={<CartDetail />} />
-          <Route path="/MyAccount" element={<DetailAccount />} />
+          {/* <Route path="/MyAccount" element={<DetailAccount />} /> */}
           <Route path="/register_shop" element={<Welcome />} />
 
           <Route path="/register_shop" element={<RegisterPage />}>

@@ -2,7 +2,6 @@ import { Badge, Box, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import { NotificationData } from "./NotificationData";
-import { socketIoInstance } from "../../main";
 
 const Notification = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -16,15 +15,6 @@ const Notification = () => {
   };
   useEffect(() => {
     setNotification(NotificationData);
-
-    //function xu li su kien realTime
-    const ReceiveEmitFormBackEnd = (dataToEmit) => {
-      console.log("🚀 ~ useEffect ~ dataToEmit from FE:", dataToEmit);
-    };
-    socketIoInstance.on("shop_accept_an_order", ReceiveEmitFormBackEnd);
-    return () => {
-      socketIoInstance.off();
-    };
   }, []);
   const handleConfirm = (id) => {
     const newNotification = [...Notification];

@@ -1,9 +1,8 @@
 import { Box, Container } from "@mui/material";
-import React from "react";
 import Header from "../../components/Header";
 import Settings from "./Settings";
-import Information from "./Information";
 import Footer from "../../components/Footer";
+import { Outlet } from "react-router-dom";
 
 const DetailAccount = () => {
   return (
@@ -20,8 +19,12 @@ const DetailAccount = () => {
           gap: 15,
         }}
       >
-        <Settings />
-        <Information />
+        <Box sx={{ width: "200px" }}>
+          <Settings />
+        </Box>
+        <Box sx={{ width: "100%" }}>
+          <Outlet />
+        </Box>
       </Container>
       <Footer />
     </Box>

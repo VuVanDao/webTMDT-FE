@@ -209,6 +209,43 @@ const Information = () => {
             </Box>
 
             <Box>
+              <TextField
+                fullWidth
+                label="Số điện thoại"
+                defaultValue={userInfo?.phoneNumber}
+                type="text"
+                variant="outlined"
+                {...register("phoneNumber", {
+                  // required: FIELD_REQUIRED_MESSAGE,
+                })}
+                error={!!errors["phoneNumber"]}
+                sx={{
+                  "& label.Mui-focused": {
+                    color: (theme) => theme.commonColors,
+                  },
+                  "& label": {
+                    color: (theme) => theme.commonColors,
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    color: (theme) => theme.commonColors,
+                    "& fieldset": {
+                      borderColor: (theme) => theme.commonColors,
+                      color: (theme) => theme.commonColors,
+                    },
+                    "&:hover fieldset": {
+                      borderColor: (theme) => theme.commonColors,
+                      color: (theme) => theme.commonColors,
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: (theme) => theme.commonColors,
+                      color: (theme) => theme.commonColors,
+                    },
+                  },
+                }}
+              />
+            </Box>
+
+            <Box>
               <Button
                 className="interceptor-loading"
                 type="submit"

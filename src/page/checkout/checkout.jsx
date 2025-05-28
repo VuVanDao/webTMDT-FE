@@ -27,7 +27,7 @@ import { formatPrice } from "../../utils/formatter";
 import Footer from "../../components/Footer";
 import { toast } from "react-toastify";
 import { NotificationData } from "../../components/Notification/NotificationData";
-import { getProductById } from "../../api";
+import { createNewOrder, getProductById } from "../../api";
 import { useDispatch, useSelector } from "react-redux";
 import {
   updateUserAPI,
@@ -43,7 +43,7 @@ const CheckoutPage = () => {
   if (location?.state?.data === undefined) {
     return <Navigate to="/homePage" />;
   }
-  const { price, name, category, quantity, image, size, cartOwnerId } =
+  const { price, name, category, quantity, image, size, shopId } =
     location?.state?.data;
 
   useEffect(() => {}, []);
@@ -82,7 +82,6 @@ const CheckoutPage = () => {
       )
       .then((res) => {
         if (!res.error) {
-          NotificationData.push({ name, id });
           toast.success("Đặt hàng thành công");
           const order = {
             price: +price,
@@ -98,8 +97,14 @@ const CheckoutPage = () => {
               avatar: userInfo?.avatar,
             },
             customerId: userInfo?._id,
+            productId: id,
+            shopId,
           };
-          socketIoInstance.emit("user_place_an_order_fe", order);
+          console.log("🚀 ~ .then ~ order:", order);
+          createNewOrder(order).then((res) => {
+            if (!res.error)
+              socketIoInstance.emit("user_place_an_order_fe", order);
+          });
         }
       });
 

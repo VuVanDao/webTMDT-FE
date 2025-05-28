@@ -18,6 +18,8 @@ import {
   logoutUserAPI,
   userInfoSelector,
 } from "../../redux/slice/userInfoSlice";
+import { socketIoInstance } from "../../main";
+
 const MyAccount = ({ color }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -25,7 +27,29 @@ const MyAccount = ({ color }) => {
   const navigate = useNavigate();
   const userInfo = useSelector(userInfoSelector);
   const dispatch = useDispatch();
-  useEffect(() => {}, []);
+
+  useEffect(() => {
+    //function xu li su kien realTime
+    const ReceiveEmitFormBackEnd = (dataToEmit) => {
+      console.log("🚀 ~ ReceiveEmitFormBackEnd ~ dataToEmit:", dataToEmit);
+      if (dataToEmit?.shopId === userInfo?.shopId) {
+        toast.info("Có đơn hàng mới");
+      }
+    };
+    socketIoInstance.removeAllListeners(
+      `user_place_an_order_be_${userInfo?.shopId}`
+    );
+    socketIoInstance.on(
+      `user_place_an_order_be_${userInfo?.shopId}`,
+      ReceiveEmitFormBackEnd
+    );
+    return () => {
+      socketIoInstance.off(
+        `user_place_an_order_be_${userInfo?.shopId}`,
+        ReceiveEmitFormBackEnd
+      );
+    };
+  }, [userInfo?.shopId]);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -46,7 +70,7 @@ const MyAccount = ({ color }) => {
     });
   };
   const handleAccount = () => {
-    navigate("/MyAccount");
+    navigate("/user");
   };
   const registerShop = () => {
     navigate("/register_shop");

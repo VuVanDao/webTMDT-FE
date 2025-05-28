@@ -36,7 +36,7 @@ const CartDetail = () => {
   }, [userInfo]);
 
   const handleCheckOut = (item) => {
-    navigate(`/checkout?id=${item.id}`, {
+    navigate(`/checkout?id=${item?.ProductId}`, {
       state: { data: item, check: true },
     });
   };
@@ -80,7 +80,7 @@ const CartDetail = () => {
             <TableBody>
               {dataCardDetail?.map((item) => (
                 <TableRow
-                  key={item.id}
+                  key={item?.ProductId}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell

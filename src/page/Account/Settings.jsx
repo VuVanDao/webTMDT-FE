@@ -5,6 +5,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import { useSelector } from "react-redux";
 import { userInfoSelector } from "../../redux/slice/userInfoSlice";
+import { useNavigate } from "react-router-dom";
 const Settings = () => {
   const userInfo = useSelector(userInfoSelector);
   useEffect(() => {}, []);
@@ -17,6 +18,13 @@ const Settings = () => {
     color: (theme) => theme.commonColors,
     fontSize: "30px",
   };
+  const navigate = useNavigate();
+  const handleGetPurchase = () => {
+    navigate("purchase");
+  };
+  const handleGetInfo = () => {
+    navigate("MyAccount");
+  };
   return (
     <Box>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
@@ -28,6 +36,7 @@ const Settings = () => {
             cursor: "pointer",
             color: "black",
           }}
+          onClick={handleGetInfo}
         >
           <Avatar
             src={userInfo?.avatar}
@@ -35,19 +44,23 @@ const Settings = () => {
           />
           <Typography>{userInfo?.username}</Typography>
         </Box>
+
         <Box sx={{ color: "black" }}>
           <Typography sx={SettingStyles}>
             <NotificationsNoneIcon sx={SettingText} />
             Thông báo
           </Typography>
         </Box>
-        <Box sx={{ color: "black" }}>
+        <Box sx={{ color: "black", cursor: "pointer" }} onClick={handleGetInfo}>
           <Typography sx={SettingStyles}>
             <PersonOutlineIcon sx={SettingText} />
             Tài khoản của tôi
           </Typography>
         </Box>
-        <Box sx={{ color: "black" }}>
+        <Box
+          sx={{ color: "black", cursor: "pointer" }}
+          onClick={handleGetPurchase}
+        >
           <Typography sx={SettingStyles}>
             <ContentPasteIcon sx={SettingText} />
             Đơn mua
