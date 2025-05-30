@@ -14,7 +14,6 @@ export const registerUserAPI = async (data) => {
   );
   return response.data;
 };
-
 export const verifyUserAPI = async (data) => {
   //{email,token}
   const response = await authorizeAxiosInstance.put(
@@ -27,6 +26,13 @@ export const verifyUserAPI = async (data) => {
   );
   return response.data;
 };
+export const getAllAccount = async () => {
+  const response = await authorizeAxiosInstance.get(
+    `${apiRoot}/v1/users/get_all_account`
+  );
+
+  return response.data;
+};
 
 export const refreshTokenAPI = async () => {
   const response = await authorizeAxiosInstance.post(
@@ -34,14 +40,12 @@ export const refreshTokenAPI = async () => {
   );
   return response.data;
 };
-
 export const getAllShop = async () => {
   const response = await authorizeAxiosInstance.get(
     `${apiRoot}/v1/users/get_all_shop`
   );
   return response.data;
 };
-
 export const getAllProductUser = async () => {
   const response = await authorizeAxiosInstance.get(
     `${apiRoot}/v1/users/get_All_Product`
@@ -70,7 +74,6 @@ export const getDetailShop = async (id) => {
   );
   return response.data;
 };
-
 export const browseShop = async (data) => {
   const response = await authorizeAxiosInstance.post(
     `${apiRoot}/v1/shops/browseShop`,
@@ -118,6 +121,25 @@ export const update = async (data) => {
 export const createNewOrder = async (data) => {
   const response = await authorizeAxiosInstance.post(
     `${apiRoot}/v1/orders`,
+    data
+  );
+  return response.data;
+};
+export const getOderByStatus = async (data) => {
+  const response = await authorizeAxiosInstance.get(
+    `${apiRoot}/v1/orders?statusOrder=${data.statusOrder}&customerId=${data.customerId}`
+  );
+  return response.data;
+};
+export const getOrderByShopId = async (id) => {
+  const response = await authorizeAxiosInstance.get(
+    `${apiRoot}/v1/orders/get_by_shop_id?id=${id}`
+  );
+  return response.data;
+};
+export const updateOrder = async (data, id) => {
+  const response = await authorizeAxiosInstance.put(
+    `${apiRoot}/v1/orders/update/${id}`,
     data
   );
   return response.data;

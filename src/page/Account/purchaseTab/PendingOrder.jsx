@@ -1,26 +1,39 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getOrdersAPIReduxByStatus } from "../../../redux/slice/orderSlice";
+import { useSelector } from "react-redux";
 import { ORDER_STATUS } from "../../../utils/constants";
 import { Box, Button, Divider, Typography } from "@mui/material";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { formatPrice } from "../../../utils/formatter";
 import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
+import { getOderByStatus } from "../../../api";
+import { ModalRejectOrder } from "./ModalRejectOrder";
 const PendingOrder = () => {
   const [listOrderPending, setListOrderPending] = useState([]);
+  const [openRejectOrder, setOpenRejectOrder] = useState(false);
+  const [item, setItem] = useState(false);
   const userInfo = useSelector(userInfoSelector);
 
-  const dispatch = useDispatch();
-  useEffect(() => {
+  const handleGetPendingOrder = async () => {
     const data = {
       statusOrder: ORDER_STATUS.PENDING,
       customerId: userInfo?._id,
     };
-    dispatch(getOrdersAPIReduxByStatus(data)).then((res) => {
-      console.log("🚀 ~ dispatch ~ res:", res.payload);
-      setListOrderPending(res.payload);
+    await getOderByStatus(data).then((res) => {
+      setListOrderPending(res);
     });
+  };
+  const handleRejectOrder = (item) => {
+    if (item) {
+      setItem(item);
+    }
+    if (item === true) {
+      handleGetPendingOrder();
+    }
+    setOpenRejectOrder(!openRejectOrder);
+  };
+  useEffect(() => {
+    handleGetPendingOrder();
   }, []);
   return (
     <Box>
@@ -73,7 +86,7 @@ const PendingOrder = () => {
                 </Typography>
 
                 <Typography variant="button" color="#00bfa5">
-                  Giao hàng thành công
+                  Đang chờ phản hồi
                 </Typography>
                 <Divider
                   orientation="vertical"
@@ -130,6 +143,7 @@ const PendingOrder = () => {
               <Button
                 sx={{ bgcolor: (theme) => theme.commonColors, color: "white" }}
                 variant="contained"
+                onClick={() => handleRejectOrder(item)}
               >
                 Huỷ đơn
               </Button>
@@ -137,6 +151,11 @@ const PendingOrder = () => {
           </Box>
         );
       })}
+      <ModalRejectOrder
+        openRejectOrder={openRejectOrder}
+        handleRejectOrder={handleRejectOrder}
+        item={item}
+      />
     </Box>
   );
 };

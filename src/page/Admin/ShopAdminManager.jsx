@@ -10,7 +10,7 @@ const ShopAdminManger = () => {
   const [dataDetailShop, setDataDetailShop] = useState(null);
   const handleGetAllShop = async () => {
     const res = await getAllShop();
-    console.log("🚀 ~ handleGetAllShop ~ res:", res);
+    // console.log("🚀 ~ handleGetAllShop ~ res:", res);
     if (!res.error) {
       setListShop(res);
     }

@@ -10,13 +10,13 @@ import storage from "redux-persist/lib/storage";
 const rootPersistConfig = {
   key: "root",
   storage: storage, //luu vao localStorage
-  whitelist: ["userInfo", "ordersInfo"], // cho phep duy tri qua moi lan f5 browser
+  whitelist: ["userInfo", "orderInfo"], // cho phep duy tri qua moi lan f5 browser
 };
 
 const reducers = combineReducers({
   dataFormRegisterShop: dataFormRegisterShopReducer,
   userInfo: userInfoReducer,
-  ordersInfo: orderSliceReducer,
+  orderInfo: orderSliceReducer,
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, reducers);

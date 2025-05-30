@@ -7,12 +7,26 @@ import React, { useEffect, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 
 const PurchaseDetail = () => {
-  const [value, setValue] = useState("/user/purchase/all_order");
+  const UrlAvailable = {
+    allOrder: "/user/purchase/all_order",
+    pendingOrder: "/user/purchase/pending_order",
+    deliveringOrder: "/user/purchase/delivering_order",
+    doneOrder: "/user/purchase/done_order",
+    rejectOrder: "/user/purchase/reject_order",
+  };
   const location = useLocation();
+  const defaultActiveURL = () => {
+    let activeUrl = UrlAvailable.allOrder;
+    Object.values(UrlAvailable).forEach((url) => {
+      if (location.pathname.includes(url)) {
+        activeUrl = url;
+      }
+    });
+    return activeUrl;
+  };
+  const [value, setValue] = useState(defaultActiveURL());
 
-  useEffect(() => {
-    if (location) setValue(location?.pathname);
-  }, [location?.pathname]);
+  useEffect(() => {}, [location?.pathname]);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

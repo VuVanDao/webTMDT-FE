@@ -96,7 +96,7 @@ export const DetailModal = ({
               flexDirection: "column",
             }}
           >
-            <Typography variant="h6">
+            <Typography variant="h6" color="black">
               Tên shop: {dataDetailShop?.name}
             </Typography>
             <Box
@@ -105,6 +105,7 @@ export const DetailModal = ({
                 alignItems: "center",
                 gap: 1,
               }}
+              color="black"
             >
               Tên chủ sở hữu: &nbsp;
               <Typography
@@ -120,12 +121,18 @@ export const DetailModal = ({
               &nbsp;
               <Avatar src={dataDetailShop?.Owner[0]?.avatar} />
             </Box>
-            <Typography>Email: {dataDetailShop?.Owner[0]?.email}</Typography>
-            <Typography>
+            <Typography color="black">
+              Email: {dataDetailShop?.Owner[0]?.email}
+            </Typography>
+            <Typography color="black">
               Số điện thoại: {dataDetailShop?.phoneNumber}
             </Typography>
-            <Typography>Địa chỉ lấy hàng: {dataDetailShop?.address}</Typography>
-            <Typography>Miêu tả: {dataDetailShop?.description}</Typography>
+            <Typography color="black">
+              Địa chỉ lấy hàng: {dataDetailShop?.address}
+            </Typography>
+            <Typography color="black">
+              Miêu tả: {dataDetailShop?.description}
+            </Typography>
           </Box>
           <Box
             sx={{
@@ -138,14 +145,18 @@ export const DetailModal = ({
           >
             <Button
               variant="contained"
-              sx={{ mr: 5, bgcolor: (theme) => theme.commonColors }}
+              sx={{
+                mr: 5,
+                bgcolor: (theme) => theme.commonColors,
+                color: "white",
+              }}
               onClick={() => handleBrowseShop("accept")}
             >
               Chấp nhận
             </Button>
             <Button
               variant="contained"
-              onClick={() => handleBrowseShop("deny")}
+              onClick={() => handleBrowseShop("denied")}
             >
               Từ chối
             </Button>

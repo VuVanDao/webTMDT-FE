@@ -31,7 +31,6 @@ const MyAccount = ({ color }) => {
   useEffect(() => {
     //function xu li su kien realTime
     const ReceiveEmitFormBackEnd = (dataToEmit) => {
-      console.log("🚀 ~ ReceiveEmitFormBackEnd ~ dataToEmit:", dataToEmit);
       if (dataToEmit?.shopId === userInfo?.shopId) {
         toast.info("Có đơn hàng mới");
       }

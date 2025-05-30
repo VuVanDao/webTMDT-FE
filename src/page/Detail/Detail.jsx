@@ -27,6 +27,8 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+import { v4 as uuidv4 } from "uuid";
+
 const Detail = () => {
   const [DetailData, setDetailData] = useState(null);
   const [displayImage, setDisplayImage] = useState(null);
@@ -130,6 +132,7 @@ const Detail = () => {
         ProductId: id,
         cartOwnerId: userInfo?._id,
         shopId: DetailData?.shopId,
+        id: uuidv4(),
       };
 
       toast
@@ -368,7 +371,7 @@ const Detail = () => {
                               setSize(item);
                             }}
                           >
-                            <Typography>{item}</Typography>
+                            <Typography fontSize={"14px"}>{item}</Typography>
                           </Box>
                         );
                       } else {
@@ -388,7 +391,7 @@ const Detail = () => {
                               setSize(item);
                             }}
                           >
-                            <Typography>{item}</Typography>
+                            <Typography fontSize={"14px"}>{item}</Typography>
                           </Box>
                         );
                       }

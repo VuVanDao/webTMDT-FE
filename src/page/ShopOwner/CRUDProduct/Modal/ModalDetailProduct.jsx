@@ -593,7 +593,12 @@ export const ModalDetailProduct = ({
                         mb: 3,
                       }}
                     >
-                      <Typography>Thông tin sản phẩm</Typography>
+                      <Typography
+                        sx={{ cursor: "pointer" }}
+                        onClick={() => setUpdateDescription(!updateDescription)}
+                      >
+                        Thông tin sản phẩm
+                      </Typography>
                       {!DescriptionMode ? (
                         <Button
                           variant="contained"

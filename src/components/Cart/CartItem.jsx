@@ -28,7 +28,7 @@ const CartItem = () => {
     setAnchorEl(null);
   };
   const handleCheckOut = (item) => {
-    navigate(`/detail?id=${item.id}`);
+    navigate(`/detail?id=${item?.ProductId}`);
     setAnchorEl(null);
   };
   const handleCartDetail = () => {

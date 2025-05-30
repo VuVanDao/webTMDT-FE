@@ -35,6 +35,7 @@ import PendingOrder from "./page/Account/purchaseTab/PendingOrder";
 import DoneOrder from "./page/Account/purchaseTab/DoneOrder";
 import RejectOrder from "./page/Account/purchaseTab/RejectOrder";
 import DeliveringOrder from "./page/Account/purchaseTab/DeliveringOrder";
+import Manage_account from "./page/Admin/AdminAccount/manage_account";
 
 const ProtectedRoute = () => {
   const user = useSelector(userInfoSelector);
@@ -117,6 +118,7 @@ const App = () => {
                 element={<Navigate to={"admin_manage_shop"} replace={true} />}
               />
               <Route path="admin_manage_shop" element={<ShopAdminManager />} />
+              <Route path="admin_manage_account" element={<Manage_account />} />
             </Route>
           </Route>
 
