@@ -33,19 +33,6 @@ const Information = () => {
   } = useForm({});
 
   const submitChangeGeneralInformation = (data) => {
-    // if (data.username === userInfo?.username) {
-    //   toast.warning("hãy nhập 1 cái tên mới");
-    // } else {
-    //   toast
-    //     .promise(dispatch(updateUserAPI(data)), {
-    //       pending: "updating...",
-    //     })
-    //     .then((res) => {
-    //       if (!res.error) {
-    //         toast.success("Update successfully!");
-    //       }
-    //     });
-    // }
     toast
       .promise(dispatch(updateUserAPI(data)), {
         pending: "updating...",

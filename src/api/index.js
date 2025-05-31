@@ -33,6 +33,21 @@ export const getAllAccount = async () => {
 
   return response.data;
 };
+export const createNewAccount = async (data) => {
+  const response = await authorizeAxiosInstance.post(
+    `${apiRoot}/v1/users`,
+    data
+  );
+  toast.success(`Account created successfully`, { theme: "colored" });
+  return response.data;
+};
+export const updateAccount = async (data) => {
+  const response = await authorizeAxiosInstance.put(
+    `${apiRoot}/v1/users/update`,
+    data
+  );
+  return response.data;
+};
 
 export const refreshTokenAPI = async () => {
   const response = await authorizeAxiosInstance.post(

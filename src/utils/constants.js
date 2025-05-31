@@ -1,6 +1,5 @@
 export const EMAIL_RULE = /^\S+@\S+\.\S+$/;
-export const EMAIL_RULE_MESSAGE =
-  "Email is invalid. (example@trungquandev.com)";
+export const EMAIL_RULE_MESSAGE = "Email is invalid. (example@gmail.com)";
 export const PASSWORD_RULE = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d\W]{8,256}$/;
 export const PASSWORD_RULE_MESSAGE =
   "Password must include at least 1 letter, a number, and at least 8 characters.";
@@ -10,16 +9,10 @@ export const apiRoot =
   process.env.BUILD_MODE === "dev"
     ? "http://localhost:8017"
     : "https://webtmdt-be.onrender.com";
-// export const apiRoot = "http://localhost:8017";
-// let api_Root = "";
-// if (process.env.BUILD_MODE === "dev") {
-//   api_Root = "http://localhost:8017";
-// } else {
-//   api_Root = "https://be-5kst.onrender.com";
-// }
+
 console.log(process.env);
 export const PHONE_RULE = /^0[0-9]{9}$/;
-export const PHONE_RULE_MESSAGE = "Plz supply your phoneNumber";
+export const PHONE_RULE_MESSAGE = "Nhập đúng số định dạng số điện thoại";
 // export const apiRoot = api_Root;
 export const ORDER_STATUS = {
   PENDING: "PENDING",
