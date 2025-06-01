@@ -7,7 +7,10 @@ import { PHONE_RULE, PHONE_RULE_MESSAGE } from "../../../utils/constants";
 import { useState } from "react";
 import { updateAccount } from "../../../api";
 import { toast } from "react-toastify";
-
+import { Lightbox } from "yet-another-react-lightbox";
+import CustomInputFile from "../../../components/customInputFile/customInputFile";
+import { singleFileValidator } from "../../../utils/valiodatorFile";
+import axios from "axios";
 const style = {
   position: "absolute",
   top: "50%",
@@ -51,6 +54,9 @@ export const ModalUpdateAccount = ({
   infoAccountToUpdate,
 }) => {
   const [changePasswordMode, setChangePasswordMode] = useState(false);
+  const [changeCommonInfoMode, setChangeCommonInfoMode] = useState(true);
+  const [changeImageMode, setChangeImageMode] = useState(false);
+  const [openImage, setOpenImage] = useState(false);
   const {
     register,
     handleSubmit,
@@ -85,12 +91,66 @@ export const ModalUpdateAccount = ({
       }
     }
   };
+  const uploadAvatar = async (e) => {
+    // console.log("e.target?.files[0]: ", e.target?.files[0]);
+    const error = singleFileValidator(e.target?.files[0]);
+    if (error) {
+      toast.error(error);
+      return;
+    }
+    // Sử dụng FormData để xử lý dữ liệu liên quan tới file khi gọi API
+    let reqData = new FormData();
+    reqData.append("file", e.target?.files[0]);
+    reqData.append("upload_preset", "ReactUpload");
+    toast
+      .promise(
+        axios.post("https://api.cloudinary.com/v1_1/dlb4ooi7n/upload", reqData),
+        {
+          pending: "updating....",
+        }
+      )
+      .then(async (res) => {
+        const result = await updateAccount({
+          avatar: res.data.secure_url,
+          idUpdate: infoAccountToUpdate._id,
+        });
+        if (!result.error) {
+          toast.success("Thao tác thành công");
+          handleClose();
+        }
+      });
+
+    // Reset lại input file
+    e.target.value = "";
+  };
+
   const handleClose = () => {
     reset();
     setOpenModalUpdate(!open);
     handleGetAllAccount();
   };
+  const handleChange = (id) => {
+    switch (id) {
+      case "password":
+        setChangePasswordMode(true);
+        setChangeCommonInfoMode(false);
+        setChangeImageMode(false);
+        break;
+      case "commonInfo":
+        setChangePasswordMode(false);
+        setChangeCommonInfoMode(true);
+        setChangeImageMode(false);
+        break;
+      case "avatar":
+        setChangePasswordMode(false);
+        setChangeCommonInfoMode(false);
+        setChangeImageMode(true);
+        break;
 
+      default:
+        break;
+    }
+  };
   return (
     <div>
       <Modal
@@ -101,7 +161,7 @@ export const ModalUpdateAccount = ({
       >
         <Box sx={style}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            {changePasswordMode ? (
+            {changePasswordMode && (
               <Box
                 sx={{
                   display: "flex",
@@ -161,8 +221,8 @@ export const ModalUpdateAccount = ({
                   )}
                 </Box>
               </Box>
-            ) : (
-              //   email & address
+            )}
+            {changeCommonInfoMode && ( //   email & address
               <Box mb={5}>
                 <Box
                   sx={{
@@ -295,6 +355,26 @@ export const ModalUpdateAccount = ({
                 </Box>
               </Box>
             )}
+            {changeImageMode && (
+              <Box sx={{ textAlign: "center" }}>
+                <img
+                  src={infoAccountToUpdate?.avatar}
+                  onClick={() => setOpenImage(!openImage)}
+                />
+                <Button
+                  component="label"
+                  variant="contained"
+                  size="small"
+                  sx={{
+                    bgcolor: (theme) => theme.commonColors,
+                    color: "white",
+                  }}
+                >
+                  Upload
+                  <CustomInputFile type="file" onChange={uploadAvatar} />
+                </Button>
+              </Box>
+            )}
             <Button
               type="submit"
               variant="contained"
@@ -310,13 +390,41 @@ export const ModalUpdateAccount = ({
             <Button
               variant="contained"
               color="warning"
-              onClick={() => setChangePasswordMode(!changePasswordMode)}
+              onClick={() => handleChange("commonInfo")}
+              sx={{
+                mr: 3,
+              }}
+            >
+              Đổi thông tin cá nhân
+            </Button>
+            <Button
+              variant="contained"
+              color="warning"
+              onClick={() => handleChange("password")}
+              sx={{
+                mr: 3,
+              }}
             >
               Đổi mật khẩu
+            </Button>
+            <Button
+              variant="contained"
+              color="warning"
+              onClick={() => handleChange("avatar")}
+              sx={{
+                mr: 3,
+              }}
+            >
+              Đổi ảnh cá nhân
             </Button>
           </form>
         </Box>
       </Modal>
+      <Lightbox
+        open={openImage}
+        close={() => setOpenImage(false)}
+        slides={[{ src: infoAccountToUpdate?.avatar }]}
+      />
     </div>
   );
 };

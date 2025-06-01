@@ -60,12 +60,12 @@ const Manage_account = () => {
           <TableHead>
             <TableRow>
               <TableCell>Avatar</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
+              <TableCell align="center">Name</TableCell>
+              <TableCell align="center">Email</TableCell>
               <TableCell>PhoneNumber</TableCell>
-              <TableCell>Address</TableCell>
-              <TableCell>Role</TableCell>
-              <TableCell>Hành động</TableCell>
+              <TableCell align="center">Address</TableCell>
+              <TableCell align="center">Role</TableCell>
+              <TableCell align="center">Hành động</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -81,7 +81,9 @@ const Manage_account = () => {
                   </TableCell>
                   <TableCell align="center">{item?.email}</TableCell>
                   <TableCell align="center">{item?.phoneNumber}</TableCell>
-                  <TableCell align="center">{item?.address}</TableCell>
+                  <TableCell align="center" sx={{ width: "355px" }}>
+                    {item?.address}
+                  </TableCell>
                   <TableCell align="center">{item?.role}</TableCell>
                   <TableCell align="center">
                     <Box sx={{ display: "flex", gap: 3 }}>

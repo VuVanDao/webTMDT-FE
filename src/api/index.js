@@ -48,6 +48,13 @@ export const updateAccount = async (data) => {
   );
   return response.data;
 };
+// export const updateAvatarAccount = async (data) => {
+//   const response = await authorizeAxiosInstance.put(
+//     `${apiRoot}/v1/users/updateAvatar`,
+//     data
+//   );
+//   return response.data;
+// };
 
 export const refreshTokenAPI = async () => {
   const response = await authorizeAxiosInstance.post(
