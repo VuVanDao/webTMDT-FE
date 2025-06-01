@@ -59,15 +59,34 @@ export const ModalUpdateAccount = ({
     watch,
   } = useForm();
   const onSubmit = async (data) => {
-    const setData = { ...data, idUpdate: infoAccountToUpdate._id };
-    const res = await updateAccount(setData);
-    if (!res.error) {
-      handleClose();
+    if (changePasswordMode) {
+      const { current_password, new_password } = data;
+      if (current_password.length === 0 || new_password.length === 0) {
+        toast.error("Mật khẩu nên dài từ 8 - 12 kí tự");
+      }
+      const setData = {
+        current_password: data.current_password,
+        new_password: data.new_password,
+        idUpdate: infoAccountToUpdate._id,
+      };
+      const res = await updateAccount(setData);
+      if (!res.error) {
+        toast.success("Thao tác thành công");
+        handleClose();
+      }
+    } else {
+      delete data.current_password;
+      delete data.new_password;
+      const setData = { ...data, idUpdate: infoAccountToUpdate._id };
+      const res = await updateAccount(setData);
+      if (!res.error) {
+        toast.success("Thao tác thành công");
+        handleClose();
+      }
     }
   };
   const handleClose = () => {
     reset();
-    toast.success("Thao tác thành công");
     setOpenModalUpdate(!open);
     handleGetAllAccount();
   };
@@ -95,7 +114,7 @@ export const ModalUpdateAccount = ({
                 <Box sx={{ width: "50%" }}>
                   <TextField
                     fullWidth
-                    label="Nhập mật khẩu mới..."
+                    label="Nhập mật khẩu gần đây..."
                     type="text"
                     variant="outlined"
                     error={!!errors.current_password}
@@ -120,16 +139,12 @@ export const ModalUpdateAccount = ({
                   <TextField
                     autoFocus
                     fullWidth
-                    label="Xác nhận mật khẩu..."
+                    label="Mật khẩu mới..."
                     type="text"
                     variant="outlined"
                     error={!!errors.new_password}
                     {...register("new_password", {
-                      validate: (value) => {
-                        return value === watch("password")
-                          ? true
-                          : "confirm password is not match";
-                      },
+                      required: "Đây là trường bắt buộc.",
                     })}
                     sx={fieldsetCommonStyle}
                   />
@@ -293,7 +308,6 @@ export const ModalUpdateAccount = ({
               Xác nhận
             </Button>
             <Button
-              type="submit"
               variant="contained"
               color="warning"
               onClick={() => setChangePasswordMode(!changePasswordMode)}
