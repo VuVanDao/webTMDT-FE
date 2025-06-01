@@ -73,7 +73,7 @@ const CheckoutPage = () => {
             cartItem:
               userInfo?.cartItem?.length === 1
                 ? []
-                : [...userInfo?.cartItem?.filter((i) => i.id !== id)],
+                : [...userInfo?.cartItem?.filter((i) => i.ProductId !== id)],
           })
         ),
         {

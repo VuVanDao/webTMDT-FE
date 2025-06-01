@@ -49,7 +49,7 @@ const CartDetail = () => {
             cartItem:
               result?.length === 1
                 ? []
-                : [...result.filter((i) => i.id !== id)],
+                : [...result.filter((i) => i.ProductId !== id)],
           })
         ),
         {
@@ -88,9 +88,9 @@ const CartDetail = () => {
                     scope="row"
                     sx={{
                       display: "flex",
-                      justifyContent: "space-between",
+                      // justifyContent: "space-between",
                       alignItems: "center",
-                      width: "500px",
+                      width: "655px",
                       gap: 3,
                     }}
                   >
@@ -107,6 +107,7 @@ const CartDetail = () => {
                       sx={{
                         overflow: "hidden",
                         fontSize: "14px",
+                        width: "75%",
                       }}
                     >
                       {item.name}
