@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { RecommendData } from "../../../Data/RecommenData";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
@@ -13,25 +12,9 @@ const SearchData = () => {
   const [change, setChange] = useState(false);
   let [searchParams] = useSearchParams();
   const { value } = Object.fromEntries([...searchParams]);
-  const removeVietnameseTones = (str) => {
-    return str
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/đ/g, "d")
-      .replace(/Đ/g, "D");
-  };
-  const searchSuggestions = (input) => {
-    const keyword = removeVietnameseTones(input.toLowerCase());
-    return RecommendData.filter((item) =>
-      removeVietnameseTones(item.name.toLowerCase()).includes(keyword)
-    );
-  };
-  useEffect(() => {
-    if (value) {
-      const result = searchSuggestions(value);
-      if (result) setData(result);
-    }
-  }, [value]);
+  const location = useLocation();
+  let resultSearch = location?.state?.results;
+  useEffect(() => {}, [value]);
   const styleOption = {
     bgcolor: "white",
     p: "10px 25px",
@@ -93,7 +76,7 @@ const SearchData = () => {
     <Box sx={{ bgcolor: "#f5f5f5" }}>
       <Header showHeader={true} />
       <Container>
-        {data?.length === 0 ? (
+        {resultSearch?.length === 0 ? (
           <Box
             sx={{
               height: (theme) => theme.customHeight.Body,
@@ -141,13 +124,13 @@ const SearchData = () => {
                 p: "15px 0",
               }}
             >
-              {data ? (
+              {resultSearch ? (
                 <Grid container spacing={2}>
-                  {data.map((item) => {
+                  {resultSearch.map((item) => {
                     return (
                       <Grid
                         size={{ xs: 6, sm: 4, md: 3, lg: 2 }}
-                        key={item.id}
+                        key={item?._id}
                         sx={{ display: "flex" }}
                       >
                         <Box
@@ -164,11 +147,11 @@ const SearchData = () => {
                             bgcolor: "white",
                           }}
                           component={Link}
-                          to={`/detail?id=${item.id}`}
+                          to={`/detail?id=${item?._id}`}
                         >
                           <img
-                            src={item.image}
-                            alt={item.name}
+                            src={item?.image[0]}
+                            alt={item?.name}
                             style={{ width: "100%", border: "1px solid black" }}
                           />
                           <Box sx={{ p: 1 }}>

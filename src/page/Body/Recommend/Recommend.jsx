@@ -45,6 +45,18 @@ const Recommend = () => {
         setListProduct(listProduct.sort((a, b) => b.price - a.price));
         setOptionSortPrice(!optionSortPrice);
         break;
+      case "ABC":
+        setListProduct(
+          listProduct.sort((a, b) => a.name.localeCompare(b.name))
+        );
+        setChange(!change);
+        break;
+      case "CBA":
+        setListProduct(
+          listProduct.sort((a, b) => b.name.localeCompare(a.name))
+        );
+        setChange(!change);
+        break;
       default:
         break;
     }
@@ -86,6 +98,12 @@ const Recommend = () => {
           <Typography>Sắp xếp theo:</Typography>
           <Box sx={styleOption} onClick={() => handleSortPrice("sell")}>
             Bán chạy
+          </Box>
+          <Box sx={styleOption} onClick={() => handleSortPrice("ABC")}>
+            A - Z
+          </Box>
+          <Box sx={styleOption} onClick={() => handleSortPrice("CBA")}>
+            Z - A
           </Box>
           {optionSortPrice ? (
             <Box sx={styleOption} onClick={() => handleSortPrice("high")}>

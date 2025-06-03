@@ -74,7 +74,12 @@ export const getAllProductUser = async () => {
   );
   return response.data;
 };
-
+export const fetchProductAPI = async (searchPath) => {
+  const response = await authorizeAxiosInstance.get(
+    `${apiRoot}/v1/products${searchPath}`
+  );
+  return response.data;
+};
 //shop API
 export const registerShop = async (data, logo) => {
   const response = await authorizeAxiosInstance.post(

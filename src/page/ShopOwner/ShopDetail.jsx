@@ -33,7 +33,14 @@ const ShopDetail = () => {
     setOpen(!open);
   };
   const sidebarItems = [
-    { label: "Vận chuyển", icon: "LocalShipping" },
+    {
+      label: "Cửa hàng của tôi",
+      icon: "Store",
+      children: [
+        { id: 1, title: "Trang chủ", link: "/shop_detail/myShop" },
+        { id: 2, title: "Danh sách đơn hàng", link: "/shop_detail/orders" },
+      ],
+    },
     {
       label: "Quản Lý Sản Phẩm",
       icon: "ShoppingCart",

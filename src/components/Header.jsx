@@ -19,22 +19,32 @@ import shopeeImg from "../assets/shopee.png";
 import QrShope from "./QRSHOPEE/QrShope";
 import CartItem from "./Cart/CartItem";
 import MyAccount from "./MyAccount/MyAccount";
-import { Link, useNavigate } from "react-router-dom";
-import { RecommendData } from "../Data/RecommenData";
+import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import Notification from "./Notification/Notification";
+import { fetchProductAPI } from "../api";
+import { useDebounceFn } from "../customHook/useDebounceFn";
 
 const Header = ({ showHeader }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
-  const [searchValue, setSearchValue] = useState("");
+  const [resultSearch, setResultSearch] = useState([]);
+  const [searchType, setSearchType] = useState([]);
+
   const handleSearch = (e) => {
-    setSearchValue(e);
+    const searchValue = e.target.value;
+    if (!searchValue) return;
+    setSearchType(searchValue);
+    const searchPath = `?${createSearchParams({ "q[name]": searchValue })}`;
+    fetchProductAPI(searchPath).then((res) => {
+      setResultSearch(res || []);
+    });
   };
-  const handleFindItem = () => {
-    const data = searchValue;
-    navigate(`/search?value=${data}`);
-    setSearchValue("");
+  const debounceSearchProduct = useDebounceFn(handleSearch);
+  const handleFindItem = (value) => {
+    navigate(`/search?value=${value?.name ? value?.name : searchType}`, {
+      state: { results: resultSearch ? resultSearch : searchType },
+    });
   };
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -42,6 +52,7 @@ const Header = ({ showHeader }) => {
   const handlePopoverClose = () => {
     setAnchorEl(null);
   };
+
   if (!showHeader)
     return (
       <Box
@@ -105,8 +116,6 @@ const Header = ({ showHeader }) => {
                   <LanguageChange />
                 </Box>
                 <Box sx={{ display: "flex", gap: 0.5, alignItems: "center" }}>
-                  {/* <Avatar sx={{ width: 24, height: 24 }} />
-                <Typography>VuVanDao</Typography> */}
                   <MyAccount />
                 </Box>
               </Box>
@@ -221,31 +230,27 @@ const Header = ({ showHeader }) => {
 
             <Autocomplete
               size="small"
-              value={searchValue}
+              options={
+                resultSearch.map((product) => {
+                  return product?.name;
+                }) || []
+              }
+              filterOptions={(options) => options}
               onChange={(event, newValue) => {
-                setSearchValue(newValue);
+                handleFindItem(newValue);
               }}
-              selectOnFocus
-              clearOnBlur
-              handleHomeEndKeys
-              id="free-solo-with-text-demo"
-              options={RecommendData.map((item) => item.name)}
-              renderOption={(props, option) => {
-                const { key, ...optionProps } = props;
-                return (
-                  <li key={key} {...optionProps}>
-                    {option}
-                  </li>
-                );
-              }}
-              freeSolo
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  onChange={(e) => handleSearch(e.target.value)}
+                  onChange={debounceSearchProduct}
+                  slotProps={{
+                    input: {
+                      ...params.InputProps,
+                      type: "search",
+                    },
+                  }}
                   sx={{
                     width: "700px",
-
                     "& .MuiOutlinedInput-root": {
                       color: "white",
                       "& fieldset": {

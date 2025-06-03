@@ -125,6 +125,7 @@ const TodoList = () => {
             textAlign: "center",
             color: "black",
           }}
+          onClick={() => handleGetDetailOrder}
         >
           <Typography sx={{ fontSize: "20px" }}>
             {listOrdersPending?.length}

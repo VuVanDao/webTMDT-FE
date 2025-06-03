@@ -36,11 +36,24 @@ import DoneOrder from "./page/Account/purchaseTab/DoneOrder";
 import RejectOrder from "./page/Account/purchaseTab/RejectOrder";
 import DeliveringOrder from "./page/Account/purchaseTab/DeliveringOrder";
 import Manage_account from "./page/Admin/AdminAccount/manage_account";
+import ListOrders from "./page/ShopOwner/Order/ListShopOrders";
+import AllShopOrder from "./page/ShopOwner/Order/AllShopOrder";
+import PendingShopOrder from "./page/ShopOwner/Order/PendingShopOrder";
+import DeliveringShopOrder from "./page/ShopOwner/Order/DeliveringShopOrder";
+import DoneShopOrder from "./page/ShopOwner/Order/DoneShopOrder";
+import RejectShopOrder from "./page/ShopOwner/Order/RejectShopOrder";
 
 const ProtectedRoute = () => {
   const user = useSelector(userInfoSelector);
   if (!user) {
     return <Navigate to={"/login"} />;
+  }
+  return <Outlet />;
+};
+const ProtectRegisterRouter = () => {
+  const user = useSelector(userInfoSelector);
+  if (user?.role === "shop_owner") {
+    return <Navigate to={"/homePage"} />;
   }
   return <Outlet />;
 };
@@ -89,22 +102,25 @@ const App = () => {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/cartDetail" element={<CartDetail />} />
           {/* <Route path="/MyAccount" element={<DetailAccount />} /> */}
-          <Route path="/register_shop" element={<Welcome />} />
+          <Route element={<ProtectRegisterRouter />}>
+            {/* register shop */}
+            <Route path="/register_shop" element={<Welcome />} />
 
-          <Route path="/register_shop" element={<RegisterPage />}>
-            <Route
-              path=""
-              element={<Navigate to={"welcome"} replace={true} />}
-            />
-            <Route path="welcome" element={<Welcome />} />
-            <Route path="step_1" element={<Step_1 />} />
-            <Route path="step_2" element={<Step_2 />} />
-            <Route path="step_2_extra" element={<Step_2_extra />} />
-            <Route path="step_3" element={<Step_3 />} />
-            <Route path="final_step" element={<FinalStep />} />
-            {/* <Route path="addNewProduct" element={<AddNewProduct />} /> */}
-            {/* <Route path="updateProduct" element={<UpdateProduct />} /> */}
-            {/* <Route path="deleteProduct" element={<DeleteProduct />} /> */}
+            <Route path="/register_shop" element={<RegisterPage />}>
+              <Route
+                path=""
+                element={<Navigate to={"welcome"} replace={true} />}
+              />
+              <Route path="welcome" element={<Welcome />} />
+              <Route path="step_1" element={<Step_1 />} />
+              <Route path="step_2" element={<Step_2 />} />
+              <Route path="step_2_extra" element={<Step_2_extra />} />
+              <Route path="step_3" element={<Step_3 />} />
+              <Route path="final_step" element={<FinalStep />} />
+              {/* <Route path="addNewProduct" element={<AddNewProduct />} /> */}
+              {/* <Route path="updateProduct" element={<UpdateProduct />} /> */}
+              {/* <Route path="deleteProduct" element={<DeleteProduct />} /> */}
+            </Route>
           </Route>
 
           {/* admin */}
@@ -158,6 +174,21 @@ const App = () => {
               <Route path="addNewProduct" element={<AddNewProduct />} />
               <Route path="updateProduct" element={<UpdateProduct />} />
               <Route path="deleteProduct" element={<DeleteProduct />} />
+
+              <Route path="orders" element={<ListOrders />}>
+                <Route
+                  path=""
+                  element={<Navigate to={"all_order"} replace={true} />}
+                />
+                <Route path="all_order" element={<AllShopOrder />} />
+                <Route path="pending_order" element={<PendingShopOrder />} />
+                <Route
+                  path="delivering_order"
+                  element={<DeliveringShopOrder />}
+                />
+                <Route path="done_order" element={<DoneShopOrder />} />
+                <Route path="reject_order" element={<RejectShopOrder />} />
+              </Route>
             </Route>
           </Route>
         </Route>
