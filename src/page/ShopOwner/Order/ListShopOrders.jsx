@@ -9,10 +9,10 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 const ListOrders = () => {
   const UrlAvailable = {
     allOrder: "/shop_detail/orders/all_order",
-    pendingOrder: "shop_detail/orders/pending_order",
-    deliveringOrder: "shop_detail/orders/delivering_order",
-    doneOrder: "shop_detail/orders/done_order",
-    rejectOrder: "shop_detail/orders/reject_order",
+    pendingOrder: "/shop_detail/orders/pending_order",
+    deliveringOrder: "/shop_detail/orders/delivering_order",
+    doneOrder: "/shop_detail/orders/done_order",
+    rejectOrder: "/shop_detail/orders/reject_order",
   };
   const location = useLocation();
   const defaultActiveURL = () => {

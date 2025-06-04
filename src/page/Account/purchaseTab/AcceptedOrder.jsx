@@ -7,31 +7,22 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { formatPrice } from "../../../utils/formatter";
 import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
 import { getOderByStatus } from "../../../api";
-import { ModalRejectOrder } from "./ModalRejectOrder";
-const RejectOrder = () => {
+
+const AcceptedOrder = () => {
   const [listOrderPending, setListOrderPending] = useState([]);
-  const [openRejectOrder, setOpenRejectOrder] = useState(false);
   const [item, setItem] = useState(false);
   const userInfo = useSelector(userInfoSelector);
 
   const handleGetPendingOrder = async () => {
     const data = {
-      statusOrder: ORDER_STATUS.REJECTED,
+      statusOrder: ORDER_STATUS.ACCEPTED,
       customerId: userInfo?._id,
     };
     await getOderByStatus(data).then((res) => {
       setListOrderPending(res);
     });
   };
-  const handleRejectOrder = (item) => {
-    if (item) {
-      setItem(item);
-    }
-    if (item === true) {
-      handleGetPendingOrder();
-    }
-    setOpenRejectOrder(!openRejectOrder);
-  };
+
   useEffect(() => {
     handleGetPendingOrder();
   }, []);
@@ -86,7 +77,7 @@ const RejectOrder = () => {
                 </Typography>
 
                 <Typography variant="button" color="#00bfa5">
-                  Đã huỷ đơn
+                  Đang chuẩn bị hàng
                 </Typography>
                 <Divider
                   orientation="vertical"
@@ -151,13 +142,8 @@ const RejectOrder = () => {
           </Box>
         );
       })}
-      <ModalRejectOrder
-        openRejectOrder={openRejectOrder}
-        handleRejectOrder={handleRejectOrder}
-        item={item}
-      />
     </Box>
   );
 };
 
-export default RejectOrder;
+export default AcceptedOrder;

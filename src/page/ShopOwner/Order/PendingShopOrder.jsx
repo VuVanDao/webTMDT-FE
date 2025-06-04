@@ -6,8 +6,10 @@ import StorefrontIcon from "@mui/icons-material/Storefront";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { formatPrice } from "../../../utils/formatter";
 import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
-import { getOderByStatus } from "../../../api";
+import { getOrderByShopId, updateOrder } from "../../../api";
 import { ModalShopRejectOrder } from "./ModalShopRejectOrder";
+import { useConfirm } from "material-ui-confirm";
+import { toast } from "react-toastify";
 const PendingShopOrder = () => {
   const [listOrderPending, setListOrderPending] = useState([]);
   const [openRejectOrder, setOpenRejectOrder] = useState(false);
@@ -15,12 +17,12 @@ const PendingShopOrder = () => {
   const userInfo = useSelector(userInfoSelector);
 
   const handleGetPendingOrder = async () => {
-    const data = {
-      statusOrder: ORDER_STATUS.PENDING,
-      customerId: userInfo?._id,
-    };
-    await getOderByStatus(data).then((res) => {
-      setListOrderPending(res);
+    await getOrderByShopId(userInfo?.shopId).then((res) => {
+      setListOrderPending(
+        res?.filter((item) => {
+          return item?.status === ORDER_STATUS.PENDING;
+        })
+      );
     });
   };
   const handleRejectOrder = (item) => {
@@ -31,6 +33,26 @@ const PendingShopOrder = () => {
       handleGetPendingOrder();
     }
     setOpenRejectOrder(!openRejectOrder);
+  };
+  const confirmOrder = useConfirm();
+  const handleAcceptOrder = async (item) => {
+    if (item) {
+      setItem(item);
+    }
+    const { confirmed, reason } = await confirmOrder({
+      description: `Xác nhận đơn hàng ${item?.name}`,
+      title: "Xác nhận giao đơn hàng này",
+    });
+    if (confirmed) {
+      await updateOrder(
+        { status: "ACCEPTED", textMessage: "Đơn hàng đang được chuẩn bị" },
+        item?._id
+      ).then((res) => {
+        if (!res.error) {
+          toast.info("Đã xác nhận đơn hàng");
+        }
+      });
+    }
   };
   useEffect(() => {
     handleGetPendingOrder();
@@ -100,7 +122,7 @@ const PendingShopOrder = () => {
             <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.12)" }} />
 
             <Box p={1} sx={{ display: "flex" }}>
-              {/* thong tinn chi tiet */}
+              {/* thong tin chi tiet */}
               <Box
                 sx={{
                   display: "flex",
@@ -154,14 +176,33 @@ const PendingShopOrder = () => {
 
             <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.12)" }} />
 
-            <Box sx={{ textAlign: "end", mt: 1 }}>
-              <Button
-                sx={{ bgcolor: (theme) => theme.commonColors, color: "white" }}
-                variant="contained"
-                onClick={() => handleRejectOrder(item)}
-              >
-                Huỷ đơn
-              </Button>
+            <Box
+              sx={{ display: "flex", mt: 1, justifyContent: "space-between" }}
+            >
+              <Box sx={{ display: "flex", gap: 1, p: 1, alignItems: "center" }}>
+                <Typography>Khách hàng:</Typography>
+                <Typography>{item?.customerInfo?.username}</Typography>
+              </Box>
+              <Box>
+                <Button
+                  sx={{
+                    bgcolor: (theme) => theme.commonColors,
+                    color: "white",
+                    mr: 2,
+                  }}
+                  variant="contained"
+                  onClick={() => handleAcceptOrder(item)}
+                >
+                  Xác nhận
+                </Button>
+                <Button
+                  color="warning"
+                  variant="contained"
+                  onClick={() => handleRejectOrder(item)}
+                >
+                  Huỷ đơn/Báo hết hàng
+                </Button>
+              </Box>
             </Box>
           </Box>
         );

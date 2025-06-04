@@ -95,6 +95,7 @@ const CheckoutPage = () => {
               phoneNumber: userInfo?.phoneNumber,
               email: userInfo?.email,
               avatar: userInfo?.avatar,
+              username: userInfo?.username,
             },
             customerId: userInfo?._id,
             productId: id,

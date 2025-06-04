@@ -239,6 +239,21 @@ const Header = ({ showHeader }) => {
               onChange={(event, newValue) => {
                 handleFindItem(newValue);
               }}
+              renderOption={(props, option) => {
+                return (
+                  <Box
+                    sx={{
+                      px: 2,
+                      cursor: "pointer",
+                      "&:hover": {
+                        bgcolor: "#f5f5f5",
+                      },
+                    }}
+                  >
+                    <Typography variant="caption">{option}</Typography>
+                  </Box>
+                );
+              }}
               renderInput={(params) => (
                 <TextField
                   {...params}

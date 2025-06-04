@@ -42,6 +42,7 @@ import PendingShopOrder from "./page/ShopOwner/Order/PendingShopOrder";
 import DeliveringShopOrder from "./page/ShopOwner/Order/DeliveringShopOrder";
 import DoneShopOrder from "./page/ShopOwner/Order/DoneShopOrder";
 import RejectShopOrder from "./page/ShopOwner/Order/RejectShopOrder";
+import AcceptedOrder from "./page/Account/purchaseTab/AcceptedOrder";
 
 const ProtectedRoute = () => {
   const user = useSelector(userInfoSelector);
@@ -92,6 +93,7 @@ const App = () => {
             />
             <Route path="all_order" element={<AllOrder />} />
             <Route path="pending_order" element={<PendingOrder />} />
+            <Route path="accepted_order" element={<AcceptedOrder />} />
             <Route path="delivering_order" element={<DeliveringOrder />} />
             <Route path="done_order" element={<DoneOrder />} />
             <Route path="reject_order" element={<RejectOrder />} />

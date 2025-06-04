@@ -77,7 +77,7 @@ const TodoList = () => {
         dispatch(getOrdersAPIReduxById(dataToEmit?.shopId)).then((res) => {
           setListOrderPending(
             res.payload?.filter((item) => {
-              item?.status === ORDER_STATUS.PENDING;
+              return item?.status === ORDER_STATUS.PENDING;
             })
           );
           setListOrderAccept(

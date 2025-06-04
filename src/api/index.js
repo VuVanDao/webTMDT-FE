@@ -171,3 +171,9 @@ export const updateOrder = async (data, id) => {
   );
   return response.data;
 };
+export const deleteOrder = async (id) => {
+  const response = await authorizeAxiosInstance.delete(
+    `${apiRoot}/v1/orders?orderId=${id}`
+  );
+  return response.data;
+};

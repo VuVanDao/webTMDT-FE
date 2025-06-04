@@ -13,6 +13,7 @@ const PurchaseDetail = () => {
     deliveringOrder: "/user/purchase/delivering_order",
     doneOrder: "/user/purchase/done_order",
     rejectOrder: "/user/purchase/reject_order",
+    acceptedOrder: "/user/purchase/accepted_order",
   };
   const location = useLocation();
   const defaultActiveURL = () => {
@@ -71,6 +72,13 @@ const PurchaseDetail = () => {
                 value="/user/purchase/pending_order"
                 component={Link}
                 to={`pending_order`}
+                sx={{ mr: 5 }}
+              />
+              <Tab
+                label="Đã xác nhận"
+                value="/user/purchase/accepted_order"
+                component={Link}
+                to={`accepted_order`}
                 sx={{ mr: 5 }}
               />
               <Tab
