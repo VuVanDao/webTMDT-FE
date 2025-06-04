@@ -43,6 +43,7 @@ import DeliveringShopOrder from "./page/ShopOwner/Order/DeliveringShopOrder";
 import DoneShopOrder from "./page/ShopOwner/Order/DoneShopOrder";
 import RejectShopOrder from "./page/ShopOwner/Order/RejectShopOrder";
 import AcceptedOrder from "./page/Account/purchaseTab/AcceptedOrder";
+import AcceptedShopOrder from "./page/ShopOwner/Order/AcceptedShopOrder";
 
 const ProtectedRoute = () => {
   const user = useSelector(userInfoSelector);
@@ -190,6 +191,7 @@ const App = () => {
                 />
                 <Route path="done_order" element={<DoneShopOrder />} />
                 <Route path="reject_order" element={<RejectShopOrder />} />
+                <Route path="accepted_order" element={<AcceptedShopOrder />} />
               </Route>
             </Route>
           </Route>

@@ -8,18 +8,19 @@ import { formatPrice } from "../../../utils/formatter";
 import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
 import { getOrderByShopId, updateOrder } from "../../../api";
 import { ModalShopRejectOrder } from "./ModalShopRejectOrder";
+import { useConfirm } from "material-ui-confirm";
 import { toast } from "react-toastify";
-const RejectShopOrder = () => {
-  const [listOrderRejected, setListOrderRejected] = useState([]);
+const AcceptedShopOrder = () => {
+  const [listOrderAccepted, setListOrderAccepted] = useState([]);
   const [openRejectOrder, setOpenRejectOrder] = useState(false);
   const [item, setItem] = useState(false);
   const userInfo = useSelector(userInfoSelector);
 
   const handleGetPendingOrder = async () => {
     await getOrderByShopId(userInfo?.shopId).then((res) => {
-      setListOrderRejected(
+      setListOrderAccepted(
         res?.filter((item) => {
-          return item?.status === ORDER_STATUS.REJECTED;
+          return item?.status === ORDER_STATUS.ACCEPTED;
         })
       );
     });
@@ -33,13 +34,22 @@ const RejectShopOrder = () => {
     }
     setOpenRejectOrder(!openRejectOrder);
   };
-
-  const handleDeleteFromShopOrder = async (item) => {
+  const confirmOrder = useConfirm();
+  const handleAcceptOrder = async (item) => {
     if (item) {
-      await deleteOrder(item?._id).then((res) => {
-        if (res?.deletedCount >= 1) {
-          toast.success("Thao tác thành công");
-          handleGetAllShopOrder();
+      setItem(item);
+    }
+    const { confirmed, reason } = await confirmOrder({
+      description: `Xác nhận đơn hàng ${item?.name}`,
+      title: "Xác nhận giao đơn hàng này",
+    });
+    if (confirmed) {
+      await updateOrder(
+        { status: "ACCEPTED", textMessage: "Đơn hàng đang được chuẩn bị" },
+        item?._id
+      ).then((res) => {
+        if (!res.error) {
+          toast.info("Đã xác nhận đơn hàng");
         }
       });
     }
@@ -49,7 +59,7 @@ const RejectShopOrder = () => {
   }, []);
   return (
     <Box>
-      {listOrderRejected?.map((item) => {
+      {listOrderAccepted?.map((item) => {
         return (
           <Box key={item?._id} mb={5} sx={{ border: "1px solid black" }} p={2}>
             {/* tieu de */}
@@ -98,7 +108,7 @@ const RejectShopOrder = () => {
                 </Typography>
 
                 <Typography variant="button" color="#00bfa5">
-                  Đã hủy đơn
+                  Đang chuẩn bị hàng
                 </Typography>
                 <Divider
                   orientation="vertical"
@@ -174,18 +184,24 @@ const RejectShopOrder = () => {
                 <Typography>{item?.customerInfo?.username}</Typography>
               </Box>
               <Box>
-                <Box>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      bgcolor: (theme) => theme.commonColors,
-                      color: "white",
-                    }}
-                    onClick={() => handleDeleteFromShopOrder(item)}
-                  >
-                    Xoá khỏi danh sách
-                  </Button>
-                </Box>
+                <Button
+                  sx={{
+                    bgcolor: (theme) => theme.commonColors,
+                    color: "white",
+                    mr: 2,
+                  }}
+                  variant="contained"
+                  onClick={() => handleAcceptOrder(item)}
+                >
+                  Xác nhận
+                </Button>
+                <Button
+                  color="warning"
+                  variant="contained"
+                  onClick={() => handleRejectOrder(item)}
+                >
+                  Huỷ đơn/Báo hết hàng
+                </Button>
               </Box>
             </Box>
           </Box>
@@ -200,4 +216,4 @@ const RejectShopOrder = () => {
   );
 };
 
-export default RejectShopOrder;
+export default AcceptedShopOrder;

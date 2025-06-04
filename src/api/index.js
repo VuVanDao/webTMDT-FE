@@ -177,3 +177,12 @@ export const deleteOrder = async (id) => {
   );
   return response.data;
 };
+
+//notification
+export const newNotification = async (data) => {
+  const response = await authorizeAxiosInstance.post(
+    `${apiRoot}/v1/notifications`,
+    data
+  );
+  return response.data;
+};

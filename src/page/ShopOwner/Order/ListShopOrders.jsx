@@ -13,6 +13,7 @@ const ListOrders = () => {
     deliveringOrder: "/shop_detail/orders/delivering_order",
     doneOrder: "/shop_detail/orders/done_order",
     rejectOrder: "/shop_detail/orders/reject_order",
+    acceptedOrder: "/shop_detail/orders/accepted_order",
   };
   const location = useLocation();
   const defaultActiveURL = () => {
@@ -71,6 +72,13 @@ const ListOrders = () => {
                 value="/shop_detail/orders/pending_order"
                 component={Link}
                 to={`pending_order`}
+                sx={{ mr: 5 }}
+              />
+              <Tab
+                label="Đang chuẩn bị"
+                value="/shop_detail/orders/accepted_order"
+                component={Link}
+                to={`accepted_order`}
                 sx={{ mr: 5 }}
               />
               <Tab

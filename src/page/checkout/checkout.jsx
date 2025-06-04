@@ -26,7 +26,6 @@ import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import { formatPrice } from "../../utils/formatter";
 import Footer from "../../components/Footer";
 import { toast } from "react-toastify";
-import { NotificationData } from "../../components/Notification/NotificationData";
 import { createNewOrder, getProductById } from "../../api";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -101,10 +100,11 @@ const CheckoutPage = () => {
             productId: id,
             shopId,
           };
-          console.log("🚀 ~ .then ~ order:", order);
           createNewOrder(order).then((res) => {
-            if (!res.error)
+            if (!res.error) {
               socketIoInstance.emit("user_place_an_order_fe", order);
+              socketIoInstance.emit("notification_place_order_from_fe", order);
+            }
           });
         }
       });

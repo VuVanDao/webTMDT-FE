@@ -1,4 +1,4 @@
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Grid, Stack, TablePagination, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { RecommendData } from "../../../Data/RecommenData";
 import { Link } from "react-router-dom";
@@ -13,6 +13,16 @@ const Recommend = () => {
   const [change, setChange] = useState(false);
   const [listProduct, setListProduct] = useState([]);
   const userInfo = useSelector(userInfoSelector);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(6);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   const handleGetAllProduct = async () => {
     const res = await getAllProductUser();
@@ -63,9 +73,6 @@ const Recommend = () => {
   };
   return (
     <Box>
-      {/* <Stack direction={"row"} spacing={1}>
-       
-      </Stack> */}
       <Box
         sx={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: 3 }}
       >
@@ -116,66 +123,77 @@ const Recommend = () => {
           )}
         </Box>
         <Grid container spacing={2} sx={{ bgcolor: (theme) => theme.bgColor }}>
-          {listProduct.map((item) => {
-            return (
-              <Grid
-                size={{ xs: 6, sm: 4, md: 3, lg: 2 }}
-                key={item.id}
-                sx={{ display: "flex" }}
-              >
-                <Box
-                  sx={{
-                    border: "1px solid rgba(0, 0, 0, .05)",
-                    textAlign: "center",
-                    "&:hover": {
-                      borderColor: (theme) => theme.commonColors,
-                      boxShadow: "0 0 .8125rem 0 rgba(0, 0, 0, .05)",
-                      transform: "scale(1)",
-                    },
-                    overflow: "hidden",
-                    // p: 1,
-                    bgcolor: "white",
-                  }}
-                  component={Link}
-                  to={`/detail?id=${item.id}`}
+          {listProduct
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((item) => {
+              return (
+                <Grid
+                  size={{ xs: 6, sm: 4, md: 3, lg: 2 }}
+                  key={item.id}
+                  sx={{ display: "flex" }}
                 >
-                  <img
-                    src={item?.image[0]}
-                    alt={item.name}
-                    style={{ width: "100%", border: "1px solid black" }}
-                  />
-                  <Box sx={{ p: 1 }}>
-                    <Box
-                      sx={{
-                        height: "50px",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        color: "black",
-                        mb: 3,
-                      }}
-                    >
-                      <Typography>{item?.name}</Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        color: "black",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Typography>{formatPrice(item?.price)}</Typography>
-                      <Typography sx={{ fontSize: "14px" }}>
-                        Đã bán: {item?.sold}
-                      </Typography>
+                  <Box
+                    sx={{
+                      border: "1px solid rgba(0, 0, 0, .05)",
+                      textAlign: "center",
+                      "&:hover": {
+                        borderColor: (theme) => theme.commonColors,
+                        boxShadow: "0 0 .8125rem 0 rgba(0, 0, 0, .05)",
+                        transform: "scale(1)",
+                      },
+                      overflow: "hidden",
+                      // p: 1,
+                      bgcolor: "white",
+                    }}
+                    component={Link}
+                    to={`/detail?id=${item.id}`}
+                  >
+                    <img
+                      src={item?.image[0]}
+                      alt={item.name}
+                      style={{ width: "100%", border: "1px solid black" }}
+                    />
+                    <Box sx={{ p: 1 }}>
+                      <Box
+                        sx={{
+                          height: "50px",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          color: "black",
+                          mb: 3,
+                        }}
+                      >
+                        <Typography>{item?.name}</Typography>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          color: "black",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Typography>{formatPrice(item?.price)}</Typography>
+                        <Typography sx={{ fontSize: "14px" }}>
+                          Đã bán: {item?.sold}
+                        </Typography>
+                      </Box>
                     </Box>
                   </Box>
-                </Box>
-              </Grid>
-            );
-          })}
+                </Grid>
+              );
+            })}
         </Grid>
       </Box>
+      <TablePagination
+        component="div"
+        count={listProduct?.length}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        rowsPerPageOptions={[6, 12, 18]}
+      />
     </Box>
   );
 };

@@ -1,12 +1,18 @@
 import { Badge, Box, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import { NotificationData } from "./NotificationData";
-
+import { socketIoInstance } from "../../main";
+import { useSelector } from "react-redux";
+import { userInfoSelector } from "../../redux/slice/userInfoSlice";
+import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
+import { newNotification } from "../../api";
 const Notification = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [Notification, setNotification] = useState([]);
   const open = Boolean(anchorEl);
+
+  const userInfo = useSelector(userInfoSelector);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -14,7 +20,28 @@ const Notification = () => {
     setAnchorEl(null);
   };
   useEffect(() => {
-    setNotification(NotificationData);
+    //function xu li su kien realTime
+    const ReceiveEmitFormBackEnd = async (dataToEmit) => {
+      if (dataToEmit?.customerId === userInfo?._id) {
+        await newNotification({
+          content: `Đã đặt hàng sản phẩm ${dataToEmit?.name}`,
+        });
+        toast.info("Có thông báo mới");
+      }
+    };
+    socketIoInstance.removeAllListeners(
+      `notification_place_order_from_be_${userInfo?._id}`
+    );
+    socketIoInstance.on(
+      `notification_place_order_from_be_${userInfo?._id}`,
+      ReceiveEmitFormBackEnd
+    );
+    return () => {
+      socketIoInstance.off(
+        `notification_place_order_from_be_${userInfo?._id}`,
+        ReceiveEmitFormBackEnd
+      );
+    };
   }, []);
   const handleConfirm = (id) => {
     const newNotification = [...Notification];
@@ -63,7 +90,7 @@ const Notification = () => {
                     fontSize: "14px",
                   }}
                 >
-                  Đã đặt hàng:{item?.name}
+                  {item}
                 </Typography>
                 <Typography
                   sx={{

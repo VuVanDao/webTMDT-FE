@@ -9,19 +9,23 @@ const LanguageChange = () => {
     setLanguage(event.target.value);
   };
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }} size="small" variant="standard">
-      {/* <InputLabel
-        id="demo-select-small-label"
-        sx={{
-          "&.Mui-focused": {
-            color: (theme) =>
-              theme.palette.mode === "dark" ? "primary.main" : "white",
-          },
-        }}
-      >
-        {language}
-      </InputLabel> */}
-
+    <FormControl
+      sx={{
+        m: 1,
+        minWidth: 120,
+        "& .MuiInput-underline:before": {
+          borderBottom: "none",
+        },
+        "& .MuiInput-underline:after": {
+          borderBottom: "none",
+        },
+        "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
+          borderBottom: "none",
+        },
+      }}
+      size="small"
+      variant="standard"
+    >
       <Select
         labelId="demo-select-small-label"
         id="demo-select-small"

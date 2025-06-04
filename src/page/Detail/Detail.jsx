@@ -288,7 +288,13 @@ const Detail = () => {
                   <Box sx={{ color: "#757575", width: "20%" }}>
                     {DetailData?.categoryId?.length > 0 && "Phân loại"}
                   </Box>
-                  <Box sx={{ display: "flex", gap: 3 }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: 3,
+                      flexWrap: "wrap",
+                    }}
+                  >
                     {DetailData?.categoryId?.map((item) => {
                       if (item.name === SelectCategory) {
                         return (
