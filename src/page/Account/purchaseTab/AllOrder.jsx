@@ -9,7 +9,7 @@ import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
 import { getOderByStatus } from "../../../api";
 import { ModalRejectOrder } from "./ModalRejectOrder";
 const AllOrder = () => {
-  const [listOrderPending, setListOrderPending] = useState([]);
+  const [listOrders, setListOrders] = useState([]);
   const [openRejectOrder, setOpenRejectOrder] = useState(false);
   const [item, setItem] = useState(false);
   const userInfo = useSelector(userInfoSelector);
@@ -20,7 +20,7 @@ const AllOrder = () => {
       customerId: userInfo?._id,
     };
     await getOderByStatus(data).then((res) => {
-      setListOrderPending(res);
+      setListOrders(res);
     });
   };
   const handleRejectOrder = (item) => {
@@ -37,7 +37,12 @@ const AllOrder = () => {
   }, []);
   return (
     <Box>
-      {listOrderPending?.map((item) => {
+      {listOrders?.length === 0 && (
+        <Box>
+          <Typography>Hiện chưa có đơn hàng nào</Typography>
+        </Box>
+      )}
+      {listOrders?.map((item) => {
         return (
           <Box key={item?._id} mb={5} sx={{ border: "1px solid black" }} p={2}>
             {/* tieu de */}

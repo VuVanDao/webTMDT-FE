@@ -49,6 +49,11 @@ const RejectShopOrder = () => {
   }, []);
   return (
     <Box>
+      {listOrderRejected?.length === 0 && (
+        <Box>
+          <Typography>Hiện chưa có đơn hàng nào</Typography>
+        </Box>
+      )}
       {listOrderRejected?.map((item) => {
         return (
           <Box key={item?._id} mb={5} sx={{ border: "1px solid black" }} p={2}>

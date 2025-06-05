@@ -6,7 +6,11 @@ import { useSelector } from "react-redux";
 import { userInfoSelector } from "../../redux/slice/userInfoSlice";
 import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
-import { newNotification } from "../../api";
+import {
+  deleteNotification,
+  getNotification,
+  newNotification,
+} from "../../api";
 const Notification = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [Notification, setNotification] = useState([]);
@@ -19,14 +23,31 @@ const Notification = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleGetNotification = async () => {
+    await getNotification(userInfo?._id).then((res) => {
+      if (!res.error) {
+        setNotification(res);
+      }
+    });
+  };
   useEffect(() => {
+    handleGetNotification();
+
     //function xu li su kien realTime
     const ReceiveEmitFormBackEnd = async (dataToEmit) => {
       if (dataToEmit?.customerId === userInfo?._id) {
         await newNotification({
           content: `Đã đặt hàng sản phẩm ${dataToEmit?.name}`,
+          ownerNotificationId: userInfo?._id,
         });
-        toast.info("Có thông báo mới");
+        handleGetNotification();
+      }
+    };
+    const ReceiveEmitAcceptedOrderFormBackEnd = async (dataToEmit) => {
+      if (dataToEmit?.ownerNotificationId === userInfo?._id) {
+        await newNotification(dataToEmit);
+        toast.success("Có thông báo mới về đơn hàng của bạn");
+        handleGetNotification();
       }
     };
     socketIoInstance.removeAllListeners(
@@ -36,16 +57,36 @@ const Notification = () => {
       `notification_place_order_from_be_${userInfo?._id}`,
       ReceiveEmitFormBackEnd
     );
+
+    //accepted order
+    socketIoInstance.removeAllListeners(
+      `accept_delivery_order_from_be_${userInfo?._id}`
+    );
+    socketIoInstance.on(
+      `accept_delivery_order_from_be_${userInfo?._id}`,
+      ReceiveEmitAcceptedOrderFormBackEnd
+    );
+
     return () => {
       socketIoInstance.off(
         `notification_place_order_from_be_${userInfo?._id}`,
         ReceiveEmitFormBackEnd
       );
+
+      //accepted order
+      socketIoInstance.off(
+        `accept_delivery_order_from_be_${userInfo?._id}`,
+        ReceiveEmitAcceptedOrderFormBackEnd
+      );
     };
   }, []);
-  const handleConfirm = (id) => {
-    const newNotification = [...Notification];
-    setNotification(newNotification.filter((item) => +item.id !== +id));
+
+  const handleConfirm = async (notificationId) => {
+    await deleteNotification(notificationId).then((res) => {
+      if (!res.error) {
+        handleGetNotification();
+      }
+    });
   };
   return (
     <Box sx={{ cursor: "pointer" }}>
@@ -73,8 +114,8 @@ const Notification = () => {
         {Notification?.length === 0 ? (
           <Box sx={{ p: 1 }}>Không có thông báo mới nào</Box>
         ) : (
-          Notification?.map((item, index) => (
-            <MenuItem key={index}>
+          Notification?.map((item) => (
+            <MenuItem key={item?._id}>
               <Box
                 sx={{
                   display: "flex",
@@ -90,14 +131,14 @@ const Notification = () => {
                     fontSize: "14px",
                   }}
                 >
-                  {item}
+                  {item?.content}
                 </Typography>
                 <Typography
                   sx={{
                     fontSize: "14px",
                     color: (theme) => theme.commonColors,
                   }}
-                  onClick={() => handleConfirm(item?.id)}
+                  onClick={() => handleConfirm(item?._id)}
                 >
                   Xác nhận
                 </Typography>

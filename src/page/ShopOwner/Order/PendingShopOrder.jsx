@@ -49,6 +49,7 @@ const PendingShopOrder = () => {
         item?._id
       ).then((res) => {
         if (!res.error) {
+          handleGetPendingOrder();
           toast.info("Đã xác nhận đơn hàng");
         }
       });
@@ -59,6 +60,11 @@ const PendingShopOrder = () => {
   }, []);
   return (
     <Box>
+      {listOrderPending?.length === 0 && (
+        <Box>
+          <Typography>Hiên chưa có đơn hàng nào</Typography>
+        </Box>
+      )}
       {listOrderPending?.map((item) => {
         return (
           <Box key={item?._id} mb={5} sx={{ border: "1px solid black" }} p={2}>

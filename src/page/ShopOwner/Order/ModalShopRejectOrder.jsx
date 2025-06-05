@@ -64,12 +64,11 @@ export const ModalShopRejectOrder = ({
               label="lí do huỷ đơn"
               onChange={handleChange}
             >
-              <MenuItem value={"Cần lựa chọn lại"}>Cần lựa chọn lại</MenuItem>
-              <MenuItem value={"Đổi lại địa chỉ nhận hàng"}>
-                Đổi lại địa chỉ nhận hàng
+              <MenuItem value={"Sản phẩm có sự thay đổi về giá cả"}>
+                Sản phẩm có sự thay đổi về giá cả
               </MenuItem>
-              <MenuItem value={"Không muốn mua nữa"}>
-                Không muốn mua nữa
+              <MenuItem value={"Sản phẩm vừa hết hàng"}>
+                Sản phẩm vừa hết hàng
               </MenuItem>
             </Select>
           </FormControl>

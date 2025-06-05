@@ -121,13 +121,17 @@ const AllShopOrder = () => {
                   {item?.status === ORDER_STATUS.ACCEPTED &&
                     "Đang chuẩn bị hàng"}
                   {item?.status === ORDER_STATUS.REJECTED && "Đã hủy đơn"}
+                  {item?.status === ORDER_STATUS.DELIVERING &&
+                    "Đang trên đường đến với khách hàng"}
                 </Typography>
                 <Divider
                   orientation="vertical"
                   variant="middle"
                   sx={{ bgcolor: "#555", height: "15px" }}
                 />
-                <Typography color="black">Đánh giá</Typography>
+                {item?.status !== ORDER_STATUS.DELIVERING && (
+                  <Typography color="black">Đánh giá</Typography>
+                )}
               </Box>
             </Box>
 

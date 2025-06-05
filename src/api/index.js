@@ -186,3 +186,15 @@ export const newNotification = async (data) => {
   );
   return response.data;
 };
+export const getNotification = async (id) => {
+  const response = await authorizeAxiosInstance.get(
+    `${apiRoot}/v1/notifications?id=${id}`
+  );
+  return response.data;
+};
+export const deleteNotification = async (notificationId) => {
+  const response = await authorizeAxiosInstance.delete(
+    `${apiRoot}/v1/notifications?notificationId=${notificationId}`
+  );
+  return response.data;
+};

@@ -10,13 +10,14 @@ import { getOrderByShopId, updateOrder } from "../../../api";
 import { ModalShopRejectOrder } from "./ModalShopRejectOrder";
 import { useConfirm } from "material-ui-confirm";
 import { toast } from "react-toastify";
+import { socketIoInstance } from "../../../main";
 const AcceptedShopOrder = () => {
   const [listOrderAccepted, setListOrderAccepted] = useState([]);
   const [openRejectOrder, setOpenRejectOrder] = useState(false);
   const [item, setItem] = useState(false);
   const userInfo = useSelector(userInfoSelector);
 
-  const handleGetPendingOrder = async () => {
+  const handleGetAcceptedOrder = async () => {
     await getOrderByShopId(userInfo?.shopId).then((res) => {
       setListOrderAccepted(
         res?.filter((item) => {
@@ -30,7 +31,7 @@ const AcceptedShopOrder = () => {
       setItem(item);
     }
     if (item === true) {
-      handleGetPendingOrder();
+      handleGetAcceptedOrder();
     }
     setOpenRejectOrder(!openRejectOrder);
   };
@@ -41,24 +42,34 @@ const AcceptedShopOrder = () => {
     }
     const { confirmed, reason } = await confirmOrder({
       description: `Xác nhận đơn hàng ${item?.name}`,
-      title: "Xác nhận giao đơn hàng này",
+      title: "Xác nhận chuyển đơn hàng này",
     });
     if (confirmed) {
       await updateOrder(
-        { status: "ACCEPTED", textMessage: "Đơn hàng đang được chuẩn bị" },
+        { status: "DELIVERING", textMessage: "Đơn hàng đang trên đường giao" },
         item?._id
       ).then((res) => {
         if (!res.error) {
-          toast.info("Đã xác nhận đơn hàng");
+          handleGetAcceptedOrder();
+          socketIoInstance.emit(`accept_delivery_order_from_fe`, {
+            content: `Đơn hàng đang trên đường giao ${item?.name}`,
+            ownerNotificationId: item?.customerId,
+          });
+          toast.info("Đã xác nhận chuyển  hàng");
         }
       });
     }
   };
   useEffect(() => {
-    handleGetPendingOrder();
+    handleGetAcceptedOrder();
   }, []);
   return (
     <Box>
+      {listOrderAccepted?.length === 0 && (
+        <Box>
+          <Typography>Hiện chưa có đơn hàng nào</Typography>
+        </Box>
+      )}
       {listOrderAccepted?.map((item) => {
         return (
           <Box key={item?._id} mb={5} sx={{ border: "1px solid black" }} p={2}>
@@ -193,7 +204,7 @@ const AcceptedShopOrder = () => {
                   variant="contained"
                   onClick={() => handleAcceptOrder(item)}
                 >
-                  Xác nhận
+                  Xác nhận chuyển hàng
                 </Button>
                 <Button
                   color="warning"

@@ -9,26 +9,31 @@ import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
 import { getOderByStatus } from "../../../api";
 
 const AcceptedOrder = () => {
-  const [listOrderPending, setListOrderPending] = useState([]);
+  const [listOrderAccepted, setListOrderAccepted] = useState([]);
   const [item, setItem] = useState(false);
   const userInfo = useSelector(userInfoSelector);
 
-  const handleGetPendingOrder = async () => {
+  const handleGetAcceptedOrder = async () => {
     const data = {
       statusOrder: ORDER_STATUS.ACCEPTED,
       customerId: userInfo?._id,
     };
     await getOderByStatus(data).then((res) => {
-      setListOrderPending(res);
+      setListOrderAccepted(res);
     });
   };
 
   useEffect(() => {
-    handleGetPendingOrder();
+    handleGetAcceptedOrder();
   }, []);
   return (
     <Box>
-      {listOrderPending?.map((item) => {
+      {listOrderAccepted?.length === 0 && (
+        <Box>
+          <Typography>Hiện chưa có đơn hàng nào</Typography>
+        </Box>
+      )}
+      {listOrderAccepted?.map((item) => {
         return (
           <Box key={item?._id} mb={5} sx={{ border: "1px solid black" }} p={2}>
             {/* tieu de */}
