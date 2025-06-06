@@ -6,15 +6,17 @@ import StorefrontIcon from "@mui/icons-material/Storefront";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { formatPrice } from "../../../utils/formatter";
 import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
-import { getOderByStatus } from "../../../api";
+import { getOderByStatus, updateOrder } from "../../../api";
 import { ModalRejectOrder } from "./ModalRejectOrder";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const AllOrder = () => {
   const [listOrders, setListOrders] = useState([]);
   const [openRejectOrder, setOpenRejectOrder] = useState(false);
   const [item, setItem] = useState(false);
   const userInfo = useSelector(userInfoSelector);
 
-  const handleGetPendingOrder = async () => {
+  const handleGetAllOrder = async () => {
     const data = {
       statusOrder: "All",
       customerId: userInfo?._id,
@@ -28,12 +30,26 @@ const AllOrder = () => {
       setItem(item);
     }
     if (item === true) {
-      handleGetPendingOrder();
+      handleGetAllOrder();
     }
     setOpenRejectOrder(!openRejectOrder);
   };
+  const handleReceiveOrder = async (item) => {
+    if (item) {
+      await updateOrder(
+        { status: "DONE", textMessage: "Đơn hàng đã được giao" },
+        item?._id
+      ).then((res) => {
+        if (!res.error) {
+          toast.success("Xác nhận thành công");
+          handleGetAllOrder();
+        }
+      });
+    }
+  };
+  const navigate = useNavigate();
   useEffect(() => {
-    handleGetPendingOrder();
+    handleGetAllOrder();
   }, []);
   return (
     <Box>
@@ -95,13 +111,19 @@ const AllOrder = () => {
                   {item?.status === ORDER_STATUS.ACCEPTED &&
                     "Đang chuẩn bị hàng"}
                   {item?.status === ORDER_STATUS.REJECTED && "Đã hủy đơn"}
+                  {item?.status === ORDER_STATUS.DELIVERING &&
+                    "Đang trên đường giao đến bạn"}
+                  {item?.status === ORDER_STATUS.DONE &&
+                    "Đơn hàng đã được giao"}
                 </Typography>
                 <Divider
                   orientation="vertical"
                   variant="middle"
                   sx={{ bgcolor: "#555", height: "15px" }}
                 />
-                <Typography color="black">Đánh giá</Typography>
+                {item?.status !== ORDER_STATUS.DELIVERING && (
+                  <Typography color="black">Đánh giá</Typography>
+                )}
               </Box>
             </Box>
 
@@ -176,16 +198,29 @@ const AllOrder = () => {
                   Huỷ đơn
                 </Button>
               ) : (
-                <Button
-                  sx={{
-                    bgcolor: (theme) => theme.commonColors,
-                    color: "white",
-                  }}
-                  variant="contained"
-                  onClick={() => handleRejectOrder(item)}
-                >
-                  Mua lại
-                </Button>
+                <Box sx={{ textAlign: "end", mt: 1 }}>
+                  <Button
+                    sx={{
+                      bgcolor: (theme) => theme.commonColors,
+                      color: "white",
+                      mr: 2,
+                    }}
+                    variant="contained"
+                    onClick={() => handleReceiveOrder(item)}
+                  >
+                    Đã nhận được hàng / đánh giá
+                  </Button>
+                  <Button
+                    sx={{
+                      bgcolor: (theme) => theme.commonColors,
+                      color: "white",
+                    }}
+                    variant="contained"
+                    onClick={() => navigate(`/detail/?id=${item?.productId}`)}
+                  >
+                    Mua lại
+                  </Button>
+                </Box>
               )}
             </Box>
           </Box>

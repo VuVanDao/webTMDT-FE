@@ -6,9 +6,10 @@ import StorefrontIcon from "@mui/icons-material/Storefront";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { formatPrice } from "../../../utils/formatter";
 import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
-import { deleteOrder, getOderByStatus } from "../../../api";
+import { deleteOrder, getOderByStatus, updateOrder } from "../../../api";
 import { ModalRejectOrder } from "./ModalRejectOrder";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const DeliveringOrder = () => {
   const [listOrderDelivering, setListOrderDelivering] = useState([]);
   const userInfo = useSelector(userInfoSelector);
@@ -22,16 +23,20 @@ const DeliveringOrder = () => {
       setListOrderDelivering(res);
     });
   };
-  const handleDeleteFromShopOrder = async (item) => {
+  const handleReceiveOrder = async (item) => {
     if (item) {
-      await deleteOrder(item?._id).then((res) => {
-        if (res?.deletedCount >= 1) {
+      await updateOrder(
+        { status: "DONE", textMessage: "Đơn hàng đã được giao" },
+        item?._id
+      ).then((res) => {
+        if (!res.error) {
           toast.success("Thao tác thành công");
           handleGetAllShopOrder();
         }
       });
     }
   };
+  const navigate = useNavigate();
   useEffect(() => {
     handleGetAllShopOrder();
   }, []);
@@ -156,9 +161,20 @@ const DeliveringOrder = () => {
 
             <Box sx={{ textAlign: "end", mt: 1 }}>
               <Button
+                sx={{
+                  bgcolor: (theme) => theme.commonColors,
+                  color: "white",
+                  mr: 2,
+                }}
+                variant="contained"
+                onClick={() => handleReceiveOrder(item)}
+              >
+                Đã nhận được hàng
+              </Button>
+              <Button
                 sx={{ bgcolor: (theme) => theme.commonColors, color: "white" }}
                 variant="contained"
-                onClick={() => handleDeleteFromShopOrder(item)}
+                onClick={() => navigate(`/detail/?id=${item?.productId}`)}
               >
                 Mua lại
               </Button>
