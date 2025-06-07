@@ -6,7 +6,12 @@ import StorefrontIcon from "@mui/icons-material/Storefront";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { formatPrice } from "../../../utils/formatter";
 import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
-import { deleteOrder, getOderByStatus, updateOrder } from "../../../api";
+import {
+  deleteOrder,
+  getOderByStatus,
+  update,
+  updateOrder,
+} from "../../../api";
 import { ModalRejectOrder } from "./ModalRejectOrder";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -26,14 +31,21 @@ const DeliveringOrder = () => {
   const handleReceiveOrder = async (item) => {
     if (item) {
       await updateOrder(
-        { status: "DONE", textMessage: "Đơn hàng đã được giao" },
+        {
+          status: "DONE",
+          textMessage: "Đơn hàng đã được giao",
+        },
         item?._id
       ).then((res) => {
         if (!res.error) {
           toast.success("Thao tác thành công");
-          handleGetAllShopOrder();
         }
       });
+      await update({
+        id: item?.productId,
+        newQuantity: item?.quantity,
+      });
+      handleGetAllShopOrder();
     }
   };
   const navigate = useNavigate();

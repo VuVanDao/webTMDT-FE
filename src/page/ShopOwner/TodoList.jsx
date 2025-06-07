@@ -12,6 +12,8 @@ import { ORDER_STATUS } from "../../utils/constants";
 const TodoList = () => {
   const [listOrdersPending, setListOrderPending] = useState([]);
   const [listOrdersAccept, setListOrderAccept] = useState([]);
+  const [listOrdersDelivering, setListOrderDelivering] = useState([]);
+  const [listOrdersDone, setListOrderDone] = useState([]);
   const [listOrdersReject, setListOrderReject] = useState([]);
 
   const userInfo = useSelector(userInfoSelector);
@@ -29,6 +31,16 @@ const TodoList = () => {
           return item?.status === ORDER_STATUS.ACCEPTED;
         })
       );
+      setListOrderDelivering(
+        res.filter((item) => {
+          return item?.status === ORDER_STATUS.DELIVERING;
+        })
+      );
+      setListOrderDone(
+        res.filter((item) => {
+          return item?.status === ORDER_STATUS.DONE;
+        })
+      );
       setListOrderReject(
         res.filter((item) => {
           return item?.status === ORDER_STATUS.REJECTED;
@@ -37,26 +49,6 @@ const TodoList = () => {
     });
   };
   const dataTest = [
-    {
-      num: 1,
-      title: "Đơn chờ xác nhận",
-    },
-    {
-      num: 2,
-      title: "Đơn đã xác nhận",
-    },
-    {
-      num: 3,
-      title: "Đơn đang giao",
-    },
-    {
-      num: 4,
-      title: "Đơn đã huỷ",
-    },
-    {
-      num: 5,
-      title: "Đơn giao thành công",
-    },
     {
       num: 6,
       title: "Sản phẩm bị tạm khoá",
@@ -83,6 +75,16 @@ const TodoList = () => {
           setListOrderAccept(
             res.filter((item) => {
               return item?.status === ORDER_STATUS.ACCEPTED;
+            })
+          );
+          setListOrderDelivering(
+            res.filter((item) => {
+              return item?.status === ORDER_STATUS.DELIVERING;
+            })
+          );
+          setListOrderDone(
+            res.filter((item) => {
+              return item?.status === ORDER_STATUS.DONE;
             })
           );
           setListOrderReject(
@@ -125,13 +127,14 @@ const TodoList = () => {
             textAlign: "center",
             color: "black",
           }}
-          onClick={() => handleGetDetailOrder}
+          // onClick={() => handleGetDetailOrder}
         >
           <Typography sx={{ fontSize: "20px" }}>
             {listOrdersPending?.length}
           </Typography>
           <Typography> Đơn chờ xác nhận</Typography>
         </Grid>
+
         <Grid
           size={{ lg: 3, md: 3, sm: 4, xs: 6 }}
           sx={{
@@ -147,6 +150,7 @@ const TodoList = () => {
           </Typography>
           <Typography>Đơn đã xác nhận</Typography>
         </Grid>
+
         <Grid
           size={{ lg: 3, md: 3, sm: 4, xs: 6 }}
           sx={{
@@ -157,9 +161,12 @@ const TodoList = () => {
             color: "black",
           }}
         >
-          <Typography sx={{ fontSize: "20px" }}> 1</Typography>
-          <Typography> a</Typography>
+          <Typography sx={{ fontSize: "20px" }}>
+            {listOrdersDelivering?.length}
+          </Typography>
+          <Typography>Đơn đang giao</Typography>
         </Grid>
+
         <Grid
           size={{ lg: 3, md: 3, sm: 4, xs: 6 }}
           sx={{
@@ -173,7 +180,7 @@ const TodoList = () => {
           <Typography sx={{ fontSize: "20px" }}>
             {listOrdersReject?.length}
           </Typography>
-          <Typography> Đơn đã </Typography>
+          <Typography> Đơn đã huỷ</Typography>
         </Grid>
         <Grid
           size={{ lg: 3, md: 3, sm: 4, xs: 6 }}
@@ -185,8 +192,10 @@ const TodoList = () => {
             color: "black",
           }}
         >
-          <Typography sx={{ fontSize: "20px" }}> 1</Typography>
-          <Typography> Đơn đã huỷ</Typography>
+          <Typography sx={{ fontSize: "20px" }}>
+            {listOrdersDone?.length}
+          </Typography>
+          <Typography> Đơn đã giao</Typography>
         </Grid>
         <Grid
           size={{ lg: 3, md: 3, sm: 4, xs: 6 }}
