@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useEffect, useState } from "react";
-import { Avatar, Tooltip } from "@mui/material";
+import { Avatar, Rating, Tooltip } from "@mui/material";
 import { formatPrice } from "../../../utils/formatter";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import Comment from "../../../components/Comment/Comment";
@@ -184,6 +184,12 @@ export const ModalEvaluateProduct = ({
                         }}
                       >
                         {item?.commentContent}
+                      </Box>
+                      <Box
+                        sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                      >
+                        Đánh giá:
+                        <Rating defaultValue={item?.rating} size="small" />
                       </Box>
                     </Box>
                   </Box>

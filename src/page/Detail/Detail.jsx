@@ -1,9 +1,11 @@
 import {
+  Avatar,
   Box,
   Button,
   Container,
   Grid,
   Rating,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -28,6 +30,9 @@ import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import { v4 as uuidv4 } from "uuid";
+import ShopOwnerProduct from "./ShopOwnerProduct";
+import MDEditor from "@uiw/react-md-editor";
+import moment from "moment";
 
 const Detail = () => {
   const [DetailData, setDetailData] = useState(null);
@@ -516,6 +521,111 @@ const Detail = () => {
                 </Box>
               </Box>
             </Box>
+          </Box>
+
+          {/* shopInfo */}
+          <ShopOwnerProduct shopId={DetailData?.shopId} />
+
+          <Box sx={{ bgcolor: "white", color: "black", p: 3, mt: 2 }}>
+            <Typography
+              sx={{
+                p: 2,
+                bgcolor: "#f5f5f5",
+                color: "black",
+                display: "flex",
+                alignItems: "center",
+                textTransform: "uppercase",
+                fontSize: "20px",
+              }}
+            >
+              Chi tiết sản phẩm
+            </Typography>
+            <Box sx={{ mt: 2, pl: 2 }}>
+              {DetailData?.tagsId?.map((item) => (
+                <Typography
+                  color="rgba(0,0,0,0.4)"
+                  sx={{ cursor: "pointer", display: "inline", mr: 2 }}
+                >
+                  {item}
+                </Typography>
+              ))}
+            </Box>
+            <Box sx={{ display: "flex", gap: 5, mt: 3, pl: 2 }}>
+              <Typography color="rgba(0,0,0,0.4)">
+                Số sản phẩm còn lại
+              </Typography>
+              <Typography color="#fa5130">{DetailData?.quantity}</Typography>
+            </Box>
+            <Typography
+              sx={{
+                p: 2,
+                bgcolor: "#f5f5f5",
+                color: "black",
+                display: "flex",
+                alignItems: "center",
+                textTransform: "uppercase",
+                fontSize: "20px",
+                my: 2,
+              }}
+            >
+              Mô tả sản phẩm
+            </Typography>
+            {DetailData?.description && (
+              <Box pl={2}>
+                <MDEditor.Markdown
+                  source={DetailData?.description}
+                  style={{
+                    whiteSpace: "pre-wrap",
+                  }}
+                />
+              </Box>
+            )}
+          </Box>
+          <Box sx={{ bgcolor: "white", color: "black", p: 3, mt: 2 }}>
+            {DetailData?.comments?.map((item, index) => (
+              <Box
+                sx={{ display: "flex", gap: 1, width: "100%", mb: 1.5 }}
+                key={index}
+              >
+                <Tooltip title={item?.username}>
+                  <Avatar
+                    sx={{ width: 36, height: 36, cursor: "pointer" }}
+                    alt={item?.username}
+                    src={item?.userAvatar}
+                  />
+                </Tooltip>
+                <Box sx={{ width: "inherit" }}>
+                  <Typography variant="span" sx={{ fontWeight: "bold", mr: 1 }}>
+                    {item?.username}
+                  </Typography>
+
+                  <Typography variant="span" sx={{ fontSize: "12px" }}>
+                    {moment(item?.commentAt).format("llll")}
+                  </Typography>
+
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                    Đánh giá:
+                    <Rating defaultValue={item?.rating} size="small" readOnly />
+                  </Box>
+
+                  <Box
+                    sx={{
+                      display: "block",
+                      bgcolor: (theme) =>
+                        theme.palette.mode === "dark" ? "#33485D" : "white",
+                      p: "8px 12px",
+                      mt: "4px",
+                      border: "0.5px solid rgba(0, 0, 0, 0.2)",
+                      borderRadius: "4px",
+                      wordBreak: "break-word",
+                      boxShadow: "0 0 1px rgba(0, 0, 0, 0.2)",
+                    }}
+                  >
+                    {item?.commentContent}
+                  </Box>
+                </Box>
+              </Box>
+            ))}
           </Box>
         </Container>
       </Box>

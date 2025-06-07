@@ -48,6 +48,12 @@ export const updateAccount = async (data) => {
   );
   return response.data;
 };
+export const deleteAccount = async (id) => {
+  const response = await authorizeAxiosInstance.delete(
+    `${apiRoot}/v1/users?id=${id}`
+  );
+  return response.data;
+};
 // export const updateAvatarAccount = async (data) => {
 //   const response = await authorizeAxiosInstance.put(
 //     `${apiRoot}/v1/users/updateAvatar`,

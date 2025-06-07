@@ -65,6 +65,8 @@ const CheckoutPage = () => {
   const dispatch = useDispatch();
 
   const handleCheckOut = () => {
+    console.log([...userInfo?.cartItem?.filter((i) => i.ProductId !== id)]);
+
     toast
       .promise(
         dispatch(

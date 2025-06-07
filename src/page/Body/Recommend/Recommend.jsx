@@ -129,7 +129,7 @@ const Recommend = () => {
               return (
                 <Grid
                   size={{ xs: 6, sm: 4, md: 3, lg: 2 }}
-                  key={item.id}
+                  key={item._id}
                   sx={{ display: "flex" }}
                 >
                   <Box
@@ -142,11 +142,10 @@ const Recommend = () => {
                         transform: "scale(1)",
                       },
                       overflow: "hidden",
-                      // p: 1,
                       bgcolor: "white",
                     }}
                     component={Link}
-                    to={`/detail?id=${item.id}`}
+                    to={`/detail?id=${item._id}`}
                   >
                     <img
                       src={item?.image[0]}

@@ -6,11 +6,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
-import { getAllAccount } from "../../../api";
+import { deleteAccount, getAllAccount } from "../../../api";
 import { Avatar, Box, Button, TablePagination } from "@mui/material";
 import { ModalAddAccount } from "./ModalAddAccount";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import { ModalUpdateAccount } from "./ModalUpdateAccount";
+import { toast } from "react-toastify";
 
 const Manage_account = () => {
   const [listAccount, setListAccount] = useState([]);
@@ -38,6 +39,13 @@ const Manage_account = () => {
   const handleUpdateAccount = (item) => {
     setInfoAccountToUpdate(item);
     setOpenModalUpdate(!openModalUpdate);
+  };
+  const handleDeleteAccount = async (item) => {
+    await deleteAccount(item).then((res) => {
+      if (!res?.error) {
+        handleGetAllAccount();
+      }
+    });
   };
   useEffect(() => {
     handleGetAllAccount();
@@ -97,7 +105,14 @@ const Manage_account = () => {
                       >
                         Chỉnh
                       </Button>
-                      <Button variant="contained">Xoá</Button>
+                      <Button
+                        variant="contained"
+                        onClick={() => {
+                          handleDeleteAccount(item?._id);
+                        }}
+                      >
+                        Xoá
+                      </Button>
                     </Box>
                   </TableCell>
                 </TableRow>
