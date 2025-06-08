@@ -10,14 +10,12 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { RecommendData } from "../../Data/RecommenData";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { formatPrice } from "../../utils/formatter";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { toast } from "react-toastify";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import { data } from "../../Data/CartData";
 import { useDispatch, useSelector } from "react-redux";
 import {
   updateUserAPI,
@@ -49,6 +47,39 @@ const Detail = () => {
   const userInfo = useSelector(userInfoSelector);
 
   const dispatch = useDispatch();
+
+  const ratingSelection = [
+    {
+      id: 1,
+      title: "Tất cả",
+      value: "All",
+    },
+    {
+      id: 2,
+      title: "5 Sao",
+      value: 5,
+    },
+    {
+      id: 3,
+      title: "4 Sao",
+      value: 4,
+    },
+    {
+      id: 4,
+      title: "3 Sao",
+      value: 3,
+    },
+    {
+      id: 5,
+      title: "2 Sao",
+      value: 2,
+    },
+    {
+      id: 6,
+      title: "1 Sao",
+      value: 1,
+    },
+  ];
 
   const getDataProduct = async (id) => {
     const getData = await getProductById(id);
@@ -167,7 +198,17 @@ const Detail = () => {
         });
     }
   };
-
+  const handleRatingAverage = () => {
+    if (!DetailData?.comments?.length) return 0;
+    const totalRating = DetailData.comments.reduce(
+      (sum, item) => sum + (item?.rating || 0),
+      0
+    );
+    return totalRating / DetailData.comments.length;
+  };
+  if (!DetailData) {
+    return <Box>nothing!!!!</Box>;
+  }
   return (
     <Box>
       <Header showHeader={true} />
@@ -179,7 +220,14 @@ const Detail = () => {
       >
         <Container sx={{ minWidth: "1200px !important" }}>
           <Box sx={{ bgcolor: "white", color: "black", p: 3 }}>
-            <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                gap: 10,
+              }}
+            >
+              {/* right */}
               <Box
                 sx={{
                   width: "500px",
@@ -243,6 +291,8 @@ const Detail = () => {
                   </Swiper>
                 </Box>
               </Box>
+
+              {/* left */}
               <Box>
                 <Typography variant="h6">{DetailData?.name}</Typography>
                 <Rating
@@ -524,7 +574,7 @@ const Detail = () => {
           </Box>
 
           {/* shopInfo */}
-          <ShopOwnerProduct shopId={DetailData?.shopId} />
+          <ShopOwnerProduct ShopInfo={DetailData?.ShopInfo[0]} />
 
           <Box sx={{ bgcolor: "white", color: "black", p: 3, mt: 2 }}>
             <Typography
@@ -540,22 +590,35 @@ const Detail = () => {
             >
               Chi tiết sản phẩm
             </Typography>
+
             <Box sx={{ mt: 2, pl: 2 }}>
-              {DetailData?.tagsId?.map((item) => (
+              {DetailData?.tagsId?.map((item, index) => (
                 <Typography
                   color="rgba(0,0,0,0.4)"
                   sx={{ cursor: "pointer", display: "inline", mr: 2 }}
+                  key={index}
                 >
                   {item}
                 </Typography>
               ))}
             </Box>
+
             <Box sx={{ display: "flex", gap: 5, mt: 3, pl: 2 }}>
               <Typography color="rgba(0,0,0,0.4)">
                 Số sản phẩm còn lại
               </Typography>
-              <Typography color="#fa5130">{DetailData?.quantity}</Typography>
+              <Typography color="#fa5130">
+                {DetailData?.quantity - DetailData?.sold}
+              </Typography>
             </Box>
+
+            <Box sx={{ display: "flex", gap: 5, mt: 3, pl: 2 }}>
+              <Typography color="rgba(0,0,0,0.4)">Gửi từ</Typography>
+              <Typography color="#fa5130">
+                {DetailData?.ShopInfo[0].address}
+              </Typography>
+            </Box>
+
             <Typography
               sx={{
                 p: 2,
@@ -581,7 +644,81 @@ const Detail = () => {
               </Box>
             )}
           </Box>
+
           <Box sx={{ bgcolor: "white", color: "black", p: 3, mt: 2 }}>
+            <Typography
+              sx={{
+                px: 2,
+                color: "black",
+                textTransform: "uppercase",
+                fontSize: "20px",
+                mb: 2,
+              }}
+            >
+              Đánh giá sản phẩm
+            </Typography>
+            <Box
+              sx={{
+                bgcolor: "#ffeee8",
+                m: 2,
+                p: 3,
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+              }}
+            >
+              <Box>
+                <Box
+                  sx={{
+                    color: "#fa5130",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                  }}
+                >
+                  <Typography style={{ fontSize: "30px" }}>
+                    {handleRatingAverage()}
+                  </Typography>
+                  <Typography> trên 5</Typography>
+                </Box>
+                <Rating
+                  value={handleRatingAverage()}
+                  readOnly
+                  precision={0.5}
+                  sx={{
+                    ".MuiRating-icon": {
+                      color: "red",
+                    },
+                  }}
+                />
+              </Box>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 3,
+                  flexWrap: "wrap",
+                  height: "20px",
+                }}
+              >
+                {ratingSelection.map((item) => (
+                  <Box
+                    key={item.id}
+                    sx={{
+                      cursor: "pointer",
+                      border: "1px solid red",
+                      p: "5px 20px",
+                      bgcolor: "white",
+                      color: "black",
+                      borderRadius: "2px",
+                    }}
+                  >
+                    <Typography>{item.title}</Typography>
+                  </Box>
+                ))}
+              </Box>
+            </Box>
+
             {DetailData?.comments?.map((item, index) => (
               <Box
                 sx={{ display: "flex", gap: 1, width: "100%", mb: 1.5 }}
@@ -611,14 +748,11 @@ const Detail = () => {
                   <Box
                     sx={{
                       display: "block",
-                      bgcolor: (theme) =>
-                        theme.palette.mode === "dark" ? "#33485D" : "white",
-                      p: "8px 12px",
+                      bgcolor: "white",
                       mt: "4px",
-                      border: "0.5px solid rgba(0, 0, 0, 0.2)",
-                      borderRadius: "4px",
+                      border: "0.5px solid transparent",
+                      color: "black",
                       wordBreak: "break-word",
-                      boxShadow: "0 0 1px rgba(0, 0, 0, 0.2)",
                     }}
                   >
                     {item?.commentContent}

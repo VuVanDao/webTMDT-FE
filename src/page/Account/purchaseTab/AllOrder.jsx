@@ -186,7 +186,7 @@ const AllOrder = () => {
             <Divider sx={{ bgcolor: "rgba(0, 0, 0, 0.12)" }} />
 
             <Box sx={{ textAlign: "end", mt: 1 }}>
-              {item?.status === ORDER_STATUS.PENDING ? (
+              {item?.status === ORDER_STATUS.PENDING && (
                 <Button
                   sx={{
                     bgcolor: (theme) => theme.commonColors,
@@ -197,7 +197,8 @@ const AllOrder = () => {
                 >
                   Huỷ đơn
                 </Button>
-              ) : (
+              )}
+              {item?.status === ORDER_STATUS.DELIVERING && (
                 <Box sx={{ textAlign: "end", mt: 1 }}>
                   <Button
                     sx={{
@@ -219,6 +220,42 @@ const AllOrder = () => {
                     onClick={() => navigate(`/detail/?id=${item?.productId}`)}
                   >
                     Mua lại
+                  </Button>
+                </Box>
+              )}
+              {item?.status === ORDER_STATUS.DONE && (
+                <Box sx={{ textAlign: "end", mt: 1 }}>
+                  <Button
+                    sx={{
+                      bgcolor: (theme) => theme.commonColors,
+                      color: "white",
+                      mr: 2,
+                    }}
+                    variant="contained"
+                    onClick={() => handleEvaluateProduct(item)}
+                  >
+                    đánh giá
+                  </Button>
+                  <Button
+                    sx={{
+                      bgcolor: (theme) => theme.commonColors,
+                      color: "white",
+                      mr: 2,
+                    }}
+                    variant="contained"
+                    onClick={() => navigate(`/detail/?id=${item?.productId}`)}
+                  >
+                    Mua lại
+                  </Button>
+                  <Button
+                    sx={{
+                      bgcolor: (theme) => theme.commonColors,
+                      color: "white",
+                    }}
+                    variant="contained"
+                    onClick={() => navigate(`/detail/?id=${item?.productId}`)}
+                  >
+                    Yêu cầu trả hàng / hoàn tiền
                   </Button>
                 </Box>
               )}

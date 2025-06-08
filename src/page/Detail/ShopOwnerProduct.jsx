@@ -1,9 +1,9 @@
 import { Avatar, Box, Divider, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { getDetailShop } from "../../api";
+
 import TextsmsIcon from "@mui/icons-material/Textsms";
 import StorefrontIcon from "@mui/icons-material/Storefront";
-const ShopOwnerProduct = ({ shopId }) => {
+const ShopOwnerProduct = ({ ShopInfo }) => {
   const [detailShop, setDetailShop] = useState("");
 
   const handleGetShopEvaluate = () => {
@@ -15,17 +15,13 @@ const ShopOwnerProduct = ({ shopId }) => {
   };
 
   useEffect(() => {
-    if (shopId) {
-      const handleGetDetailShop = async () => {
-        await getDetailShop(shopId).then((res) => {
-          if (!res?.error) {
-            setDetailShop(res[0]);
-          }
-        });
+    if (ShopInfo) {
+      const handleGetDetailShop = () => {
+        setDetailShop(ShopInfo);
       };
       handleGetDetailShop();
     }
-  }, [shopId]);
+  }, [ShopInfo]);
   return (
     <Box
       sx={{

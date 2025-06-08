@@ -171,6 +171,17 @@ export const ModalEvaluateProduct = ({
                       </Typography>
 
                       <Box
+                        sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                      >
+                        Đánh giá:
+                        <Rating
+                          defaultValue={item?.rating}
+                          size="small"
+                          readOnly
+                        />
+                      </Box>
+
+                      <Box
                         sx={{
                           display: "block",
                           bgcolor: (theme) =>
@@ -184,12 +195,6 @@ export const ModalEvaluateProduct = ({
                         }}
                       >
                         {item?.commentContent}
-                      </Box>
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", gap: 2 }}
-                      >
-                        Đánh giá:
-                        <Rating defaultValue={item?.rating} size="small" />
                       </Box>
                     </Box>
                   </Box>
