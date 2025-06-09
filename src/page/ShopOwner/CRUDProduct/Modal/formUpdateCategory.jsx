@@ -93,8 +93,10 @@ const FormUpdateCategory = ({
                     sx={{
                       "& input": {
                         height: "10px",
+                        fontSize: "12px",
                       },
                     }}
+                    size="small"
                     onChange={(e) => handleChangeValue(e.target.value, id)}
                   />
                 </Box>
@@ -106,6 +108,7 @@ const FormUpdateCategory = ({
                       bgcolor: (theme) => theme.commonColors,
                       cursor: "pointer",
                     }}
+                    size="small"
                   >
                     Chọn ảnh
                     <CustomInputFile
@@ -120,6 +123,7 @@ const FormUpdateCategory = ({
                     color="primary"
                     sx={{ mr: 2 }}
                     onClick={handleAddNewCategory}
+                    size="small"
                   >
                     Thêm
                   </Button>
@@ -127,23 +131,21 @@ const FormUpdateCategory = ({
                     variant="contained"
                     color="error"
                     onClick={() => handleDeleteCategory(id)}
+                    size="small"
                   >
                     Xoá
                   </Button>
                 </Box>
               </Box>
-              <Tooltip
-                title="click to view"
-                onClick={() => setOpenImage(!openImage)}
-              >
-                <img
-                  src={imageToDisplay}
-                  style={{
-                    width: "100px",
-                    //   border: "1px solid",
-                  }}
-                />
-              </Tooltip>
+
+              <img
+                src={imageToDisplay}
+                style={{
+                  width: "50px",
+                  marginTop: 2,
+                  //   border: "1px solid",
+                }}
+              />
             </Box>
           );
         })}

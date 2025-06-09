@@ -12,7 +12,7 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import ToggleFocusInput from "../../../../components/customInputFile/ToggleFocusInput";
 
-import { getProductById, update } from "../../../../api";
+import { deleteProduct, getProductById, update } from "../../../../api";
 import { ListTags } from "../../../../components/ListTags/ListTags";
 import { SizesList } from "../../../../components/SizeList/SizeList";
 import FormUpdateCategory from "./formUpdateCategory";
@@ -172,6 +172,14 @@ export const ModalDetailProduct = ({
         }
       });
   };
+  const handleDeleteProduct = async (id) => {
+    const res = await deleteProduct(id);
+    if (!res.error) {
+      toast.success("Xóa sản phẩm thành công");
+      handleGetAllProduct();
+      handleClose();
+    }
+  };
   useEffect(() => {
     if (detailProductId) handleGetProductById(detailProductId);
   }, [handleGetAllProduct]);
@@ -275,9 +283,18 @@ export const ModalDetailProduct = ({
                   <CommonButton value={"Thay ảnh"} />
                 )}
               </Box>
+
+              <Button
+                variant="contained"
+                sx={{ bgcolor: (theme) => theme.commonColors, mt: 2 }}
+                onClick={() => handleDeleteProduct(detailProduct?._id)}
+              >
+                Loại bỏ sản phẩm
+              </Button>
             </Box>
 
             {/* left */}
+
             {updateImage ? (
               <FormUpdateImage
                 imageDataFromModal={detailProduct?.image}
@@ -285,7 +302,77 @@ export const ModalDetailProduct = ({
               />
             ) : (
               <Box sx={{ width: "1000px" }}>
-                {!updateDescription ? (
+                {updateDescription ? (
+                  <Box
+                    sx={{
+                      width: "100%",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        color: "#757575",
+                        // border: "1px solid",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mb: 3,
+                      }}
+                    >
+                      <Typography
+                        sx={{ cursor: "pointer" }}
+                        onClick={() => setUpdateDescription(!updateDescription)}
+                      >
+                        Thông tin sản phẩm
+                      </Typography>
+                      {!DescriptionMode ? (
+                        <Button
+                          variant="contained"
+                          sx={{
+                            bgcolor: (theme) => theme.commonColors,
+                            color: "white",
+                          }}
+                          onClick={() => setDescriptionMode(!DescriptionMode)}
+                        >
+                          Chỉnh sửa
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="contained"
+                          sx={{
+                            bgcolor: (theme) => theme.commonColors,
+                            color: "white",
+                          }}
+                          onClick={() => {
+                            handleUpdate(valueDescription, "description");
+                            setDescriptionMode(!DescriptionMode);
+                          }}
+                        >
+                          Xong
+                        </Button>
+                      )}
+                    </Box>
+                    <Box>
+                      {!DescriptionMode ? (
+                        <MDEditor.Markdown
+                          source={valueDescription}
+                          style={{
+                            whiteSpace: "pre-wrap",
+                            height: "400px",
+                            overflow: "auto",
+                            border: "1px solid",
+                          }}
+                        />
+                      ) : (
+                        <MDEditor
+                          value={valueDescription}
+                          preview="edit"
+                          onChange={setValueDescription}
+                          height={"500px"}
+                        />
+                      )}
+                    </Box>
+                  </Box>
+                ) : (
                   <Box>
                     {/* name */}
                     <Tooltip title="click to update">
@@ -434,9 +521,10 @@ export const ModalDetailProduct = ({
                         </Box>
                         {detailProduct?.categoryId?.length === 0 ? (
                           <Typography
-                            onClick={() =>
-                              setUpdateCategoryId(!updateCategoryId)
-                            }
+                            onClick={() => {
+                              setUpdateCategoryId(!updateCategoryId);
+                              setUpdateImage(!updateImage);
+                            }}
                             sx={{ color: "#757575", cursor: "pointer" }}
                           >
                             Thêm các phân loại sủa sản phẩm (sau khi ấn xác
@@ -575,76 +663,6 @@ export const ModalDetailProduct = ({
                       >
                         Miêu tả sản phẩm (Ấn để xem và chỉnh sửa)
                       </Box>
-                    </Box>
-                  </Box>
-                ) : (
-                  <Box
-                    sx={{
-                      width: "100%",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        color: "#757575",
-                        // border: "1px solid",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        mb: 3,
-                      }}
-                    >
-                      <Typography
-                        sx={{ cursor: "pointer" }}
-                        onClick={() => setUpdateDescription(!updateDescription)}
-                      >
-                        Thông tin sản phẩm
-                      </Typography>
-                      {!DescriptionMode ? (
-                        <Button
-                          variant="contained"
-                          sx={{
-                            bgcolor: (theme) => theme.commonColors,
-                            color: "white",
-                          }}
-                          onClick={() => setDescriptionMode(!DescriptionMode)}
-                        >
-                          Chỉnh sửa
-                        </Button>
-                      ) : (
-                        <Button
-                          variant="contained"
-                          sx={{
-                            bgcolor: (theme) => theme.commonColors,
-                            color: "white",
-                          }}
-                          onClick={() => {
-                            handleUpdate(valueDescription, "description");
-                            setDescriptionMode(!DescriptionMode);
-                          }}
-                        >
-                          Xong
-                        </Button>
-                      )}
-                    </Box>
-                    <Box>
-                      {!DescriptionMode ? (
-                        <MDEditor.Markdown
-                          source={valueDescription}
-                          style={{
-                            whiteSpace: "pre-wrap",
-                            height: "400px",
-                            overflow: "auto",
-                            border: "1px solid",
-                          }}
-                        />
-                      ) : (
-                        <MDEditor
-                          value={valueDescription}
-                          preview="edit"
-                          onChange={setValueDescription}
-                          height={"500px"}
-                        />
-                      )}
                     </Box>
                   </Box>
                 )}

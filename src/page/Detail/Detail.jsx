@@ -22,6 +22,7 @@ import {
   userInfoSelector,
 } from "../../redux/slice/userInfoSlice";
 import { getProductById } from "../../api";
+import DetailLoading from "./DetailLoading";
 
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
@@ -34,9 +35,11 @@ import moment from "moment";
 
 const Detail = () => {
   const [DetailData, setDetailData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [displayImage, setDisplayImage] = useState(null);
   const [SelectQuantity, setSelectQuantity] = useState(1);
   const [SelectCategory, setSelectCategory] = useState("");
+  const [SelectRating, setSelectRating] = useState(null);
   const [size, setSize] = useState("");
   const [dataCartFromUserSlice, setDataCartFromUserSlice] = useState([]);
 
@@ -82,12 +85,21 @@ const Detail = () => {
   ];
 
   const getDataProduct = async (id) => {
-    const getData = await getProductById(id);
-    if (!getData) {
+    try {
+      setLoading(true);
+      const getData = await getProductById(id);
+      if (!getData) {
+        navigate("/");
+        return;
+      }
+      setDetailData(getData);
+      setDisplayImage(getData?.image[0]);
+    } catch (error) {
+      toast.error("Failed to load product details");
       navigate("/");
+    } finally {
+      setLoading(false);
     }
-    setDetailData(getData);
-    setDisplayImage(getData?.image[0]);
   };
   useEffect(() => {
     setDataCartFromUserSlice(userInfo?.cartItem);
@@ -206,6 +218,9 @@ const Detail = () => {
     );
     return totalRating / DetailData.comments.length;
   };
+  if (loading) {
+    return <DetailLoading />;
+  }
   if (!DetailData) {
     return <Box>nothing!!!!</Box>;
   }
@@ -701,65 +716,100 @@ const Detail = () => {
                   height: "20px",
                 }}
               >
-                {ratingSelection.map((item) => (
-                  <Box
-                    key={item.id}
-                    sx={{
-                      cursor: "pointer",
-                      border: "1px solid red",
-                      p: "5px 20px",
-                      bgcolor: "white",
-                      color: "black",
-                      borderRadius: "2px",
-                    }}
-                  >
-                    <Typography>{item.title}</Typography>
-                  </Box>
-                ))}
+                {ratingSelection.map((item) => {
+                  if (item.value === SelectRating) {
+                    return (
+                      <Box
+                        key={item.id}
+                        sx={{
+                          cursor: "pointer",
+                          border: "1px solid red",
+                          p: "5px 20px",
+                          bgcolor: "white",
+                          color: "black",
+                          borderRadius: "2px",
+                        }}
+                        onClick={() => {
+                          setSelectRating(item.value);
+                        }}
+                      >
+                        <Typography>{item.title}</Typography>
+                      </Box>
+                    );
+                  } else {
+                    return (
+                      <Box
+                        key={item.id}
+                        sx={{
+                          cursor: "pointer",
+                          border: "1px solid black",
+                          p: "5px 20px",
+                          bgcolor: "white",
+                          color: "black",
+                          borderRadius: "2px",
+                        }}
+                        onClick={() => {
+                          setSelectRating(item.value);
+                        }}
+                      >
+                        <Typography>{item.title}</Typography>
+                      </Box>
+                    );
+                  }
+                })}
               </Box>
             </Box>
 
-            {DetailData?.comments?.map((item, index) => (
-              <Box
-                sx={{ display: "flex", gap: 1, width: "100%", mb: 1.5 }}
-                key={index}
-              >
-                <Tooltip title={item?.username}>
-                  <Avatar
-                    sx={{ width: 36, height: 36, cursor: "pointer" }}
-                    alt={item?.username}
-                    src={item?.userAvatar}
-                  />
-                </Tooltip>
-                <Box sx={{ width: "inherit" }}>
-                  <Typography variant="span" sx={{ fontWeight: "bold", mr: 1 }}>
-                    {item?.username}
-                  </Typography>
+            <Box px={2}>
+              {DetailData?.comments?.map((item, index) => (
+                <Box
+                  sx={{ display: "flex", gap: 1, width: "100%", mb: 1.5 }}
+                  key={index}
+                >
+                  <Tooltip title={item?.username}>
+                    <Avatar
+                      sx={{ width: 36, height: 36, cursor: "pointer" }}
+                      alt={item?.username}
+                      src={item?.userAvatar}
+                    />
+                  </Tooltip>
+                  <Box sx={{ width: "inherit" }}>
+                    <Typography
+                      variant="span"
+                      sx={{ fontWeight: "bold", mr: 1 }}
+                    >
+                      {item?.username}
+                    </Typography>
 
-                  <Typography variant="span" sx={{ fontSize: "12px" }}>
-                    {moment(item?.commentAt).format("llll")}
-                  </Typography>
+                    <Typography variant="span" sx={{ fontSize: "12px" }}>
+                      {moment(item?.commentAt).format("llll")}
+                    </Typography>
 
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                    Đánh giá:
-                    <Rating defaultValue={item?.rating} size="small" readOnly />
-                  </Box>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                      Đánh giá:
+                      <Rating
+                        defaultValue={item?.rating}
+                        size="small"
+                        readOnly
+                      />
+                    </Box>
 
-                  <Box
-                    sx={{
-                      display: "block",
-                      bgcolor: "white",
-                      mt: "4px",
-                      border: "0.5px solid transparent",
-                      color: "black",
-                      wordBreak: "break-word",
-                    }}
-                  >
-                    {item?.commentContent}
+                    <Box
+                      sx={{
+                        display: "block",
+                        bgcolor: "white",
+                        mt: "4px",
+                        border: "0.5px solid transparent",
+                        color: "black",
+                        wordBreak: "break-word",
+                      }}
+                    >
+                      {item?.commentContent}
+                    </Box>
                   </Box>
                 </Box>
-              </Box>
-            ))}
+              ))}
+            </Box>
           </Box>
         </Container>
       </Box>

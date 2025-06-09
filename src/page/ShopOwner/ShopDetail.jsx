@@ -28,7 +28,6 @@ const ShopDetail = () => {
     }));
   };
   const handleNavigate = (link) => {
-    // console.log("🚀 ~ handleNavigate ~ link:", link);
     navigate(link);
     setOpen(!open);
   };
@@ -39,6 +38,7 @@ const ShopDetail = () => {
       children: [
         { id: 1, title: "Trang chủ", link: "/shop_detail/myShop" },
         { id: 2, title: "Danh sách đơn hàng", link: "/shop_detail/orders" },
+        { id: 3, title: "Thông tin cửa hàng", link: "/shop_detail/shopInfo" },
       ],
     },
     {
@@ -47,8 +47,6 @@ const ShopDetail = () => {
       children: [
         { id: 1, title: "Xem sản phẩm", link: "/shop_detail/getAllProduct" },
         { id: 2, title: "Thêm sản phẩm", link: "/shop_detail/addNewProduct" },
-        { id: 3, title: "Chỉnh sửa ", link: "/shop_detail/updateProduct" },
-        { id: 4, title: "Xoá sản phẩm", link: "/shop_detail/deleteProduct" },
       ],
     },
     { label: "Quản Lý Đơn Hàng", icon: "Inventory" },

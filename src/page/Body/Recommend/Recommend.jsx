@@ -11,10 +11,10 @@ import { getAllProduct, getAllProductUser } from "../../../api";
 const Recommend = () => {
   const [optionSortPrice, setOptionSortPrice] = useState(false);
   const [change, setChange] = useState(false);
-  const [listProduct, setListProduct] = useState([]);
   const userInfo = useSelector(userInfoSelector);
+  const [listProduct, setListProduct] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(6);
+  const [rowsPerPage, setRowsPerPage] = useState(12);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -138,8 +138,9 @@ const Recommend = () => {
                       textAlign: "center",
                       "&:hover": {
                         borderColor: (theme) => theme.commonColors,
-                        boxShadow: "0 0 .8125rem 0 rgba(0, 0, 0, .05)",
-                        transform: "scale(1)",
+                        boxShadow: 3,
+                        transform: "scale(1.05)",
+                        transition: "all 0.3s ease",
                       },
                       overflow: "hidden",
                       bgcolor: "white",
@@ -191,7 +192,7 @@ const Recommend = () => {
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        rowsPerPageOptions={[6, 12, 18]}
+        rowsPerPageOptions={[12, 18, 24]}
       />
     </Box>
   );

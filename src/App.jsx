@@ -44,6 +44,7 @@ import DoneShopOrder from "./page/ShopOwner/Order/DoneShopOrder";
 import RejectShopOrder from "./page/ShopOwner/Order/RejectShopOrder";
 import AcceptedOrder from "./page/Account/purchaseTab/AcceptedOrder";
 import AcceptedShopOrder from "./page/ShopOwner/Order/AcceptedShopOrder";
+import ShopInfo from "./page/ShopOwner/ShopInfo/ShopInfo";
 
 const ProtectedRoute = () => {
   const user = useSelector(userInfoSelector);
@@ -104,7 +105,7 @@ const App = () => {
         <Route element={<ProtectedRoute />}>
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/cartDetail" element={<CartDetail />} />
-          {/* <Route path="/MyAccount" element={<DetailAccount />} /> */}
+
           <Route element={<ProtectRegisterRouter />}>
             {/* register shop */}
             <Route path="/register_shop" element={<Welcome />} />
@@ -175,8 +176,7 @@ const App = () => {
               <Route path="myShop" element={<MyShop />} />
               <Route path="getAllProduct" element={<GetAllProduct />} />
               <Route path="addNewProduct" element={<AddNewProduct />} />
-              <Route path="updateProduct" element={<UpdateProduct />} />
-              <Route path="deleteProduct" element={<DeleteProduct />} />
+              <Route path="shopInfo" element={<ShopInfo />} />
 
               <Route path="orders" element={<ListOrders />}>
                 <Route

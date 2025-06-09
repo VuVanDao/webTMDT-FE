@@ -5,14 +5,13 @@ import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
 import { useSelector } from "react-redux";
 import { formatPrice } from "../../../utils/formatter";
 import { ModalDetailProduct } from "./Modal/ModalDetailProduct";
-import MDEditor from "@uiw/react-md-editor";
 
 const GetAllProduct = () => {
   const [listProduct, setListProduct] = useState([]);
   const [open, setOpen] = useState(false);
   const [detailProductId, setDetailProductId] = useState(null);
   const userInfo = useSelector(userInfoSelector);
-  const [value, setValue] = useState("**Hello world!!!**");
+
   const handleOpenModalDetail = (item) => {
     setDetailProductId(item?._id);
     setOpen(!open);
@@ -106,10 +105,6 @@ const GetAllProduct = () => {
           })}
         </Grid>
       </Box>
-      {/* <Box>
-        <MDEditor value={value} onChange={setValue} />
-        <MDEditor.Markdown source={value} style={{ whiteSpace: "pre-wrap" }} />
-      </Box> */}
       {detailProductId && (
         <ModalDetailProduct
           open={open}

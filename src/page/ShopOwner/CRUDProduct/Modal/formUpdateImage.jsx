@@ -65,7 +65,7 @@ const FormUpdateImage = ({ handleUpdateImage, imageDataFromModal }) => {
   if (imageDataFromModal?.length >= 1) {
     return (
       <Box sx={{ width: "1000px", overflow: "auto" }}>
-        <Typography variant="h5" mb={3}>
+        <Typography variant="h6" mb={3}>
           Ảnh của sản phẩm (Sau khi xác nhận hãy chờ trong vài giây)
         </Typography>
         {imageData?.map(({ id, image, imageToDisplay }) => {

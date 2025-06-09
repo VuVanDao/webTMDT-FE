@@ -54,13 +54,6 @@ export const deleteAccount = async (id) => {
   );
   return response.data;
 };
-// export const updateAvatarAccount = async (data) => {
-//   const response = await authorizeAxiosInstance.put(
-//     `${apiRoot}/v1/users/updateAvatar`,
-//     data
-//   );
-//   return response.data;
-// };
 
 export const refreshTokenAPI = async () => {
   const response = await authorizeAxiosInstance.post(
@@ -114,7 +107,13 @@ export const browseShop = async (data) => {
   );
   return response.data;
 };
-
+export const updateShopInfo = async (data) => {
+  const response = await authorizeAxiosInstance.put(
+    `${apiRoot}/v1/shops`,
+    data
+  );
+  return response.data;
+};
 //product
 export const createNew = async (data) => {
   const response = await authorizeAxiosInstance.post(
@@ -146,6 +145,12 @@ export const update = async (data) => {
   const response = await authorizeAxiosInstance.put(
     `${apiRoot}/v1/products/update`,
     data
+  );
+  return response.data;
+};
+export const deleteProduct = async (id) => {
+  const response = await authorizeAxiosInstance.delete(
+    `${apiRoot}/v1/products?id=${id}`
   );
   return response.data;
 };
