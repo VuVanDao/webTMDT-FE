@@ -4,7 +4,7 @@ import { getAllShop } from "../../api";
 import { DetailModal } from "./DetailModal";
 import { LoadingPage } from "../../components/LoadingPage/LoadingPage";
 
-const ShopAdminManger = () => {
+const ShopAdminBrowser = () => {
   const [listShop, setListShop] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [dataDetailShop, setDataDetailShop] = useState(null);
@@ -86,6 +86,7 @@ const ShopAdminManger = () => {
           );
         })}
       </Grid>
+
       <DetailModal
         openModal={openModal}
         setOpenModal={setOpenModal}
@@ -96,4 +97,4 @@ const ShopAdminManger = () => {
     </Box>
   );
 };
-export default ShopAdminManger;
+export default ShopAdminBrowser;

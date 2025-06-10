@@ -15,15 +15,12 @@ import ShopDetail from "./page/ShopOwner/ShopDetail";
 import MyShop from "./page/ShopOwner/MyShop";
 import GetAllProduct from "./page/ShopOwner/CRUDProduct/GetAllProduct";
 import AddNewProduct from "./page/ShopOwner/CRUDProduct/AddNewProduct";
-import UpdateProduct from "./page/ShopOwner/CRUDProduct/UpdateProduct";
-import DeleteProduct from "./page/ShopOwner/CRUDProduct/DeleteProduct";
 import Welcome from "./page/RegisterShop/welcome";
 import RegisterPage from "./page/RegisterShop/RegisterPage";
 import Step_1 from "./page/RegisterShop/FormStep/Step_1";
 import Step_2 from "./page/RegisterShop/FormStep/Step_2";
 import Step_3 from "./page/RegisterShop/FormStep/Step_3";
 import FinalStep from "./page/RegisterShop/FormStep/FinalStep";
-import ShopAdminManager from "./page/Admin/ShopAdminManager";
 import AdminPage from "./page/Admin/AdminPage";
 import Step_2_extra from "./page/RegisterShop/FormStep/Step_2_extra";
 import { useSelector } from "react-redux";
@@ -35,7 +32,7 @@ import PendingOrder from "./page/Account/purchaseTab/PendingOrder";
 import DoneOrder from "./page/Account/purchaseTab/DoneOrder";
 import RejectOrder from "./page/Account/purchaseTab/RejectOrder";
 import DeliveringOrder from "./page/Account/purchaseTab/DeliveringOrder";
-import Manage_account from "./page/Admin/AdminAccount/manage_account";
+import Manage_account from "./page/Admin/AdminManagerAccount/manage_account";
 import ListOrders from "./page/ShopOwner/Order/ListShopOrders";
 import AllShopOrder from "./page/ShopOwner/Order/AllShopOrder";
 import PendingShopOrder from "./page/ShopOwner/Order/PendingShopOrder";
@@ -45,6 +42,9 @@ import RejectShopOrder from "./page/ShopOwner/Order/RejectShopOrder";
 import AcceptedOrder from "./page/Account/purchaseTab/AcceptedOrder";
 import AcceptedShopOrder from "./page/ShopOwner/Order/AcceptedShopOrder";
 import ShopInfo from "./page/ShopOwner/ShopInfo/ShopInfo";
+import ListShopAdminManager from "./page/Admin/AdminManagerShop/ListShopAdminManager";
+import ShopAdminBrowser from "./page/Admin/ShopAdminBrowser";
+import Admin_Detail_Shop from "./page/Admin/AdminManagerShop/Admin_Detail_Shop";
 
 const ProtectedRoute = () => {
   const user = useSelector(userInfoSelector);
@@ -135,9 +135,14 @@ const App = () => {
             <Route path="/admin" element={<AdminPage />}>
               <Route
                 path=""
-                element={<Navigate to={"admin_manage_shop"} replace={true} />}
+                element={<Navigate to={"admin_browser_shop"} replace={true} />}
               />
-              <Route path="admin_manage_shop" element={<ShopAdminManager />} />
+              <Route path="admin_browser_shop" element={<ShopAdminBrowser />} />
+              <Route
+                path="admin_manage_shop"
+                element={<ListShopAdminManager />}
+              />
+              <Route path="admin_detail_shop" element={<Admin_Detail_Shop />} />
               <Route path="admin_manage_account" element={<Manage_account />} />
             </Route>
           </Route>

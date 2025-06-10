@@ -39,7 +39,8 @@ const AdminPage = () => {
       label: "Quản lí shop",
       icon: "ShoppingCart",
       children: [
-        { id: 1, title: "Duyệt đăng kí", link: "/admin/admin_manage_shop" },
+        { id: 1, title: "Duyệt đăng kí", link: "/admin/admin_browser_shop" },
+        { id: 2, title: "Quản lí shop", link: "/admin/admin_manage_shop" },
         // { id: 2, title: "Thêm sản phẩm", link: "/shop_detail/addNewProduct" },
         // { id: 3, title: "Chỉnh sửa ", link: "/shop_detail/updateProduct" },
         // { id: 4, title: "Xoá sản phẩm", link: "/shop_detail/deleteProduct" },

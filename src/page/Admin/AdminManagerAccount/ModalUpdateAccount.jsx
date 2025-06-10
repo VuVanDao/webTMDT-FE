@@ -2,8 +2,13 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import { useForm } from "react-hook-form";
-import { Alert, TextField } from "@mui/material";
-import { PHONE_RULE, PHONE_RULE_MESSAGE } from "../../../utils/constants";
+import { Alert, Select, TextField } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import {
+  PHONE_RULE,
+  PHONE_RULE_MESSAGE,
+  USER_ROLES,
+} from "../../../utils/constants";
 import { useState } from "react";
 import { updateAccount } from "../../../api";
 import { toast } from "react-toastify";
@@ -56,7 +61,9 @@ export const ModalUpdateAccount = ({
   const [changePasswordMode, setChangePasswordMode] = useState(false);
   const [changeCommonInfoMode, setChangeCommonInfoMode] = useState(true);
   const [changeImageMode, setChangeImageMode] = useState(false);
+  const [changeRoleMode, setChangeRoleMode] = useState(false);
   const [openImage, setOpenImage] = useState(false);
+  const [role, setRole] = useState(infoAccountToUpdate?.role);
   const {
     register,
     handleSubmit,
@@ -65,6 +72,23 @@ export const ModalUpdateAccount = ({
     watch,
   } = useForm();
   const onSubmit = async (data) => {
+    if (changeRoleMode) {
+      if (role !== infoAccountToUpdate?.role && role) {
+        const res = await updateAccount({
+          role: role,
+          idUpdate: infoAccountToUpdate._id,
+        });
+        if (!res.error) {
+          toast.success("Thao tác thành công");
+          handleClose();
+          return;
+        }
+      } else {
+        toast.error("Vui lòng chọn quyền");
+        return;
+      }
+    }
+
     if (changePasswordMode) {
       const { current_password, new_password } = data;
       if (current_password.length === 0 || new_password.length === 0) {
@@ -126,6 +150,11 @@ export const ModalUpdateAccount = ({
 
   const handleClose = () => {
     reset();
+    setRole(null);
+    setChangeCommonInfoMode(true);
+    setChangePasswordMode(false);
+    setChangeImageMode(false);
+    setChangeRoleMode(false);
     setOpenModalUpdate(!open);
     handleGetAllAccount();
   };
@@ -135,18 +164,26 @@ export const ModalUpdateAccount = ({
         setChangePasswordMode(true);
         setChangeCommonInfoMode(false);
         setChangeImageMode(false);
+        setChangeRoleMode(false);
         break;
       case "commonInfo":
         setChangePasswordMode(false);
         setChangeCommonInfoMode(true);
         setChangeImageMode(false);
+        setChangeRoleMode(false);
         break;
       case "avatar":
         setChangePasswordMode(false);
         setChangeCommonInfoMode(false);
         setChangeImageMode(true);
+        setChangeRoleMode(false);
         break;
-
+      case "role":
+        setChangePasswordMode(false);
+        setChangeCommonInfoMode(false);
+        setChangeImageMode(false);
+        setChangeRoleMode(true);
+        break;
       default:
         break;
     }
@@ -360,6 +397,12 @@ export const ModalUpdateAccount = ({
                 <img
                   src={infoAccountToUpdate?.avatar}
                   onClick={() => setOpenImage(!openImage)}
+                  style={{
+                    cursor: "pointer",
+                    width: "250px",
+                    height: "250px",
+                    borderRadius: "10px",
+                  }}
                 />
                 <Button
                   component="label"
@@ -373,6 +416,20 @@ export const ModalUpdateAccount = ({
                   Upload
                   <CustomInputFile type="file" onChange={uploadAvatar} />
                 </Button>
+              </Box>
+            )}
+            {changeRoleMode && (
+              <Box>
+                <Select
+                  defaultValue={role}
+                  onChange={(e) => setRole(e.target.value)}
+                >
+                  {Object.values(USER_ROLES).map((role) => (
+                    <MenuItem key={role} value={role}>
+                      {role}
+                    </MenuItem>
+                  ))}
+                </Select>
               </Box>
             )}
             <Button
@@ -416,6 +473,16 @@ export const ModalUpdateAccount = ({
               }}
             >
               Đổi ảnh cá nhân
+            </Button>
+            <Button
+              variant="contained"
+              color="warning"
+              onClick={() => handleChange("role")}
+              sx={{
+                mr: 3,
+              }}
+            >
+              Đổi quyền
             </Button>
           </form>
         </Box>

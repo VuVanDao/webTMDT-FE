@@ -24,11 +24,15 @@ const Notification = () => {
     setAnchorEl(null);
   };
   const handleGetNotification = async () => {
-    await getNotification(userInfo?._id).then((res) => {
-      if (!res.error) {
-        setNotification(res);
-      }
-    });
+    if (!userInfo?._id) {
+      return;
+    } else {
+      await getNotification(userInfo?._id).then((res) => {
+        if (!res.error) {
+          setNotification(res);
+        }
+      });
+    }
   };
   useEffect(() => {
     handleGetNotification();

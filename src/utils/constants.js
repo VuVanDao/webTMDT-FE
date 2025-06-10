@@ -23,3 +23,8 @@ export const ORDER_STATUS = {
   DONE: "DONE",
   REFUND: "REFUND",
 };
+export const USER_ROLES = {
+  CUSTOMER: "customer",
+  ADMIN: "admin",
+  SHOP_OWNER: "shop_owner",
+};

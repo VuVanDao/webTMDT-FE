@@ -79,6 +79,7 @@ export const fetchProductAPI = async (searchPath) => {
   );
   return response.data;
 };
+
 //shop API
 export const registerShop = async (data, logo) => {
   const response = await authorizeAxiosInstance.post(
@@ -112,6 +113,10 @@ export const updateShopInfo = async (data) => {
     `${apiRoot}/v1/shops`,
     data
   );
+  return response.data;
+};
+export const getAllShopAdminManager = async () => {
+  const response = await authorizeAxiosInstance.get(`${apiRoot}/v1/shops`);
   return response.data;
 };
 //product
