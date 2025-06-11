@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import TextsmsIcon from "@mui/icons-material/Textsms";
 import StorefrontIcon from "@mui/icons-material/Storefront";
+import { useNavigate } from "react-router-dom";
 const ShopOwnerProduct = ({ ShopInfo }) => {
   const [detailShop, setDetailShop] = useState("");
 
@@ -13,7 +14,7 @@ const ShopOwnerProduct = ({ ShopInfo }) => {
     });
     return result;
   };
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (ShopInfo) {
       const handleGetDetailShop = () => {
@@ -34,7 +35,10 @@ const ShopOwnerProduct = ({ ShopInfo }) => {
         gap: 3,
       }}
     >
-      <Avatar src={detailShop?.logo} sx={{ width: "60px", height: "60px" }} />
+      <Avatar
+        src={detailShop?.logo}
+        sx={{ width: "60px", height: "60px", border: "1px solid black" }}
+      />
       <Box sx={{ borderRight: "1px solid rgba(0,0,0,0.5)", pr: 5 }}>
         <Typography>{detailShop?.name}</Typography>
         <Box
@@ -74,6 +78,7 @@ const ShopOwnerProduct = ({ ShopInfo }) => {
               gap: 1,
               border: "1px solid black",
             }}
+            onClick={() => navigate(`/check_shop_detail?id=${detailShop?._id}`)}
           >
             <StorefrontIcon fontSize="14px" />
             <Typography>Xem shop</Typography>

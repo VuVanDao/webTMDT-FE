@@ -45,6 +45,7 @@ import ShopInfo from "./page/ShopOwner/ShopInfo/ShopInfo";
 import ListShopAdminManager from "./page/Admin/AdminManagerShop/ListShopAdminManager";
 import ShopAdminBrowser from "./page/Admin/ShopAdminBrowser";
 import Admin_Detail_Shop from "./page/Admin/AdminManagerShop/Admin_Detail_Shop";
+import CheckShopDetail from "./page/Detail/CheckShopDetail";
 
 const ProtectedRoute = () => {
   const user = useSelector(userInfoSelector);
@@ -79,30 +80,31 @@ const App = () => {
         <Route path="/homePage" element={<HomePage />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/search" element={<SearchData />} />
-
-        {/* user */}
-        <Route path="/user" element={<DetailAccount />}>
-          <Route
-            path=""
-            element={<Navigate to={"MyAccount"} replace={true} />}
-          />
-          <Route path="MyAccount" element={<Information />} />
-
-          <Route path="purchase" element={<PurchaseDetail />}>
-            <Route
-              path=""
-              element={<Navigate to={"all_order"} replace={true} />}
-            />
-            <Route path="all_order" element={<AllOrder />} />
-            <Route path="pending_order" element={<PendingOrder />} />
-            <Route path="accepted_order" element={<AcceptedOrder />} />
-            <Route path="delivering_order" element={<DeliveringOrder />} />
-            <Route path="done_order" element={<DoneOrder />} />
-            <Route path="reject_order" element={<RejectOrder />} />
-          </Route>
-        </Route>
+        <Route path="/check_shop_detail" element={<CheckShopDetail />} />
 
         <Route element={<ProtectedRoute />}>
+          {/* user */}
+          <Route path="/user" element={<DetailAccount />}>
+            <Route
+              path=""
+              element={<Navigate to={"MyAccount"} replace={true} />}
+            />
+            <Route path="MyAccount" element={<Information />} />
+
+            <Route path="purchase" element={<PurchaseDetail />}>
+              <Route
+                path=""
+                element={<Navigate to={"all_order"} replace={true} />}
+              />
+              <Route path="all_order" element={<AllOrder />} />
+              <Route path="pending_order" element={<PendingOrder />} />
+              <Route path="accepted_order" element={<AcceptedOrder />} />
+              <Route path="delivering_order" element={<DeliveringOrder />} />
+              <Route path="done_order" element={<DoneOrder />} />
+              <Route path="reject_order" element={<RejectOrder />} />
+            </Route>
+          </Route>
+
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/cartDetail" element={<CartDetail />} />
 

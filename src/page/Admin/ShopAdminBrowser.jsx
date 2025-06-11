@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getAllShop } from "../../api";
 import { DetailModal } from "./DetailModal";
@@ -30,10 +30,11 @@ const ShopAdminBrowser = () => {
     return <LoadingPage />;
   }
   return (
-    <Box
+    <Container
       sx={{
-        color: "black",
-        height: (theme) => theme.customHeight.AdminBody,
+        my: 3,
+        bgcolor: (theme) => theme.whiteColor,
+        p: { xs: 1, sm: 3 },
       }}
     >
       <Typography variant="h6">Danh sách các shop đăng kí</Typography>
@@ -94,7 +95,7 @@ const ShopAdminBrowser = () => {
         setDataDetailShop={setDataDetailShop}
         handleGetAllShop={handleGetAllShop}
       />
-    </Box>
+    </Container>
   );
 };
 export default ShopAdminBrowser;

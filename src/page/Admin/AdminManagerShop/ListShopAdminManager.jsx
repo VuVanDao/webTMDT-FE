@@ -7,7 +7,14 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Avatar, Box, Button, TablePagination, Tooltip } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  TablePagination,
+  Tooltip,
+} from "@mui/material";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import { useNavigate } from "react-router-dom";
 
@@ -36,7 +43,7 @@ const ListShopAdminManager = () => {
     handleGetAllShop();
   }, []);
   return (
-    <Box>
+    <Container sx={{ my: 3, bgcolor: (theme) => theme.whiteColor, p: 3 }}>
       <Button
         variant="contained"
         sx={{
@@ -137,7 +144,7 @@ const ListShopAdminManager = () => {
       >
         <ArrowCircleUpIcon />
       </Button>
-    </Box>
+    </Container>
   );
 };
 

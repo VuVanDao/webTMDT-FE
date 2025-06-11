@@ -7,7 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import { deleteAccount, getAllAccount } from "../../../api";
-import { Avatar, Box, Button, TablePagination } from "@mui/material";
+import { Avatar, Box, Button, Container, TablePagination } from "@mui/material";
 import { ModalAddAccount } from "./ModalAddAccount";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import { ModalUpdateAccount } from "./ModalUpdateAccount";
@@ -51,7 +51,7 @@ const Manage_account = () => {
     handleGetAllAccount();
   }, []);
   return (
-    <Box>
+    <Container sx={{ my: 3, bgcolor: (theme) => theme.whiteColor, p: 3 }}>
       <Button
         variant="contained"
         sx={{
@@ -147,7 +147,7 @@ const Manage_account = () => {
         handleGetAllAccount={handleGetAllAccount}
         infoAccountToUpdate={infoAccountToUpdate}
       />
-    </Box>
+    </Container>
   );
 };
 
