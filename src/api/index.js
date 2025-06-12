@@ -214,3 +214,16 @@ export const deleteNotification = async (notificationId) => {
   );
   return response.data;
 };
+
+//category
+export const createNewCategory = async (data) => {
+  const response = await authorizeAxiosInstance.post(
+    `${apiRoot}/v1/categories`,
+    data
+  );
+  return response.data;
+};
+export const getAllCategory = async () => {
+  const response = await authorizeAxiosInstance.get(`${apiRoot}/v1/categories`);
+  return response.data;
+};

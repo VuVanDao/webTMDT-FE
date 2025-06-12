@@ -185,39 +185,9 @@ const AddNewProduct = () => {
           )}
         </Box>
 
-        {/* <Box sx={boxStyle}>
-          <TextField
-            // defaultValue="test"
-            fullWidth
-            multiline
-            label="Miêu tả sản phẩm "
-            rows={4}
-            error={errors.description}
-            {...register("description", {
-              required: "This field is required.",
-            })}
-            sx={fieldsetCommonStyle100}
-          />
-          {errors.description && (
-            <Alert
-              severity="error"
-              sx={{
-                mt: "0.7em",
-                ".MuiAlert-message": { overflow: "hidden" },
-              }}
-            >
-              {errors.description.message}
-            </Alert>
-          )}
-        </Box> */}
-
         {/* description editor */}
         <Box>
           <MDEditor value={value} onChange={setValue} height={"500px"} />
-          {/* <MDEditor.Markdown
-            source={value}
-            style={{ whiteSpace: "pre-wrap" }}
-          /> */}
         </Box>
 
         {/* price */}

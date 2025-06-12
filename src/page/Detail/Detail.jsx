@@ -245,8 +245,6 @@ const Detail = () => {
               {/* right */}
               <Box
                 sx={{
-                  width: "500px",
-                  height: "500px",
                   textAlign: "center",
                 }}
               >
@@ -312,13 +310,14 @@ const Detail = () => {
                 <Typography variant="h6">{DetailData?.name}</Typography>
                 <Rating
                   name="size-large"
-                  defaultValue={2}
+                  defaultValue={5}
                   size="small"
                   sx={{
                     ".MuiRating-icon": {
                       color: "rgb(250, 175, 0)",
                     },
                   }}
+                  readOnly
                 />
 
                 {/* price */}
@@ -428,7 +427,7 @@ const Detail = () => {
                   <Box sx={{ color: "#757575", width: "20%" }}>
                     {DetailData?.size?.length > 0 && "Kích cỡ"}
                   </Box>
-                  <Box sx={{ display: "flex", gap: 3 }}>
+                  <Box sx={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
                     {DetailData?.size?.map((item, index) => {
                       if (item === size) {
                         return (
