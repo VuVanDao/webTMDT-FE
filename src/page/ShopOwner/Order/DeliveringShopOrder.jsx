@@ -6,13 +6,10 @@ import StorefrontIcon from "@mui/icons-material/Storefront";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { formatPrice } from "../../../utils/formatter";
 import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
-import { getOrderByShopId, updateOrder } from "../../../api";
-import { useConfirm } from "material-ui-confirm";
-import { toast } from "react-toastify";
+import { getOrderByShopId } from "../../../api";
+
 const DeliveringShopOrder = () => {
   const [listOrderDelivering, setListOrderDelivering] = useState([]);
-  const [openRejectOrder, setOpenRejectOrder] = useState(false);
-  const [item, setItem] = useState(false);
   const userInfo = useSelector(userInfoSelector);
 
   const handleGetDeliveringOrder = async () => {
@@ -30,6 +27,11 @@ const DeliveringShopOrder = () => {
   }, []);
   return (
     <Box>
+      {listOrderDelivering?.length === 0 && (
+        <Box>
+          <Typography>Hiện chưa có đơn hàng nào</Typography>
+        </Box>
+      )}
       {listOrderDelivering?.map((item) => {
         return (
           <Box key={item?._id} mb={5} sx={{ border: "1px solid black" }} p={2}>

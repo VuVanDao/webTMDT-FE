@@ -311,7 +311,6 @@ export const ModalDetailProduct = ({
                     <Box
                       sx={{
                         color: "#757575",
-                        // border: "1px solid",
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
@@ -374,296 +373,326 @@ export const ModalDetailProduct = ({
                   </Box>
                 ) : (
                   <Box>
-                    {/* name */}
-                    <Tooltip title="click to update">
-                      <Typography
-                        variant="h6"
-                        onClick={() => setUpdateProductName(!updateProductName)}
-                      >
-                        {detailProduct?.name}
-                      </Typography>
-                    </Tooltip>
-                    {updateProductName && (
-                      <ToggleFocusInput
-                        multiline
-                        value={detailProduct?.name}
-                        onChangedValue={(e) => handleUpdate(e, "name")}
-                        // inputFontSize="15px"
-                      />
-                    )}
-
-                    {/* Gia ca */}
-                    <Box
-                      sx={{
-                        p: 2,
-                        bgcolor: "#f5f5f5",
-                        color: "red",
-                        mt: 3,
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Typography
-                        variant="h5"
-                        onClick={() => setUpdatePrice(!updatePrice)}
-                      >
-                        {formatPrice(detailProduct?.price)}
-                      </Typography>
-                      {updatePrice && (
-                        <ToggleFocusInput
-                          value={detailProduct?.price}
-                          onChangedValue={(e) => handleUpdate(e, "price")}
-                          // inputFontSize="15px"
-                        />
-                      )}
-                    </Box>
-
-                    {/* tags */}
-                    <Box sx={{ mt: 3, width: "100%" }}>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          mt: 3,
-                          width: "100%",
-                        }}
-                      >
-                        <Box
-                          sx={{
-                            color: "#757575",
-                            width: "25%",
-                            cursor: "pointer",
-                          }}
+                    {updateCategoryId ? (
+                      <Box>
+                        <Typography
+                          onClick={() => setUpdateCategoryId(!updateCategoryId)}
+                          mb={2}
+                          sx={{ cursor: "pointer" }}
                         >
-                          <Typography
-                            onClick={() => setUpdateTags(!updateTags)}
-                          >
-                            Loại sản phẩm
-                          </Typography>
-                        </Box>
-                        {detailProduct?.tagsId?.length === 0 ? (
-                          <Typography
-                            onClick={() => setUpdateTags(!updateTags)}
-                          >
-                            Thêm loại
-                          </Typography>
-                        ) : (
-                          <Box sx={{ display: "flex", gap: 3 }}>
-                            {detailProduct?.tagsId?.map((item, index) => {
-                              return (
-                                <Box
-                                  key={index}
-                                  sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: 1,
-                                    cursor: "pointer",
-                                    mb: 1,
-                                    border: "1px solid black",
-                                    p: "5px 10px",
-                                  }}
-                                >
-                                  <Typography variant="caption">
-                                    {item}
-                                  </Typography>
-                                </Box>
-                              );
-                            })}
-                          </Box>
-                        )}
+                          Nhấn để trở về
+                        </Typography>
+                        <FormUpdateCategory
+                          open={updateCategoryId}
+                          handleUpdateCategoryId={handleUpdateCategoryId}
+                          categoryIdDataFromModal={detailProduct?.categoryId}
+                        />
                       </Box>
-
-                      {updateTags && (
-                        <ListTags
-                          tagsIdData={detailProduct?.tagsId}
-                          handleSelectTags={handleSelectTags}
-                        />
-                      )}
-                      {openSizeList && detailProduct?.size?.length === 0 && (
-                        <SizesList
-                          open={openSizeList}
-                          handleSelectSize={handleSelectSize}
-                        />
-                      )}
-                      {updateTags && (
-                        <Button
-                          variant="contained"
-                          sx={{ bgcolor: (theme) => theme.commonColors }}
-                          onClick={(e) =>
-                            handleUpdate(
-                              e,
-                              openSizeList ? "tagsId&Size" : "tagsId"
-                            )
-                          }
-                        >
-                          Xong!
-                        </Button>
-                      )}
-                    </Box>
-
-                    {/* phan loai */}
-                    <Box sx={{ mt: 3, width: "100%" }}>
-                      <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
-                        <Box
-                          sx={{
-                            color: "#757575",
-                            width: "20%",
-                            cursor: "pointer",
-                            mb: 2,
-                          }}
-                        >
+                    ) : (
+                      <Box>
+                        {/* name */}
+                        <Tooltip title="click to update">
                           <Typography
+                            variant="h6"
                             onClick={() =>
-                              setUpdateCategoryId(!updateCategoryId)
+                              setUpdateProductName(!updateProductName)
                             }
                           >
-                            Phân loại
+                            {detailProduct?.name}
                           </Typography>
-                        </Box>
-                        {detailProduct?.categoryId?.length === 0 ? (
-                          <Typography
-                            onClick={() => {
-                              setUpdateCategoryId(!updateCategoryId);
-                              setUpdateImage(!updateImage);
-                            }}
-                            sx={{ color: "#757575", cursor: "pointer" }}
-                          >
-                            Thêm các phân loại sủa sản phẩm (sau khi ấn xác
-                            nhận, hãy chờ 1 chút)
-                          </Typography>
-                        ) : (
-                          <Box sx={{ display: "flex", gap: 3 }}>
-                            {detailProduct?.categoryId?.map((item, index) => {
-                              return (
-                                <Box
-                                  key={index}
-                                  sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: 1,
-                                    cursor: "pointer",
-                                    mb: 1,
-                                    border: "1px solid #757575",
-                                    p: "5px",
-                                  }}
-                                >
-                                  <img
-                                    src={item?.image}
-                                    alt={item?.name}
-                                    style={{ width: "30px", height: "30px" }}
-                                  />
-                                  <Typography variant="caption">
-                                    {item?.name}
-                                  </Typography>
-                                </Box>
-                              );
-                            })}
-                          </Box>
+                        </Tooltip>
+                        {updateProductName && (
+                          <ToggleFocusInput
+                            multiline
+                            value={detailProduct?.name}
+                            onChangedValue={(e) => handleUpdate(e, "name")}
+                            // inputFontSize="15px"
+                          />
                         )}
-                      </Box>
-                      <FormUpdateCategory
-                        open={updateCategoryId}
-                        handleUpdateCategoryId={handleUpdateCategoryId}
-                        categoryIdDataFromModal={detailProduct?.categoryId}
-                      />
-                    </Box>
 
-                    {/* kich co */}
-                    <Box sx={{ mt: 3, width: "100%" }}>
-                      <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
+                        {/* Gia ca */}
                         <Box
                           sx={{
-                            color: "#757575",
-                            width: "20%",
-                            cursor: "pointer",
+                            p: 2,
+                            bgcolor: "#f5f5f5",
+                            color: "red",
+                            mt: 3,
+                            display: "flex",
+                            alignItems: "center",
                           }}
-                          onClick={() => setOpenSizeList(!openSizeList)}
                         >
-                          {detailProduct?.size?.length > 0 && "Kích cỡ"}
+                          <Typography
+                            variant="h5"
+                            onClick={() => setUpdatePrice(!updatePrice)}
+                          >
+                            {formatPrice(detailProduct?.price)}
+                          </Typography>
+                          {updatePrice && (
+                            <ToggleFocusInput
+                              value={detailProduct?.price}
+                              onChangedValue={(e) => handleUpdate(e, "price")}
+                              // inputFontSize="15px"
+                            />
+                          )}
                         </Box>
-                        <Box sx={{ display: "flex", gap: 3 }}>
-                          {detailProduct?.size?.map((item, index) => {
-                            return (
-                              <Box
-                                key={index}
-                                sx={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: 1,
-                                  cursor: "pointer",
-                                  mb: 1,
-                                  border: "1px solid #757575",
-                                  p: "5px 10px",
-                                }}
+
+                        {/* tags */}
+                        <Box sx={{ mt: 3, width: "100%" }}>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              mt: 3,
+                              width: "100%",
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                color: "#757575",
+                                width: "25%",
+                                cursor: "pointer",
+                              }}
+                            >
+                              <Typography
+                                onClick={() => setUpdateTags(!updateTags)}
                               >
-                                <Typography variant="caption">
-                                  {item}
-                                </Typography>
+                                Loại sản phẩm
+                              </Typography>
+                            </Box>
+                            {detailProduct?.tagsId?.length === 0 ? (
+                              <Typography
+                                onClick={() => setUpdateTags(!updateTags)}
+                              >
+                                Thêm loại
+                              </Typography>
+                            ) : (
+                              <Box sx={{ display: "flex", gap: 3 }}>
+                                {detailProduct?.tagsId?.map((item, index) => {
+                                  return (
+                                    <Box
+                                      key={index}
+                                      sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 1,
+                                        cursor: "pointer",
+                                        mb: 1,
+                                        border: "1px solid black",
+                                        p: "5px 10px",
+                                      }}
+                                    >
+                                      <Typography variant="caption">
+                                        {item}
+                                      </Typography>
+                                    </Box>
+                                  );
+                                })}
                               </Box>
-                            );
-                          })}
+                            )}
+                          </Box>
+
+                          {updateTags && (
+                            <ListTags
+                              tagsIdData={detailProduct?.tagsId}
+                              handleSelectTags={handleSelectTags}
+                            />
+                          )}
+                          {openSizeList &&
+                            detailProduct?.size?.length === 0 && (
+                              <SizesList
+                                open={openSizeList}
+                                handleSelectSize={handleSelectSize}
+                              />
+                            )}
+                          {updateTags && (
+                            <Button
+                              variant="contained"
+                              sx={{ bgcolor: (theme) => theme.commonColors }}
+                              onClick={(e) =>
+                                handleUpdate(
+                                  e,
+                                  openSizeList ? "tagsId&Size" : "tagsId"
+                                )
+                              }
+                            >
+                              Xong!
+                            </Button>
+                          )}
+                        </Box>
+
+                        {/* phan loai */}
+                        <Box sx={{ mt: 3, width: "100%" }}>
+                          <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
+                            <Box
+                              sx={{
+                                color: "#757575",
+                                width: "20%",
+                                cursor: "pointer",
+                                mb: 2,
+                              }}
+                            >
+                              <Typography
+                                onClick={() =>
+                                  setUpdateCategoryId(!updateCategoryId)
+                                }
+                              >
+                                Phân loại
+                              </Typography>
+                            </Box>
+                            {detailProduct?.categoryId?.length === 0 ? (
+                              <Typography
+                                onClick={() => {
+                                  setUpdateCategoryId(!updateCategoryId);
+                                }}
+                                sx={{ color: "#757575", cursor: "pointer" }}
+                              >
+                                Thêm các phân loại sủa sản phẩm (sau khi ấn xác
+                                nhận, hãy chờ 1 chút)
+                              </Typography>
+                            ) : (
+                              <Box sx={{ display: "flex", gap: 3 }}>
+                                {detailProduct?.categoryId?.map(
+                                  (item, index) => {
+                                    return (
+                                      <Box
+                                        key={index}
+                                        sx={{
+                                          display: "flex",
+                                          alignItems: "center",
+                                          gap: 1,
+                                          cursor: "pointer",
+                                          mb: 1,
+                                          border: "1px solid #757575",
+                                          p: "5px",
+                                        }}
+                                      >
+                                        <img
+                                          src={item?.image}
+                                          alt={item?.name}
+                                          style={{
+                                            width: "30px",
+                                            height: "30px",
+                                          }}
+                                        />
+                                        <Typography variant="caption">
+                                          {item?.name}
+                                        </Typography>
+                                      </Box>
+                                    );
+                                  }
+                                )}
+                              </Box>
+                            )}
+                          </Box>
+                          {/* <FormUpdateCategory
+                          open={updateCategoryId}
+                          handleUpdateCategoryId={handleUpdateCategoryId}
+                          categoryIdDataFromModal={detailProduct?.categoryId}
+                        /> */}
+                        </Box>
+
+                        {/* kich co */}
+                        <Box sx={{ mt: 3, width: "100%" }}>
+                          <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
+                            <Box
+                              sx={{
+                                color: "#757575",
+                                width: "20%",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => setOpenSizeList(!openSizeList)}
+                            >
+                              {detailProduct?.size?.length > 0 && "Kích cỡ"}
+                            </Box>
+                            <Box sx={{ display: "flex", gap: 3 }}>
+                              {detailProduct?.size?.map((item, index) => {
+                                return (
+                                  <Box
+                                    key={index}
+                                    sx={{
+                                      display: "flex",
+                                      alignItems: "center",
+                                      gap: 1,
+                                      cursor: "pointer",
+                                      mb: 1,
+                                      border: "1px solid #757575",
+                                      p: "5px 10px",
+                                    }}
+                                  >
+                                    <Typography variant="caption">
+                                      {item}
+                                    </Typography>
+                                  </Box>
+                                );
+                              })}
+                            </Box>
+                          </Box>
+                          {openSizeList && detailProduct?.size?.length >= 0 && (
+                            <SizesList
+                              sizeData={detailProduct?.size}
+                              open={openSizeList}
+                              handleSelectSize={handleSelectSize}
+                            />
+                          )}
+                          {openSizeList && detailProduct?.size?.length >= 0 && (
+                            <Button
+                              variant="contained"
+                              sx={{ bgcolor: (theme) => theme.commonColors }}
+                              onClick={(e) => handleUpdate(e, "size")}
+                            >
+                              Xong!
+                            </Button>
+                          )}
+                        </Box>
+
+                        {/* so luong */}
+                        <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
+                          <Box
+                            sx={{
+                              color: "#757575",
+                              width: "20%",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => setUpdateQuantity(!updateQuantity)}
+                          >
+                            Số lượng
+                          </Box>
+                          <Typography>
+                            Số lượng có sẵn:
+                            {detailProduct?.quantity - detailProduct?.sold}
+                          </Typography>
+                          {updateQuantity && (
+                            <ToggleFocusInput
+                              value={detailProduct?.quantity}
+                              onChangedValue={(e) =>
+                                handleUpdate(e, "quantity")
+                              }
+                              // inputFontSize="15px"
+                            />
+                          )}
+                        </Box>
+
+                        {/* mieu ta*/}
+                        <Box
+                          sx={{
+                            mt: 3,
+                            width: "100%",
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              color: "#757575",
+                              width: "60%",
+                              cursor: "pointer",
+                            }}
+                            onClick={() =>
+                              setUpdateDescription(!updateDescription)
+                            }
+                          >
+                            Miêu tả sản phẩm (Ấn để xem và chỉnh sửa)
+                          </Box>
                         </Box>
                       </Box>
-                      {openSizeList && detailProduct?.size?.length >= 0 && (
-                        <SizesList
-                          sizeData={detailProduct?.size}
-                          open={openSizeList}
-                          handleSelectSize={handleSelectSize}
-                        />
-                      )}
-                      {openSizeList && detailProduct?.size?.length >= 0 && (
-                        <Button
-                          variant="contained"
-                          sx={{ bgcolor: (theme) => theme.commonColors }}
-                          onClick={(e) => handleUpdate(e, "size")}
-                        >
-                          Xong!
-                        </Button>
-                      )}
-                    </Box>
-
-                    {/* so luong */}
-                    <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
-                      <Box
-                        sx={{
-                          color: "#757575",
-                          width: "20%",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => setUpdateQuantity(!updateQuantity)}
-                      >
-                        Số lượng
-                      </Box>
-                      <Typography>
-                        Số lượng có sẵn:
-                        {detailProduct?.quantity - detailProduct?.sold}
-                      </Typography>
-                      {updateQuantity && (
-                        <ToggleFocusInput
-                          value={detailProduct?.quantity}
-                          onChangedValue={(e) => handleUpdate(e, "quantity")}
-                          // inputFontSize="15px"
-                        />
-                      )}
-                    </Box>
-
-                    {/* mieu ta*/}
-                    <Box
-                      sx={{
-                        mt: 3,
-                        width: "100%",
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          color: "#757575",
-                          width: "60%",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => setUpdateDescription(!updateDescription)}
-                      >
-                        Miêu tả sản phẩm (Ấn để xem và chỉnh sửa)
-                      </Box>
-                    </Box>
+                    )}
                   </Box>
                 )}
               </Box>

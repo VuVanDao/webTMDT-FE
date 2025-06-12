@@ -110,7 +110,7 @@ const AddNewProduct = () => {
       .then((res) => {
         if (!res.error) {
           toast
-            .promise(addImage(image, res._id), {
+            .promise(addImage(image, res[0]._id), {
               pending: "Đang gửi thông tin",
             })
             .then((res) => {

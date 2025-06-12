@@ -51,12 +51,7 @@ const FormUpdateCategory = ({
       setCategoryData(categoryDataClone);
     }
   };
-  const handleDeleteImage = (id) => {
-    const categoryDataClone = [...categoryData];
-    categoryDataClone.find((item) => item.id === id).image = null;
-    categoryDataClone.find((item) => item.id === id).imageToDisplay = null;
-    setCategoryData(categoryDataClone);
-  };
+
   const handleConfirm = () => {
     const categoryDataClone = [...categoryData];
     handleUpdateCategoryId(categoryDataClone);
@@ -178,6 +173,7 @@ const FormUpdateCategory = ({
                       height: "10px",
                     },
                   }}
+                  size="small"
                   onChange={(e) => handleChangeValue(e.target.value, id)}
                 />
               </Box>
@@ -189,6 +185,7 @@ const FormUpdateCategory = ({
                     bgcolor: (theme) => theme.commonColors,
                     cursor: "pointer",
                   }}
+                  size="small"
                 >
                   Chọn ảnh
                   <CustomInputFile
@@ -203,6 +200,7 @@ const FormUpdateCategory = ({
                   color="primary"
                   sx={{ mr: 2 }}
                   onClick={handleAddNewCategory}
+                  size="small"
                 >
                   Thêm
                 </Button>
@@ -210,6 +208,7 @@ const FormUpdateCategory = ({
                   variant="contained"
                   color="error"
                   onClick={() => handleDeleteCategory(id)}
+                  size="small"
                 >
                   Xoá
                 </Button>
