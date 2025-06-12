@@ -11,16 +11,29 @@ import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import Modal_add_category from "./Modal_add_category";
-import { getAllCategory } from "../../../api";
+import { getAllCategory, searchCategory } from "../../../api";
+import { createSearchParams } from "react-router-dom";
+import { useDebounceFn } from "../../../customHook/useDebounceFn";
 
 const Admin_manager_category = () => {
   const [categories, setCategories] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [searchQuery, setSearchQuery] = useState("");
   const [open, setOpen] = useState(false);
+  // const [resultSearch, setResultSearch] = useState([]);
 
   const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
+    if (!event.target.value) {
+      return;
+    }
+    // setSearchQuery(event.target.value);
+    const searchPath = `?${createSearchParams({
+      "q[name]": event.target.value,
+    })}`;
+    searchCategory(searchPath).then((res) => {
+      setCategories(res || []);
+    });
   };
+  const debounceSearchProduct = useDebounceFn(handleSearchChange);
   const handleOpenModal = () => setOpen(!open);
   const getCategories = async () => {
     const res = await getAllCategory();
@@ -43,8 +56,8 @@ const Admin_manager_category = () => {
         fullWidth
         variant="outlined"
         placeholder="Tìm kiếm danh mục hiện có..."
-        value={searchQuery}
-        onChange={handleSearchChange}
+        // value={searchQuery}
+        onChange={debounceSearchProduct}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -89,7 +102,7 @@ const Admin_manager_category = () => {
           Thêm danh mục
         </Button>
       </Box>
-      <Grid container spacing={2} mt={3}>
+      <Grid container spacing={3} mt={3}>
         {categories?.map(({ _id, name, image }) => (
           <Grid
             key={_id}

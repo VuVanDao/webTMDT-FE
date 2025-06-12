@@ -227,3 +227,9 @@ export const getAllCategory = async () => {
   const response = await authorizeAxiosInstance.get(`${apiRoot}/v1/categories`);
   return response.data;
 };
+export const searchCategory = async (searchPath) => {
+  const response = await authorizeAxiosInstance.get(
+    `${apiRoot}/v1/categories/search${searchPath}`
+  );
+  return response.data;
+};
