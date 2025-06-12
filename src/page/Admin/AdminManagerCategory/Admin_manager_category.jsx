@@ -5,11 +5,13 @@ import {
   Box,
   Typography,
   Button,
+  Grid,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import Modal_add_category from "./Modal_add_category";
+import { getAllCategory } from "../../../api";
 
 const Admin_manager_category = () => {
   const [categories, setCategories] = useState([]);
@@ -20,7 +22,15 @@ const Admin_manager_category = () => {
     setSearchQuery(event.target.value);
   };
   const handleOpenModal = () => setOpen(!open);
-
+  const getCategories = async () => {
+    const res = await getAllCategory();
+    if (!res.error) {
+      setCategories(res);
+    }
+  };
+  useEffect(() => {
+    getCategories();
+  }, []);
   return (
     <Container
       sx={{
@@ -32,7 +42,7 @@ const Admin_manager_category = () => {
       <TextField
         fullWidth
         variant="outlined"
-        placeholder="Tìm kiếm danh mục..."
+        placeholder="Tìm kiếm danh mục hiện có..."
         value={searchQuery}
         onChange={handleSearchChange}
         InputProps={{
@@ -79,6 +89,28 @@ const Admin_manager_category = () => {
           Thêm danh mục
         </Button>
       </Box>
+      <Grid container spacing={2} mt={3}>
+        {categories?.map(({ _id, name, image }) => (
+          <Grid
+            key={_id}
+            size={{ xs: 6, sm: 4, md: 3, lg: 2 }}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              border: "1px solid black",
+              p: "5px 10px",
+              borderRadius: "10px",
+            }}
+          >
+            <img
+              src={image}
+              alt={name}
+              style={{ width: "50px", height: "50px", marginRight: "10px" }}
+            />
+            <Typography>{name}</Typography>
+          </Grid>
+        ))}
+      </Grid>
       <Modal_add_category open={open} handleOpenModal={handleOpenModal} />
     </Container>
   );
