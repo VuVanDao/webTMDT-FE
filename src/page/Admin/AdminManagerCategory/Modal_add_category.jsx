@@ -19,7 +19,7 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-const Modal_add_category = ({ open, handleOpenModal }) => {
+const Modal_add_category = ({ open, handleOpenModal, getCategories }) => {
   const [categoryName, setCategoryName] = useState("");
   const [imageToDisplay, setImageToDisplay] = useState("");
   const [image, setImage] = useState(null);
@@ -30,6 +30,7 @@ const Modal_add_category = ({ open, handleOpenModal }) => {
   const handleUploadImage = async (e) => {
     setImage(e[0]);
     setImageToDisplay(URL.createObjectURL(e[0]));
+    e.target.files = "";
   };
   const createCategory = async () => {
     let data = { name: categoryName };
@@ -54,6 +55,8 @@ const Modal_add_category = ({ open, handleOpenModal }) => {
         if (!res.error) {
           toast.success("Thêm danh mục thành công");
           handleOpenModal();
+          setImageToDisplay("");
+          getCategories();
         }
       })
       .finally(() => {

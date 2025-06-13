@@ -6,15 +6,16 @@ import {
   Typography,
   Button,
   Grid,
+  Tooltip,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import Modal_add_category from "./Modal_add_category";
-import { getAllCategory, searchCategory } from "../../../api";
+import { deleteCategory, getAllCategory, searchCategory } from "../../../api";
 import { createSearchParams } from "react-router-dom";
 import { useDebounceFn } from "../../../customHook/useDebounceFn";
-
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 const Admin_manager_category = () => {
   const [categories, setCategories] = useState([]);
   // const [searchQuery, setSearchQuery] = useState("");
@@ -40,6 +41,13 @@ const Admin_manager_category = () => {
     if (!res.error) {
       setCategories(res);
     }
+  };
+  const handleDeleteCategory = async (id) => {
+    await deleteCategory(id).then((res) => {
+      if (!res.error) {
+        getCategories();
+      }
+    });
   };
   useEffect(() => {
     getCategories();
@@ -106,25 +114,36 @@ const Admin_manager_category = () => {
         {categories?.map(({ _id, name, image }) => (
           <Grid
             key={_id}
-            size={{ xs: 6, sm: 4, md: 3, lg: 2 }}
+            size={{ xs: 6, sm: 4, md: 2 }}
             sx={{
               display: "flex",
               alignItems: "center",
+              justifyContent: "space-between",
               border: "1px solid black",
-              p: "5px 10px",
+              p: "5px",
               borderRadius: "10px",
             }}
           >
             <img
               src={image}
               alt={name}
-              style={{ width: "50px", height: "50px", marginRight: "10px" }}
+              style={{ width: "50px", height: "50px" }}
             />
             <Typography>{name}</Typography>
+            <Tooltip title="Xóa danh mục" placement="top">
+              <HighlightOffIcon
+                sx={{ cursor: "pointer" }}
+                onClick={() => handleDeleteCategory(_id)}
+              />
+            </Tooltip>
           </Grid>
         ))}
       </Grid>
-      <Modal_add_category open={open} handleOpenModal={handleOpenModal} />
+      <Modal_add_category
+        open={open}
+        handleOpenModal={handleOpenModal}
+        getCategories={getCategories}
+      />
     </Container>
   );
 };

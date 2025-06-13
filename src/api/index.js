@@ -233,3 +233,9 @@ export const searchCategory = async (searchPath) => {
   );
   return response.data;
 };
+export const deleteCategory = async (id) => {
+  const response = await authorizeAxiosInstance.delete(
+    `${apiRoot}/v1/categories?id=${id}`
+  );
+  return response.data;
+};
