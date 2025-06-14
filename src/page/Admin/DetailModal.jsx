@@ -8,6 +8,7 @@ import { Avatar } from "@mui/material";
 import { Lightbox } from "yet-another-react-lightbox";
 import { browseShop } from "../../api";
 import { toast } from "react-toastify";
+import MDEditor from "@uiw/react-md-editor";
 export const DetailModal = ({
   openModal,
   setOpenModal,
@@ -51,8 +52,9 @@ export const DetailModal = ({
             outline: 0,
             padding: "40px 20px 20px",
             margin: "50px auto",
-            backgroundColor: (theme) =>
-              theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+            backgroundColor: "#fff",
+            overflowY: "auto",
+            maxHeight: "90vh",
           }}
         >
           <Box
@@ -131,7 +133,8 @@ export const DetailModal = ({
               Địa chỉ lấy hàng: {dataDetailShop?.address}
             </Typography>
             <Typography color="black">
-              Miêu tả: {dataDetailShop?.description}
+              Miêu tả:
+              <MDEditor.Markdown source={dataDetailShop?.description} />
             </Typography>
           </Box>
           <Box

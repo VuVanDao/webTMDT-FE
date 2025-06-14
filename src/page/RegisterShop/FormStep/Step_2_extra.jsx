@@ -5,6 +5,7 @@ import { updateDataFormRegisterShopStep2extra } from "../../../redux/slice/dataF
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import MDEditor from "@uiw/react-md-editor";
 
 const Step_2_extra = () => {
   const [description, setDescription] = useState("");
@@ -54,7 +55,7 @@ const Step_2_extra = () => {
       <StepperExample activeStep={2} />
       <Divider sx={{ my: 3 }} />
       <Box sx={boxStyle}>
-        <TextField
+        {/* <TextField
           // defaultValue="test"
           fullWidth
           multiline
@@ -62,6 +63,11 @@ const Step_2_extra = () => {
           rows={5}
           sx={fieldsetCommonStyle100}
           onChange={handleSetDescription}
+        /> */}
+        <MDEditor
+          value={description}
+          onChange={setDescription}
+          height={"500px"}
         />
       </Box>
       <Box>

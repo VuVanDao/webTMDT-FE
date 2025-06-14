@@ -46,7 +46,7 @@ const Step_2 = () => {
   const validateBefore = (data) => {
     const condition = ["name", "address", "email", "phoneNumber"];
     condition.map((item) => {
-      if (!data[item]) {
+      if (!data[item] || data[item] === null) {
         return false;
       }
     });

@@ -185,11 +185,6 @@ const AddNewProduct = () => {
           )}
         </Box>
 
-        {/* description editor */}
-        <Box>
-          <MDEditor value={value} onChange={setValue} height={"500px"} />
-        </Box>
-
         {/* price */}
         <Box sx={boxStyle}>
           <TextField
@@ -294,12 +289,17 @@ const AddNewProduct = () => {
         {/* size */}
         <SizesList open={openSizeList} handleSelectSize={handleSelectSize} />
 
+        {/* description editor */}
+        <Box>
+          <MDEditor value={value} onChange={setValue} height={"500px"} />
+        </Box>
         <Button
           type="submit"
           variant="contained"
           sx={{
             bgcolor: (theme) => theme.commonColors,
             cursor: "pointer",
+            mt: 2,
           }}
         >
           confirm

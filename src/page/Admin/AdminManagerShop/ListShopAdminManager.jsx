@@ -65,6 +65,7 @@ const ListShopAdminManager = () => {
               <TableCell align="center">Shop's Email</TableCell>
               <TableCell align="center">Shop's PhoneNumber</TableCell>
               <TableCell align="center">Shop's Address</TableCell>
+              <TableCell align="center">Shop's Status</TableCell>
               <TableCell align="center">Hành động</TableCell>
             </TableRow>
           </TableHead>
@@ -86,8 +87,11 @@ const ListShopAdminManager = () => {
                   </TableCell>
                   <TableCell align="center">{item?.email}</TableCell>
                   <TableCell align="center">{item?.phoneNumber}</TableCell>
-                  <TableCell align="center" sx={{ width: "200px" }}>
+                  <TableCell align="center" sx={{ width: "180px" }}>
                     {item?.address}
+                  </TableCell>
+                  <TableCell align="center">
+                    {item?.status === "accept" ? "Đang hoạt động" : "Đã khóa"}
                   </TableCell>
                   <TableCell align="center">
                     <Box sx={{ display: "flex", gap: 2 }}>
@@ -100,24 +104,27 @@ const ListShopAdminManager = () => {
                         onClick={() =>
                           navigate(`/admin/admin_detail_shop?id=${item?._id}`)
                         }
+                        size="small"
                       >
                         chi tiết
                       </Button>
-                      <Button
+                      {/* <Button
                         variant="contained"
                         sx={{
                           bgcolor: (theme) => theme.commonColors,
                           color: "white",
                         }}
+                        size="small"
                         // onClick={() => handleUpdateAccount(item)}
                       >
                         Chỉnh
-                      </Button>
+                      </Button> */}
                       <Button
                         variant="contained"
                         onClick={() => {
                           // handleDeleteAccount(item?._id);
                         }}
+                        size="small"
                       >
                         Xoá
                       </Button>
