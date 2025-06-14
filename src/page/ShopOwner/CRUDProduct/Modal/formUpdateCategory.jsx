@@ -151,11 +151,6 @@ const FormUpdateCategory = ({
         >
           Xác nhận
         </Button>
-        <Lightbox
-          open={openImage}
-          close={() => setOpenImage(!openImage)}
-          slides={[{ src: categoryData?.map((item) => item?.imageToDisplay) }]}
-        />
       </Box>
     );
   }
@@ -214,24 +209,13 @@ const FormUpdateCategory = ({
                 </Button>
               </Box>
             </Box>
-            <Tooltip
-              title="click to view"
-              onClick={() => setOpenImage(!openImage)}
-            >
-              <img
-                src={imageToDisplay}
-                style={{
-                  width: "100px",
-                  //   border: "1px solid",
-                }}
-              />
-            </Tooltip>
-            <Lightbox
-              open={openImage}
-              close={() => setOpenImage(false)}
-              slides={[
-                { src: categoryData?.map((item) => item?.imageToDisplay) },
-              ]}
+
+            <img
+              src={imageToDisplay}
+              style={{
+                width: "100px",
+                //   border: "1px solid",
+              }}
             />
           </Box>
         );

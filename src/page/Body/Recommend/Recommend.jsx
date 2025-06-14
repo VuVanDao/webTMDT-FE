@@ -1,15 +1,15 @@
 import { Box, Grid, Stack, TablePagination, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { RecommendData } from "../../../Data/RecommenData";
 import { Link } from "react-router-dom";
 import { formatPrice } from "../../../utils/formatter";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useSelector } from "react-redux";
 import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
-import { getAllProduct, getAllProductUser } from "../../../api";
+import { getAllProductUser } from "../../../api";
 const Recommend = () => {
   const [optionSortPrice, setOptionSortPrice] = useState(false);
+  const [optionSortAlphabet, setOptionSortAlphabet] = useState(false);
   const [change, setChange] = useState(false);
   const userInfo = useSelector(userInfoSelector);
   const [listProduct, setListProduct] = useState([]);
@@ -59,13 +59,14 @@ const Recommend = () => {
         setListProduct(
           listProduct.sort((a, b) => a.name.localeCompare(b.name))
         );
-        setChange(!change);
+        setOptionSortAlphabet(!optionSortAlphabet);
         break;
       case "CBA":
         setListProduct(
           listProduct.sort((a, b) => b.name.localeCompare(a.name))
         );
-        setChange(!change);
+        setOptionSortAlphabet(!optionSortAlphabet);
+
         break;
       default:
         break;
@@ -106,12 +107,17 @@ const Recommend = () => {
           <Box sx={styleOption} onClick={() => handleSortPrice("sell")}>
             Bán chạy
           </Box>
-          <Box sx={styleOption} onClick={() => handleSortPrice("ABC")}>
-            A - Z
-          </Box>
-          <Box sx={styleOption} onClick={() => handleSortPrice("CBA")}>
-            Z - A
-          </Box>
+
+          {optionSortAlphabet ? (
+            <Box sx={styleOption} onClick={() => handleSortPrice("ABC")}>
+              A - Z
+            </Box>
+          ) : (
+            <Box sx={styleOption} onClick={() => handleSortPrice("CBA")}>
+              Z - A
+            </Box>
+          )}
+
           {optionSortPrice ? (
             <Box sx={styleOption} onClick={() => handleSortPrice("high")}>
               Giá từ cao đến thấp <KeyboardArrowDownIcon />

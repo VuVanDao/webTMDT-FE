@@ -1,20 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import {
+  createSearchParams,
+  Link,
+  useLocation,
+  useSearchParams,
+} from "react-router-dom";
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import { formatPrice } from "../../../utils/formatter";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { fetchProductAPI } from "../../../api";
 const SearchData = () => {
   const [data, setData] = useState([]);
   const [optionSortPrice, setOptionSortPrice] = useState(false);
   const [change, setChange] = useState(false);
   let [searchParams] = useSearchParams();
   const { value } = Object.fromEntries([...searchParams]);
-  const location = useLocation();
-  let resultSearch = location?.state?.results;
-  useEffect(() => {}, [value]);
+
+  const handleSearch = () => {
+    const searchPath = `?${createSearchParams({ "q[name]": value })}`;
+    fetchProductAPI(searchPath).then((res) => {
+      setData(res);
+    });
+  };
+  useEffect(() => {
+    handleSearch();
+  }, [value]);
   const styleOption = {
     bgcolor: "white",
     p: "10px 25px",
@@ -76,7 +89,7 @@ const SearchData = () => {
     <Box sx={{ bgcolor: "#f5f5f5" }}>
       <Header showHeader={true} />
       <Container>
-        {resultSearch?.length === 0 ? (
+        {data?.length === 0 ? (
           <Box
             sx={{
               height: (theme) => theme.customHeight.Body,
@@ -124,9 +137,9 @@ const SearchData = () => {
                 p: "15px 0",
               }}
             >
-              {resultSearch ? (
+              {data?.length > 0 ? (
                 <Grid container spacing={2}>
-                  {resultSearch.map((item) => {
+                  {data?.map((item) => {
                     return (
                       <Grid
                         size={{ xs: 6, sm: 4, md: 3, lg: 2 }}

@@ -42,8 +42,13 @@ const Header = ({ showHeader }) => {
   };
   const debounceSearchProduct = useDebounceFn(handleSearch);
   const handleFindItem = (value) => {
-    navigate(`/search?value=${value?.name ? value?.name : searchType}`, {
-      state: { results: resultSearch ? resultSearch : searchType },
+    navigate(`/search?value=${value}`, {
+      state: { results: value },
+    });
+  };
+  const handleSearchItem = () => {
+    navigate(`/search?value=${searchType}`, {
+      state: { results: searchType },
     });
   };
   const handlePopoverOpen = (event) => {
@@ -224,7 +229,7 @@ const Header = ({ showHeader }) => {
             />
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Button sx={{ color: "white" }} onClick={handleFindItem}>
+            <Button sx={{ color: "white" }} onClick={handleSearchItem}>
               <SearchIcon sx={{ cursor: "pointer" }} />
             </Button>
 
@@ -238,21 +243,6 @@ const Header = ({ showHeader }) => {
               filterOptions={(options) => options}
               onChange={(event, newValue) => {
                 handleFindItem(newValue);
-              }}
-              renderOption={(props, option) => {
-                return (
-                  <Box
-                    sx={{
-                      px: 2,
-                      cursor: "pointer",
-                      "&:hover": {
-                        bgcolor: "#f5f5f5",
-                      },
-                    }}
-                  >
-                    <Typography variant="caption">{option}</Typography>
-                  </Box>
-                );
               }}
               renderInput={(params) => (
                 <TextField
