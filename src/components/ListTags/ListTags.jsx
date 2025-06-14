@@ -6,6 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import { useEffect, useState } from "react";
+import { getAllCategory } from "../../api";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -42,6 +43,7 @@ const names = [
 
 export const ListTags = ({ handleSelectTags, tagsIdData }) => {
   const [tags, setTags] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const handleChange = (event) => {
     const {
@@ -53,10 +55,15 @@ export const ListTags = ({ handleSelectTags, tagsIdData }) => {
     );
     handleSelectTags(value);
   };
+  const handleGetCategories = async () => {
+    const response = await getAllCategory();
+    setCategories(response);
+  };
   useEffect(() => {
     if (tagsIdData) {
       setTags(tagsIdData);
     }
+    handleGetCategories();
   }, []);
   return (
     <div>
@@ -97,7 +104,7 @@ export const ListTags = ({ handleSelectTags, tagsIdData }) => {
           )}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
+          {categories.map(({ _id, name }) => (
             <MenuItem key={name} value={name}>
               {name}
             </MenuItem>
