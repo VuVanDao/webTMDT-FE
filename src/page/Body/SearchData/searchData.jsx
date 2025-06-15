@@ -15,6 +15,8 @@ import { fetchProductAPI } from "../../../api";
 const SearchData = () => {
   const [data, setData] = useState([]);
   const [optionSortPrice, setOptionSortPrice] = useState(false);
+  const [optionSortAlphabet, setOptionSortAlphabet] = useState(false);
+
   const [change, setChange] = useState(false);
   let [searchParams] = useSearchParams();
   const { value } = Object.fromEntries([...searchParams]);
@@ -49,6 +51,14 @@ const SearchData = () => {
       case "low":
         setData(data.sort((a, b) => b.price - a.price));
         setOptionSortPrice(!optionSortPrice);
+        break;
+      case "ABC":
+        setData(data.sort((a, b) => a.name.localeCompare(b.name)));
+        setOptionSortAlphabet(!optionSortAlphabet);
+        break;
+      case "CBA":
+        setData(data.sort((a, b) => b.name.localeCompare(a.name)));
+        setOptionSortAlphabet(!optionSortAlphabet);
         break;
       default:
         break;
@@ -121,6 +131,15 @@ const SearchData = () => {
               <Box sx={styleOption} onClick={() => handleSortPrice("sell")}>
                 Bán chạy
               </Box>
+              {optionSortAlphabet ? (
+                <Box sx={styleOption} onClick={() => handleSortPrice("ABC")}>
+                  A - Z
+                </Box>
+              ) : (
+                <Box sx={styleOption} onClick={() => handleSortPrice("CBA")}>
+                  Z - A
+                </Box>
+              )}
               {optionSortPrice ? (
                 <Box sx={styleOption} onClick={() => handleSortPrice("high")}>
                   Giá từ cao đến thấp <KeyboardArrowDownIcon />

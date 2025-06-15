@@ -47,6 +47,7 @@ import ShopAdminBrowser from "./page/Admin/ShopAdminBrowser";
 import Admin_Detail_Shop from "./page/Admin/AdminManagerShop/Admin_Detail_Shop";
 import CheckShopDetail from "./page/Detail/CheckShopDetail";
 import Admin_manager_category from "./page/Admin/AdminManagerCategory/Admin_manager_category";
+import Admin_manager_order from "./page/Admin/AdminManagerOrder/Admin_manager_order";
 
 const ProtectedRoute = () => {
   const user = useSelector(userInfoSelector);
@@ -150,6 +151,10 @@ const App = () => {
               <Route
                 path="admin_manage_category"
                 element={<Admin_manager_category />}
+              />
+              <Route
+                path="admin_manage_order"
+                element={<Admin_manager_order />}
               />
             </Route>
           </Route>

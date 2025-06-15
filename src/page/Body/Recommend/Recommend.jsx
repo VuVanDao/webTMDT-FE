@@ -66,7 +66,6 @@ const Recommend = () => {
           listProduct.sort((a, b) => b.name.localeCompare(a.name))
         );
         setOptionSortAlphabet(!optionSortAlphabet);
-
         break;
       default:
         break;

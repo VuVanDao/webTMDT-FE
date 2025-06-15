@@ -46,6 +46,11 @@ const AdminPage = () => {
           title: "Quản lí danh mục",
           link: "/admin/admin_manage_category",
         },
+        {
+          id: 4,
+          title: "Quản lí các đơn hàng",
+          link: "/admin/admin_manage_order",
+        },
       ],
     },
     {
