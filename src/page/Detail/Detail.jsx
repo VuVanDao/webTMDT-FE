@@ -255,6 +255,7 @@ const Detail = () => {
                     width: "100%",
                     border: "1px solid",
                     maxWidth: "350px",
+                    height: "305px",
                   }}
                 />
                 <Box

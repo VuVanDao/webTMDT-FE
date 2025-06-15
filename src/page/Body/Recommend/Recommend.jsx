@@ -156,7 +156,11 @@ const Recommend = () => {
                     <img
                       src={item?.image[0]}
                       alt={item.name}
-                      style={{ width: "100%", border: "1px solid black" }}
+                      style={{
+                        width: "100%",
+                        height: "185px",
+                        border: "1px solid black",
+                      }}
                     />
                     <Box sx={{ p: 1 }}>
                       <Box

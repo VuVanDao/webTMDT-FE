@@ -149,6 +149,7 @@ const AddNewProduct = () => {
           size: listSizes?.length > 0 ? listSizes : [],
           shopId: userInfo.shopId,
           description: value,
+          price: +data.price,
         },
         reqData
       );
