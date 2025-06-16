@@ -159,6 +159,13 @@ export const deleteProduct = async (id) => {
   );
   return response.data;
 };
+export const findProductAPI = async (data) => {
+  const response = await authorizeAxiosInstance.post(
+    `${apiRoot}/v1/products`,
+    data
+  );
+  return response.data;
+};
 
 //order
 export const createNewOrder = async (data) => {

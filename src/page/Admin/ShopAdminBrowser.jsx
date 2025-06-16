@@ -2,7 +2,7 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getAllShop } from "../../api";
 import { DetailModal } from "./DetailModal";
-import { LoadingPage } from "../../components/LoadingPage/LoadingPage";
+import PageLoadingSpinner from "../../components/Loading/PageLoadingSpinner";
 
 const ShopAdminBrowser = () => {
   const [listShop, setListShop] = useState([]);
@@ -27,7 +27,7 @@ const ShopAdminBrowser = () => {
     }
   };
   if (!listShop) {
-    return <LoadingPage />;
+    return <PageLoadingSpinner caption="Đang tải danh sách shop..." />;
   }
   return (
     <Container

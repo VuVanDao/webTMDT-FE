@@ -151,6 +151,7 @@ const Header = ({ showHeader }) => {
             px: 1,
           }}
         >
+          {/* left */}
           <Box>
             <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
               <Box>
@@ -188,6 +189,8 @@ const Header = ({ showHeader }) => {
               </Box>
             </Box>
           </Box>
+
+          {/* right */}
           <Box>
             <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
               <Box sx={{ display: "flex", gap: 0.5, alignItems: "center" }}>

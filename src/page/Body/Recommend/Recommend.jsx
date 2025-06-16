@@ -7,6 +7,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useSelector } from "react-redux";
 import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
 import { getAllProductUser } from "../../../api";
+import StarRateIcon from "@mui/icons-material/StarRate";
 const Recommend = () => {
   const [optionSortPrice, setOptionSortPrice] = useState(false);
   const [optionSortAlphabet, setOptionSortAlphabet] = useState(false);
@@ -27,6 +28,15 @@ const Recommend = () => {
   const handleGetAllProduct = async () => {
     const res = await getAllProductUser();
     if (!res.error) {
+      res?.map((item) => {
+        if (item?.comments?.length === 0) {
+          item.rating = 0;
+        } else {
+          item.rating =
+            item.comments.reduce((sum, item) => sum + item.rating, 0) /
+            item.comments.length;
+        }
+      });
       setListProduct(res);
     }
   };
@@ -179,10 +189,28 @@ const Recommend = () => {
                           display: "flex",
                           justifyContent: "space-between",
                           color: "black",
-                          alignItems: "center",
+                          alignItems: "flex-end",
                         }}
                       >
-                        <Typography>{formatPrice(item?.price)}</Typography>
+                        <Box>
+                          <Typography
+                            sx={{
+                              fontSize: "14px",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 0.5,
+                            }}
+                          >
+                            <StarRateIcon
+                              sx={{
+                                color: "gold",
+                                fontSize: "14px",
+                              }}
+                            />
+                            {item?.rating}
+                          </Typography>
+                          <Typography>{formatPrice(item?.price)}</Typography>
+                        </Box>
                         <Typography sx={{ fontSize: "14px" }}>
                           Đã bán: {item?.sold}
                         </Typography>
