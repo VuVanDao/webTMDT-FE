@@ -2,7 +2,7 @@ import { Box, Button, TextField, Tooltip } from "@mui/material";
 import CustomInputFile from "../../../../components/customInputFile/customInputFile";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Lightbox } from "yet-another-react-lightbox";
+import _ from "lodash";
 
 const FormUpdateCategory = ({
   open,
@@ -17,8 +17,6 @@ const FormUpdateCategory = ({
       imageToDisplay: null,
     },
   ]);
-
-  const [openImage, setOpenImage] = useState(false);
 
   const handleAddNewCategory = () => {
     let categoryDataClone = {
@@ -214,7 +212,6 @@ const FormUpdateCategory = ({
               src={imageToDisplay}
               style={{
                 width: "100px",
-                //   border: "1px solid",
               }}
             />
           </Box>

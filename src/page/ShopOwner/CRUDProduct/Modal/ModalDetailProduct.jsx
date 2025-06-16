@@ -140,6 +140,7 @@ export const ModalDetailProduct = ({
       setValueDescription(res?.description);
     }
   };
+
   const handleUpdateImage = async (imageDataClone) => {
     const uploadPromises = imageDataClone.map(async (item) => {
       let formData = new FormData();
@@ -172,6 +173,7 @@ export const ModalDetailProduct = ({
         }
       });
   };
+
   const handleDeleteProduct = async (id) => {
     const res = await deleteProduct(id);
     if (!res.error) {
@@ -180,6 +182,7 @@ export const ModalDetailProduct = ({
       handleClose();
     }
   };
+
   useEffect(() => {
     if (detailProductId) handleGetProductById(detailProductId);
   }, [handleGetAllProduct]);

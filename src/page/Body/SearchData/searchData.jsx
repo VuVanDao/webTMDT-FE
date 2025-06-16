@@ -17,6 +17,7 @@ import { fetchProductAPI, findProductAPI } from "../../../api";
 import _ from "lodash";
 import LoadingPage from "./LoadingPage";
 import { toast } from "react-toastify";
+import StarRateIcon from "@mui/icons-material/StarRate";
 
 const SearchData = () => {
   const [data, setData] = useState([]);
@@ -36,6 +37,15 @@ const SearchData = () => {
     setLoading(true);
     const searchPath = `?${createSearchParams({ "q[name]": value })}`;
     fetchProductAPI(searchPath).then((res) => {
+      res?.map((item) => {
+        if (item?.comments?.length === 0) {
+          item.ratingAverage = 0;
+        } else {
+          item.ratingAverage =
+            item.comments.reduce((sum, item) => sum + item.rating, 0) /
+            item.comments.length;
+        }
+      });
       setData(res);
       setLoading(false);
     });
@@ -93,6 +103,10 @@ const SearchData = () => {
       case "CBA":
         setData(data.sort((a, b) => b.name.localeCompare(a.name)));
         setOptionSortAlphabet(!optionSortAlphabet);
+        break;
+      case "ratingAverage":
+        setData(data.sort((a, b) => b.ratingAverage - a.ratingAverage));
+        setChange(!change);
         break;
       default:
         break;
@@ -188,7 +202,14 @@ const SearchData = () => {
                   Giá từ thấp đến cao <KeyboardArrowUpIcon />
                 </Box>
               )}
+              <Box
+                sx={styleOption}
+                onClick={() => handleSortPrice("ratingAverage")}
+              >
+                Theo đánh giá
+              </Box>
             </Box>
+
             <Box
               sx={{
                 bgcolor: "#ededed",
@@ -325,7 +346,22 @@ const SearchData = () => {
                               }}
                             >
                               <Box>
-                                <Typography> a</Typography>
+                                <Typography
+                                  sx={{
+                                    fontSize: "14px",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 0.5,
+                                  }}
+                                >
+                                  <StarRateIcon
+                                    sx={{
+                                      color: "gold",
+                                      fontSize: "14px",
+                                    }}
+                                  />
+                                  {item?.ratingAverage}
+                                </Typography>
                                 <Typography>
                                   {formatPrice(item?.price)}
                                 </Typography>

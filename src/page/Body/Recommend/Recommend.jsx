@@ -30,9 +30,9 @@ const Recommend = () => {
     if (!res.error) {
       res?.map((item) => {
         if (item?.comments?.length === 0) {
-          item.rating = 0;
+          item.ratingAverage = 0;
         } else {
-          item.rating =
+          item.ratingAverage =
             item.comments.reduce((sum, item) => sum + item.rating, 0) /
             item.comments.length;
         }
@@ -207,7 +207,7 @@ const Recommend = () => {
                                 fontSize: "14px",
                               }}
                             />
-                            {item?.rating}
+                            {item?.ratingAverage}
                           </Typography>
                           <Typography>{formatPrice(item?.price)}</Typography>
                         </Box>
