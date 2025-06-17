@@ -36,7 +36,11 @@ import moment from "moment";
 const Detail = () => {
   const [DetailData, setDetailData] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const [displayImage, setDisplayImage] = useState(null);
+  const [displayPrice, setDisplayPrice] = useState(null);
+  const [displayQuantity, setDisplayQuantity] = useState(null);
+
   const [SelectQuantity, setSelectQuantity] = useState(1);
   const [SelectCategory, setSelectCategory] = useState("");
   const [SelectRating, setSelectRating] = useState(null);
@@ -94,6 +98,12 @@ const Detail = () => {
       }
       setDetailData(getData);
       setDisplayImage(getData?.image[0]);
+      setDisplayPrice(getData?.price);
+      let totalQuantity = 0;
+      getData?.categoryId.map((item) => {
+        totalQuantity += item.quantity;
+      });
+      setDisplayQuantity(totalQuantity);
     } catch (error) {
       toast.error("Failed to load product details");
       navigate("/");
@@ -128,7 +138,7 @@ const Detail = () => {
         toast.error("Vui lòng chọn phân loại sản phẩm");
         return;
       }
-      let price = DetailData?.price;
+      let price = displayPrice;
       if (SelectQuantity > 1) {
         price *= SelectQuantity;
       }
@@ -164,7 +174,7 @@ const Detail = () => {
         }
       }
 
-      let price = DetailData?.price;
+      let price = displayPrice;
       if (SelectQuantity > 1) {
         price *= SelectQuantity;
       }
@@ -309,22 +319,30 @@ const Detail = () => {
               {/* left */}
               <Box>
                 <Typography variant="h6">{DetailData?.name}</Typography>
-                <Rating
-                  name="size-large"
-                  defaultValue={5}
-                  size="small"
-                  sx={{
-                    ".MuiRating-icon": {
-                      color: "rgb(250, 175, 0)",
-                    },
-                  }}
-                  readOnly
-                />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <Rating
+                    name="size-large"
+                    defaultValue={
+                      DetailData?.sold >= 1 ? handleRatingAverage() : 5
+                    }
+                    size="small"
+                    sx={{
+                      ".MuiRating-icon": {
+                        color: "rgb(250, 175, 0)",
+                      },
+                    }}
+                    readOnly
+                  />
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                    <Typography sx={{ fontSize: "13px" }}>Đã bán:</Typography>
+                    <Typography>{DetailData?.sold}</Typography>
+                  </Box>
+                </Box>
 
                 {/* price */}
                 <Box sx={{ p: 2, bgcolor: "#f5f5f5", color: "red" }}>
                   <Typography variant="h5">
-                    {formatPrice(DetailData?.price)}
+                    {formatPrice(displayPrice)}
                   </Typography>
                 </Box>
 
@@ -358,6 +376,7 @@ const Detail = () => {
                   <Box sx={{ color: "#757575", width: "20%" }}>
                     {DetailData?.categoryId?.length > 0 && "Phân loại"}
                   </Box>
+
                   <Box
                     sx={{
                       display: "flex",
@@ -380,16 +399,18 @@ const Detail = () => {
                               p: "5px 10px",
                             }}
                             onClick={() => {
-                              setDisplayImage(item.image);
-                              setSelectCategory(item.name);
+                              setDisplayImage(item?.image);
+                              setDisplayPrice(item?.price);
+                              setDisplayQuantity(item?.quantity);
+                              setSelectCategory(item?.name);
                             }}
                           >
                             <img
-                              src={item.image}
-                              alt={item.name}
+                              src={item?.image}
+                              alt={item?.name}
                               style={{ width: "30px", height: "30px" }}
                             />
-                            <Typography>{item.name}</Typography>
+                            <Typography>{item?.name}</Typography>
                           </Box>
                         );
                       } else {
@@ -406,16 +427,18 @@ const Detail = () => {
                               p: "5px 10px",
                             }}
                             onClick={() => {
-                              setDisplayImage(item.image);
-                              setSelectCategory(item.name);
+                              setDisplayImage(item?.image);
+                              setDisplayPrice(item?.price);
+                              setDisplayQuantity(item?.quantity);
+                              setSelectCategory(item?.name);
                             }}
                           >
                             <img
-                              src={item.image}
-                              alt={item.name}
+                              src={item?.image}
+                              alt={item?.name}
                               style={{ width: "30px", height: "30px" }}
                             />
-                            <Typography>{item.name}</Typography>
+                            <Typography>{item?.name}</Typography>
                           </Box>
                         );
                       }
@@ -487,7 +510,6 @@ const Detail = () => {
                         cursor: "pointer",
                         mb: 1,
                         border: "1px solid #757575",
-                        // p: "5px",
                         justifyContent: "space-between",
                       }}
                     >
@@ -523,16 +545,11 @@ const Detail = () => {
                           borderRadius: "0px",
                         }}
                         onClick={() => {
-                          if (
-                            SelectQuantity <
-                            DetailData?.quantity - DetailData?.sold
-                          ) {
+                          if (SelectQuantity < displayQuantity) {
                             handleIncrement();
-                          } else if (
-                            SelectQuantity ===
-                            DetailData?.quantity - DetailData?.sold
-                          ) {
+                          } else if (SelectQuantity >= displayQuantity) {
                             toast.error(`Vượt quá số lượng có sẵn`);
+                            setSelectQuantity(displayQuantity);
                           }
                         }}
                       >
@@ -548,8 +565,7 @@ const Detail = () => {
                       }}
                     >
                       <Typography>
-                        Số lượng có sẵn:{" "}
-                        {DetailData?.quantity - DetailData?.sold}
+                        Số lượng có sẵn: {displayQuantity}
                       </Typography>
                     </Box>
                   </Box>
@@ -581,7 +597,7 @@ const Detail = () => {
                       handleSelect("buy");
                     }}
                   >
-                    Mua với voucher {formatPrice(DetailData?.price)}
+                    Mua với voucher {formatPrice(displayPrice)}
                   </Button>
                 </Box>
               </Box>

@@ -32,6 +32,8 @@ const style = {
   boxShadow: 24,
   p: 4,
   width: "1100px",
+  overflowY: "scroll",
+  height: "80vh",
 };
 
 export const ModalDetailProduct = ({
@@ -136,7 +138,14 @@ export const ModalDetailProduct = ({
   const handleGetProductById = async (id) => {
     const res = await getProductById(id);
     if (!res.error) {
-      setDetailProduct(res);
+      let totalQuantity = 0;
+      res?.categoryId.map((item) => {
+        totalQuantity += item.quantity;
+      });
+      setDetailProduct({
+        ...res,
+        quantity: totalQuantity,
+      });
       setValueDescription(res?.description);
     }
   };
@@ -393,6 +402,7 @@ export const ModalDetailProduct = ({
                         <FormUpdateCategory
                           open={updateCategoryId}
                           handleUpdateCategoryId={handleUpdateCategoryId}
+                          setUpdateCategoryId={setUpdateCategoryId}
                           categoryIdDataFromModal={detailProduct?.categoryId}
                         />
                       </Box>
@@ -529,7 +539,14 @@ export const ModalDetailProduct = ({
 
                         {/* phan loai */}
                         <Box sx={{ mt: 3, width: "100%" }}>
-                          <Box sx={{ display: "flex", mt: 3, width: "100%" }}>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              mt: 3,
+                              width: "100%",
+                              flexWrap: "wrap",
+                            }}
+                          >
                             <Box
                               sx={{
                                 color: "#757575",
@@ -591,11 +608,6 @@ export const ModalDetailProduct = ({
                               </Box>
                             )}
                           </Box>
-                          {/* <FormUpdateCategory
-                          open={updateCategoryId}
-                          handleUpdateCategoryId={handleUpdateCategoryId}
-                          categoryIdDataFromModal={detailProduct?.categoryId}
-                        /> */}
                         </Box>
 
                         {/* kich co */}
@@ -611,7 +623,9 @@ export const ModalDetailProduct = ({
                             >
                               {detailProduct?.size?.length > 0 && "Kích cỡ"}
                             </Box>
-                            <Box sx={{ display: "flex", gap: 3 }}>
+                            <Box
+                              sx={{ display: "flex", gap: 3, flexWrap: "wrap" }}
+                            >
                               {detailProduct?.size?.map((item, index) => {
                                 return (
                                   <Box

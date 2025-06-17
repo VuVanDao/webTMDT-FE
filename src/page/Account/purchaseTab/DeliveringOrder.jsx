@@ -41,10 +41,7 @@ const DeliveringOrder = () => {
           toast.success("Thao tác thành công");
         }
       });
-      await update({
-        id: item?.productId,
-        newQuantity: item?.quantity,
-      });
+
       handleGetAllShopOrder();
     }
   };
