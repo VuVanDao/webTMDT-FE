@@ -252,7 +252,7 @@ const Detail = () => {
                 gap: 10,
               }}
             >
-              {/* right */}
+              {/* left */}
               <Box
                 sx={{
                   textAlign: "center",
@@ -316,23 +316,27 @@ const Detail = () => {
                 </Box>
               </Box>
 
-              {/* left */}
+              {/* right */}
               <Box>
                 <Typography variant="h6">{DetailData?.name}</Typography>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                  <Rating
-                    name="size-large"
-                    defaultValue={
-                      DetailData?.sold >= 1 ? handleRatingAverage() : 5
-                    }
-                    size="small"
-                    sx={{
-                      ".MuiRating-icon": {
-                        color: "rgb(250, 175, 0)",
-                      },
-                    }}
-                    readOnly
-                  />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                    <Rating
+                      name="size-large"
+                      defaultValue={
+                        DetailData?.sold >= 1 ? handleRatingAverage() : 5
+                      }
+                      size="small"
+                      sx={{
+                        ".MuiRating-icon": {
+                          color: "rgb(250, 175, 0)",
+                        },
+                      }}
+                      precision={0.25}
+                      readOnly
+                    />
+                    <Typography>{handleRatingAverage()}</Typography>
+                  </Box>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                     <Typography sx={{ fontSize: "13px" }}>Đã bán:</Typography>
                     <Typography>{DetailData?.sold}</Typography>
@@ -779,7 +783,7 @@ const Detail = () => {
             <Box px={2}>
               {DetailData?.comments?.map((item, index) => (
                 <Box
-                  sx={{ display: "flex", gap: 1, width: "100%", mb: 1.5 }}
+                  sx={{ display: "flex", gap: 1, width: "100%", mb: 2 }}
                   key={index}
                 >
                   <Tooltip title={item?.username}>

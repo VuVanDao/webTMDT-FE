@@ -11,16 +11,39 @@ import {
   ResponsiveContainer,
   BarChart,
   Bar,
+  PieChart,
+  Pie,
 } from "recharts";
 import { getOrderByShopId } from "../../api";
 import { useSelector } from "react-redux";
 import { userInfoSelector } from "../../redux/slice/userInfoSlice";
 import _ from "lodash";
-
+import { ORDER_STATUS } from "../../utils/constants";
 const AnalysisShop = () => {
   const [listShopOrder, setListShopOrder] = useState([]);
   const [data, setData] = useState([]);
+  const [dataPie, setDataPie] = useState([]);
   const userInfo = useSelector(userInfoSelector);
+
+  const getFormatToday = () => {
+    // Lấy ngày hôm nay
+    const today = new Date();
+
+    // Định dạng giờ theo GMT+7
+    const options = {
+      timeZone: "Asia/Ho_Chi_Minh", // GMT+7
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    };
+
+    const formatter = new Intl.DateTimeFormat("vi-VN", options);
+    const formattedTime = formatter.format(today);
+
+    // Chuỗi kết quả
+    const result = `( Hôm nay 00:00 GMT+7 ${formattedTime} )`;
+    return result;
+  };
 
   const FormatDayInOrder = (day) => {
     const timestamp = day;
@@ -73,9 +96,9 @@ const AnalysisShop = () => {
       });
     }
 
-    console.log("Các ngày từ Thứ 2 đến Thứ 7 tuần trước:", days);
+    console.log("🚀 ~ getDays ~ days:", days);
     let listShopOrderClone = _.cloneDeep(listShopOrder);
-    console.log("🚀 ~ getDays ~ listShopOrderClone:", listShopOrderClone);
+
     listShopOrderClone.map((item) => {
       item?.updatedAt;
       for (let day of days) {
@@ -87,7 +110,20 @@ const AnalysisShop = () => {
     });
     setData(days.reverse());
   };
-
+  const setupDataPie = () => {
+    let listShopOrderClone = _.cloneDeep(listShopOrder);
+    let dataForDataPie = [];
+    listShopOrderClone.map((item) =>
+      dataForDataPie.find((i) => i.name === item?.status)
+        ? dataForDataPie.find((i) => i.name === item?.status).value++
+        : dataForDataPie.push({
+            name: item?.status,
+            value: 1,
+          })
+    );
+    console.log("🚀 ~ setupDataPie ~ dataForDataPie:", dataForDataPie);
+    setDataPie(dataForDataPie);
+  };
   const handleGetAllShopOrder = async () => {
     await getOrderByShopId(userInfo?.shopId).then((res) => {
       if (res && !res?.error) {
@@ -99,33 +135,16 @@ const AnalysisShop = () => {
     });
   };
 
-  const getFormatToday = () => {
-    // Lấy ngày hôm nay
-    const today = new Date();
-
-    // Định dạng giờ theo GMT+7
-    const options = {
-      timeZone: "Asia/Ho_Chi_Minh", // GMT+7
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    };
-
-    const formatter = new Intl.DateTimeFormat("vi-VN", options);
-    const formattedTime = formatter.format(today);
-
-    // Chuỗi kết quả
-    const result = `( Hôm nay 00:00 GMT+7 ${formattedTime} )`;
-    return result;
-  };
   useEffect(() => {
     handleGetAllShopOrder();
   }, []);
   useEffect(() => {
     if (listShopOrder.length > 0) {
       getDays();
+      setupDataPie();
     }
   }, [listShopOrder]);
+
   return (
     <Box
       sx={{
@@ -137,6 +156,24 @@ const AnalysisShop = () => {
       <Box mb={5}>
         <Typography variant="h5">Phân tích bán hàng</Typography>
         <Typography fontSize={"12px"}>{getFormatToday()}</Typography>
+      </Box>
+      <Box>
+        <Typography variant="h6">Tổng số đơn hàng</Typography>
+        <ResponsiveContainer width="100%" height={300}>
+          <PieChart width={400} height={400}>
+            <Pie
+              dataKey="value"
+              isAnimationActive={false}
+              data={dataPie}
+              cx="50%"
+              cy="50%"
+              outerRadius={120}
+              fill="#8884d8"
+              label
+            />
+            <Tooltip />
+          </PieChart>
+        </ResponsiveContainer>
       </Box>
 
       <Box>
@@ -157,42 +194,35 @@ const AnalysisShop = () => {
       </Box>
 
       <Box>
-        <Box mb={5}>
-          <Typography variant="h5">Phân tích bán hàng</Typography>
-          <Typography fontSize={"12px"}>{getFormatToday()}</Typography>
-        </Box>
-
-        <Box>
-          <Typography variant="h6">Tổng doanh thu</Typography>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart
-              width={500}
-              height={300}
-              data={data}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis
-                dataKey="name"
-                tickFormatter={(value) => value.split("/")[0]}
-              />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="price"
-                stroke="#82ca9d"
-                name="Doanh thu"
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </Box>
+        <Typography variant="h6">Tổng doanh thu</Typography>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart
+            width={500}
+            height={300}
+            data={data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="name"
+              tickFormatter={(value) => value.split("/")[0]}
+            />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="price"
+              stroke="#82ca9d"
+              name="Doanh thu"
+            />
+          </LineChart>
+        </ResponsiveContainer>
       </Box>
     </Box>
   );
