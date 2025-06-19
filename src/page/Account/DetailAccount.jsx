@@ -19,7 +19,7 @@ const DetailAccount = () => {
           gap: 15,
         }}
       >
-        <Box sx={{ width: "200px" }}>
+        <Box sx={{ width: "250px" }}>
           <Settings />
         </Box>
         <Box sx={{ width: "100%" }}>

@@ -18,7 +18,7 @@ import { getOrderByShopId } from "../../api";
 import { useSelector } from "react-redux";
 import { userInfoSelector } from "../../redux/slice/userInfoSlice";
 import _ from "lodash";
-import { ORDER_STATUS } from "../../utils/constants";
+
 const AnalysisShop = () => {
   const [listShopOrder, setListShopOrder] = useState([]);
   const [data, setData] = useState([]);
@@ -95,8 +95,6 @@ const AnalysisShop = () => {
         price: 0,
       });
     }
-
-    console.log("🚀 ~ getDays ~ days:", days);
     let listShopOrderClone = _.cloneDeep(listShopOrder);
 
     listShopOrderClone.map((item) => {
@@ -121,7 +119,6 @@ const AnalysisShop = () => {
             value: 1,
           })
     );
-    console.log("🚀 ~ setupDataPie ~ dataForDataPie:", dataForDataPie);
     setDataPie(dataForDataPie);
   };
   const handleGetAllShopOrder = async () => {
@@ -157,72 +154,89 @@ const AnalysisShop = () => {
         <Typography variant="h5">Phân tích bán hàng</Typography>
         <Typography fontSize={"12px"}>{getFormatToday()}</Typography>
       </Box>
+      {/* total order */}
+      <Typography variant="h6">Tổng số đơn hàng</Typography>
       <Box>
-        <Typography variant="h6">Tổng số đơn hàng</Typography>
-        <ResponsiveContainer width="100%" height={300}>
-          <PieChart width={400} height={400}>
-            <Pie
-              dataKey="value"
-              isAnimationActive={false}
-              data={dataPie}
-              cx="50%"
-              cy="50%"
-              outerRadius={120}
-              fill="#8884d8"
-              label
-            />
-            <Tooltip />
-          </PieChart>
-        </ResponsiveContainer>
+        {listShopOrder?.length > 0 ? (
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart width={400} height={400}>
+              <Pie
+                dataKey="value"
+                isAnimationActive={false}
+                data={dataPie}
+                cx="50%"
+                cy="50%"
+                outerRadius={120}
+                fill="#8884d8"
+                label
+              />
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        ) : (
+          <Typography mb={2}>Hiện bạn chưa có đơn hàng nào</Typography>
+        )}
       </Box>
 
+      <Typography variant="h6">Những đơn hàng đã được hoàn thành</Typography>
       <Box>
-        <Typography variant="h6">Những đơn hàng đã được hoàn thành</Typography>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart width={150} height={40} data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              dataKey="name"
-              tickFormatter={(value) => value.split("/")[0]}
-            />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="doneOrder" fill="#8884d8" name="Đơn hàng hoàn tất" />
-          </BarChart>
-        </ResponsiveContainer>
+        {data?.length > 0 ? (
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart width={150} height={40} data={data}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                dataKey="name"
+                tickFormatter={(value) => value.split("/")[0]}
+              />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar
+                dataKey="doneOrder"
+                fill="#8884d8"
+                name="Đơn hàng hoàn tất"
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        ) : (
+          <Typography mb={2}>Hiện bạn chưa có đơn hàng nào</Typography>
+        )}
       </Box>
 
+      <Typography variant="h6">Tổng doanh thu</Typography>
       <Box>
-        <Typography variant="h6">Tổng doanh thu</Typography>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart
-            width={500}
-            height={300}
-            data={data}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-              dataKey="name"
-              tickFormatter={(value) => value.split("/")[0]}
-            />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="price"
-              stroke="#82ca9d"
-              name="Doanh thu"
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        {data?.length > 0 ? (
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart
+              width={500}
+              height={300}
+              data={data}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                dataKey="name"
+                tickFormatter={(value) => value.split("/")[0]}
+              />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="price"
+                stroke="#82ca9d"
+                name="Doanh thu"
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        ) : (
+          <Typography mb={2}>Hiện bạn chưa có đơn hàng nào</Typography>
+        )}
       </Box>
     </Box>
   );

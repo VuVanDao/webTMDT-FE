@@ -48,6 +48,7 @@ import Admin_Detail_Shop from "./page/Admin/AdminManagerShop/Admin_Detail_Shop";
 import CheckShopDetail from "./page/Detail/CheckShopDetail";
 import Admin_manager_category from "./page/Admin/AdminManagerCategory/Admin_manager_category";
 import Admin_manager_order from "./page/Admin/AdminManagerOrder/Admin_manager_order";
+import ChangePassword from "./page/Account/Password/changePassword";
 
 const ProtectedRoute = () => {
   const user = useSelector(userInfoSelector);
@@ -92,6 +93,7 @@ const App = () => {
               element={<Navigate to={"MyAccount"} replace={true} />}
             />
             <Route path="MyAccount" element={<Information />} />
+            <Route path="changePassword" element={<ChangePassword />} />
 
             <Route path="purchase" element={<PurchaseDetail />}>
               <Route

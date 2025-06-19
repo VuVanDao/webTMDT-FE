@@ -60,6 +60,8 @@ const LoginForm = () => {
       .then((user) => {
         if (!user.error) {
           navigate(`/homePage`);
+        } else {
+          toast.error("Vui lòng kiểm tra lại email và mật khẩu");
         }
       })
       .catch((error) => {

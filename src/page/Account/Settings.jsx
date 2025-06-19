@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import ContentPasteIcon from "@mui/icons-material/ContentPaste";
+import LockIcon from "@mui/icons-material/Lock";
 import { useSelector } from "react-redux";
 import { userInfoSelector } from "../../redux/slice/userInfoSlice";
 import { useNavigate } from "react-router-dom";
@@ -45,16 +46,19 @@ const Settings = () => {
           <Typography>{userInfo?.username}</Typography>
         </Box>
 
-        <Box sx={{ color: "black" }}>
-          <Typography sx={SettingStyles}>
-            <NotificationsNoneIcon sx={SettingText} />
-            Thông báo
-          </Typography>
-        </Box>
         <Box sx={{ color: "black", cursor: "pointer" }} onClick={handleGetInfo}>
           <Typography sx={SettingStyles}>
             <PersonOutlineIcon sx={SettingText} />
             Tài khoản của tôi
+          </Typography>
+        </Box>
+        <Box
+          sx={{ color: "black", cursor: "pointer" }}
+          onClick={() => navigate("changePassword")}
+        >
+          <Typography sx={SettingStyles}>
+            <LockIcon sx={SettingText} />
+            Đổi mật khẩu
           </Typography>
         </Box>
         <Box
