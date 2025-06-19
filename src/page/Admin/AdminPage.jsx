@@ -54,7 +54,7 @@ const AdminPage = () => {
       ],
     },
     {
-      label: "Quản lí tài khoản",
+      label: "Tài khoản",
       icon: "SupervisedUserCircle",
       children: [
         {

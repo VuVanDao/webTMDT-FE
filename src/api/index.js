@@ -202,7 +202,7 @@ export const deleteOrder = async (id) => {
 };
 export const getOderByAdmin = async () => {
   const response = await authorizeAxiosInstance.get(
-    `${apiRoot}/v1/orders/get_order_by_admin`
+    `${apiRoot}/v1/orders/get_orders_by_admin`
   );
   return response.data;
 };

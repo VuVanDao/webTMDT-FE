@@ -43,7 +43,7 @@ const ListShopAdminManager = () => {
     handleGetAllShop();
   }, []);
   return (
-    <Container sx={{ my: 3, bgcolor: (theme) => theme.whiteColor, p: 3 }}>
+    <Box sx={{ my: 3, bgcolor: (theme) => theme.whiteColor, p: 3, mx: 6 }}>
       <Button
         variant="contained"
         sx={{
@@ -91,7 +91,9 @@ const ListShopAdminManager = () => {
                     {item?.address}
                   </TableCell>
                   <TableCell align="center">
-                    {item?.status === "accept" ? "Đang hoạt động" : "Đã khóa"}
+                    {item?.status === "accept" && "Đã duyệt"}
+                    {item?.status === "denied" && "Đã từ chối"}
+                    {item?.status === "pending" && "Đang chờ duyệt"}
                   </TableCell>
                   <TableCell align="center">
                     <Box sx={{ display: "flex", gap: 2 }}>
@@ -108,17 +110,6 @@ const ListShopAdminManager = () => {
                       >
                         chi tiết
                       </Button>
-                      {/* <Button
-                        variant="contained"
-                        sx={{
-                          bgcolor: (theme) => theme.commonColors,
-                          color: "white",
-                        }}
-                        size="small"
-                        // onClick={() => handleUpdateAccount(item)}
-                      >
-                        Chỉnh
-                      </Button> */}
                       <Button
                         variant="contained"
                         onClick={() => {
@@ -151,7 +142,7 @@ const ListShopAdminManager = () => {
       >
         <ArrowCircleUpIcon />
       </Button>
-    </Container>
+    </Box>
   );
 };
 

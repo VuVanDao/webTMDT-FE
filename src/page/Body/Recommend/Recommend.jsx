@@ -102,6 +102,7 @@ const Recommend = () => {
             Gợi ý hôm nay
           </Typography>
         </Box>
+
         <Box
           sx={{
             bgcolor: "#ededed",
