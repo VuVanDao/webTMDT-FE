@@ -34,6 +34,9 @@ import { io } from "socket.io-client";
 import { apiRoot } from "./utils/constants.js";
 export const socketIoInstance = io(apiRoot);
 
+import { injectStore } from "./utils/authorizeAxios.js";
+injectStore(store);
+
 createRoot(document.getElementById("root")).render(
   <BrowserRouter basename="/">
     <Provider store={store}>

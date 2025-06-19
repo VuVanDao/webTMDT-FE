@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { refreshTokenAPI } from "../api";
+import { logoutUserAPI } from "../redux/slice/userInfoSlice";
 
 const authorizeAxiosInstance = axios.create();
 
@@ -10,10 +11,10 @@ authorizeAxiosInstance.defaults.timeout = 1000 * 60 * 10;
 //withCredentials: cho phep axios tu dong gui cookie trong moi request len BE
 authorizeAxiosInstance.defaults.withCredentials = true;
 
-// let axiosReduxStore;
-// export const injectStore = (mainStore) => {
-//   axiosReduxStore = mainStore;
-// };
+let axiosReduxStore;
+export const injectStore = (mainStore) => {
+  axiosReduxStore = mainStore;
+};
 
 //cau hinh interceptors
 // Add a request interceptor: can thiep vao giua cac request
@@ -52,7 +53,7 @@ authorizeAxiosInstance.interceptors.response.use(
             return data?.accessToken;
           })
           .catch((err) => {
-            // axiosReduxStore.dispatch(LogoutUserAPI(false));
+            axiosReduxStore.dispatch(logoutUserAPI(false));
             return Promise.reject(err);
           })
           .finally(() => {
