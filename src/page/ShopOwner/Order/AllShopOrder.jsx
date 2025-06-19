@@ -106,7 +106,10 @@ const AllShopOrder = () => {
               <Box sx={{ display: "flex", gap: 1, p: 1, alignItems: "center" }}>
                 <Typography
                   sx={{
-                    color: "#00bfa5",
+                    color:
+                      ORDER_STATUS.REJECTED === item?.status
+                        ? "red"
+                        : "#00bfa5",
                     display: "flex",
                     alignItems: "center",
                     px: 1,
@@ -116,22 +119,21 @@ const AllShopOrder = () => {
                   <LocalShippingIcon />
                 </Typography>
 
-                <Typography variant="button" color="#00bfa5">
+                <Typography
+                  variant="button"
+                  color={
+                    ORDER_STATUS.REJECTED === item?.status ? "red" : "#00bfa5"
+                  }
+                >
                   {item?.status === ORDER_STATUS.PENDING && "Đang chờ phản hồi"}
                   {item?.status === ORDER_STATUS.ACCEPTED &&
                     "Đang chuẩn bị hàng"}
                   {item?.status === ORDER_STATUS.REJECTED && "Đã hủy đơn"}
                   {item?.status === ORDER_STATUS.DELIVERING &&
                     "Đang trên đường đến với khách hàng"}
+                  {item?.status === ORDER_STATUS.DONE &&
+                    "Đơn hàng đã được giao"}
                 </Typography>
-                <Divider
-                  orientation="vertical"
-                  variant="middle"
-                  sx={{ bgcolor: "#555", height: "15px" }}
-                />
-                {item?.status !== ORDER_STATUS.DELIVERING && (
-                  <Typography color="black">Đánh giá</Typography>
-                )}
               </Box>
             </Box>
 

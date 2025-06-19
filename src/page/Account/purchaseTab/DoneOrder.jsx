@@ -15,6 +15,7 @@ const DoneOrder = () => {
   const [itemToEvaluate, setItemToEvaluate] = useState("");
 
   const userInfo = useSelector(userInfoSelector);
+  const navigate = useNavigate();
 
   const handleGetAllShopOrder = async () => {
     const data = {
@@ -31,7 +32,6 @@ const DoneOrder = () => {
       setOpen(!open);
     }
   };
-  const navigate = useNavigate();
   useEffect(() => {
     handleGetAllShopOrder();
   }, []);
@@ -71,6 +71,9 @@ const DoneOrder = () => {
                   variant="outlined"
                   startIcon={<StorefrontIcon />}
                   sx={{ borderColor: "rgba(0, 0, 0, .09)", color: "#555" }}
+                  onClick={() =>
+                    navigate(`/check_shop_detail?id=${item?.ShopInfo[0]?._id}`)
+                  }
                 >
                   Xem Shop
                 </Button>

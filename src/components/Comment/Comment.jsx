@@ -51,7 +51,7 @@ const Comment = ({ productId, orderId, handleClose }) => {
         />
         <TextField
           fullWidth
-          placeholder="Viết đánh giá..."
+          placeholder="Viết đánh giá...(ấn enter để gửi)"
           type="text"
           variant="outlined"
           multiline

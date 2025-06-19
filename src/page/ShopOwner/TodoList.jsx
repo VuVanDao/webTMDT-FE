@@ -208,7 +208,7 @@ const TodoList = () => {
           }}
         >
           <Typography sx={{ fontSize: "20px" }}> 1</Typography>
-          <Typography> a</Typography>
+          <Typography> chưa biết ghi gì</Typography>
         </Grid>
         <Grid
           size={{ lg: 3, md: 3, sm: 4, xs: 6 }}
@@ -221,7 +221,7 @@ const TodoList = () => {
           }}
         >
           <Typography sx={{ fontSize: "20px" }}> 1</Typography>
-          <Typography> a</Typography>
+          <Typography> chưa biết ghi gì</Typography>
         </Grid>
         <Grid
           size={{ lg: 3, md: 3, sm: 4, xs: 6 }}
@@ -234,7 +234,7 @@ const TodoList = () => {
           }}
         >
           <Typography sx={{ fontSize: "20px" }}> 1</Typography>
-          <Typography> a</Typography>
+          <Typography> chưa biết ghi gì</Typography>
         </Grid>
       </Grid>
     </Box>

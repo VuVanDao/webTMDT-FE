@@ -116,12 +116,6 @@ const PendingShopOrder = () => {
                 <Typography variant="button" color="#00bfa5">
                   Đang chờ phản hồi
                 </Typography>
-                <Divider
-                  orientation="vertical"
-                  variant="middle"
-                  sx={{ bgcolor: "#555", height: "15px" }}
-                />
-                <Typography color="black">Đánh giá</Typography>
               </Box>
             </Box>
 

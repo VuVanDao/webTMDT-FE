@@ -8,6 +8,7 @@ import { formatPrice } from "../../../utils/formatter";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import Comment from "../../../components/Comment/Comment";
 import moment from "moment/moment";
+import { useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -29,13 +30,9 @@ export const ModalEvaluateProduct = ({
   handleGetAllShopOrder,
 }) => {
   const [item, setItem] = useState({});
+  const navigate = useNavigate();
   useEffect(() => {
     const handleGetProductById = async () => {
-      //   await getProductById(itemToEvaluate).then((res) => {
-      //     if (!res.error) {
-      //       setItem(res);
-      //     }
-      //   });
       setItem(itemToEvaluate);
     };
     if (itemToEvaluate) {
@@ -106,6 +103,9 @@ export const ModalEvaluateProduct = ({
                   variant="outlined"
                   startIcon={<StorefrontIcon />}
                   sx={{ borderColor: "rgba(0, 0, 0, .09)", color: "#555" }}
+                  onClick={() =>
+                    navigate(`/check_shop_detail?id=${item?.ShopInfo[0]?._id}`)
+                  }
                 >
                   Xem Shop
                 </Button>

@@ -92,7 +92,7 @@ const RejectShopOrder = () => {
               <Box sx={{ display: "flex", gap: 1, p: 1, alignItems: "center" }}>
                 <Typography
                   sx={{
-                    color: "#00bfa5",
+                    color: "red",
                     display: "flex",
                     alignItems: "center",
                     px: 1,
@@ -102,15 +102,9 @@ const RejectShopOrder = () => {
                   <LocalShippingIcon />
                 </Typography>
 
-                <Typography variant="button" color="#00bfa5">
+                <Typography variant="button" color="red">
                   Đã hủy đơn
                 </Typography>
-                <Divider
-                  orientation="vertical"
-                  variant="middle"
-                  sx={{ bgcolor: "#555", height: "15px" }}
-                />
-                <Typography color="black">Đánh giá</Typography>
               </Box>
             </Box>
 

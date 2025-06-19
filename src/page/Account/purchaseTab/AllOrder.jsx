@@ -10,9 +10,11 @@ import { getOderByStatus, updateOrder } from "../../../api";
 import { ModalRejectOrder } from "./ModalRejectOrder";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ModalEvaluateProduct } from "./ModalEvaluateProduct";
 const AllOrder = () => {
   const [listOrders, setListOrders] = useState([]);
   const [openRejectOrder, setOpenRejectOrder] = useState(false);
+  const [openEvaluateProduct, setOpenEvaluateProduct] = useState(false);
   const [item, setItem] = useState(false);
   const userInfo = useSelector(userInfoSelector);
 
@@ -33,6 +35,12 @@ const AllOrder = () => {
       handleGetAllOrder();
     }
     setOpenRejectOrder(!openRejectOrder);
+  };
+  const handleEvaluateProduct = async (item) => {
+    if (item) {
+      setItem(item);
+      setOpenEvaluateProduct(!openEvaluateProduct);
+    }
   };
   const handleReceiveOrder = async (item) => {
     if (item) {
@@ -267,6 +275,12 @@ const AllOrder = () => {
         openRejectOrder={openRejectOrder}
         handleRejectOrder={handleRejectOrder}
         item={item}
+      />
+      <ModalEvaluateProduct
+        open={openEvaluateProduct}
+        setOpen={setOpenEvaluateProduct}
+        itemToEvaluate={item}
+        handleGetAllOrder={handleGetAllOrder}
       />
     </Box>
   );
