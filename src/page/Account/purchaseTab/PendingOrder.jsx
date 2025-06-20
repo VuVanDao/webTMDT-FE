@@ -8,12 +8,13 @@ import { formatPrice } from "../../../utils/formatter";
 import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
 import { getOderByStatus } from "../../../api";
 import { ModalRejectOrder } from "./ModalRejectOrder";
+import { useNavigate } from "react-router-dom";
 const PendingOrder = () => {
   const [listOrderPending, setListOrderPending] = useState([]);
   const [openRejectOrder, setOpenRejectOrder] = useState(false);
   const [item, setItem] = useState(false);
   const userInfo = useSelector(userInfoSelector);
-
+  const navigate = useNavigate();
   const handleGetPendingOrder = async () => {
     const data = {
       statusOrder: ORDER_STATUS.PENDING,
@@ -71,6 +72,9 @@ const PendingOrder = () => {
                   variant="outlined"
                   startIcon={<StorefrontIcon />}
                   sx={{ borderColor: "rgba(0, 0, 0, .09)", color: "#555" }}
+                  onClick={() =>
+                    navigate(`/check_shop_detail?id=${item?.ShopInfo[0]?._id}`)
+                  }
                 >
                   Xem Shop
                 </Button>

@@ -35,14 +35,14 @@ const MyAccount = ({ color }) => {
         toast.info("Có đơn hàng mới");
       }
     };
-
+    socketIoInstance.removeAllListeners(
+      `user_placed_an_order_be_${userInfo?.shopId}`
+    );
     socketIoInstance.on(
       `user_placed_an_order_be_${userInfo?.shopId}`,
       ReceiveEmitFormBackEnd
     );
-    // socketIoInstance.removeAllListeners(
-    //   `user_placed_an_order_be_${userInfo?.shopId}`
-    // );
+
     return () => {
       socketIoInstance.off(
         `user_placed_an_order_be_${userInfo?.shopId}`,

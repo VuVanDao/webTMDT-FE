@@ -17,7 +17,7 @@ import { getDetailShop } from "../../../api";
 import { formatPrice } from "../../../utils/formatter";
 import { Link, useSearchParams } from "react-router-dom";
 import MDEditor from "@uiw/react-md-editor";
-// import ModalUpdateShopInfo from "./ModalUpdateShopInfo";
+import { SHOP_STATUS } from "../../../utils/constants";
 
 const formatDate = (timestamp) => {
   if (!timestamp) return "";
@@ -174,107 +174,113 @@ const Admin_Detail_Shop = () => {
         </Box>
 
         <Divider sx={{ my: 3 }} />
-
-        {/* Products List */}
-        <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
-          1 số sản phẩm của shop
-        </Typography>
-        <Grid container spacing={2}>
-          {shopInfo.products?.length === 0 && (
-            <Grid item xs={12}>
-              <Typography color="text.secondary">
-                Chưa có sản phẩm nào.
-              </Typography>
-            </Grid>
-          )}
-          <Grid container spacing={3}>
-            {shopInfo.products
-              ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((item) => {
-                return (
-                  <Grid
-                    size={{ xs: 6, sm: 4, md: 3, lg: 2 }}
-                    key={item._id}
-                    sx={{ display: "flex" }}
-                  >
-                    <Box
-                      sx={{
-                        border: "1px solid rgba(0, 0, 0, .05)",
-                        textAlign: "center",
-                        "&:hover": {
-                          borderColor: (theme) => theme.commonColors,
-                          boxShadow: 3,
-                          transform: "scale(1.05)",
-                          transition: "all 0.3s ease",
-                        },
-                        overflow: "hidden",
-                        bgcolor: "white",
-                      }}
-                      component={Link}
-                      to={`/detail?id=${item._id}`}
-                    >
-                      <img
-                        src={item?.image[0]}
-                        alt={item.name}
-                        style={{ width: "100%", border: "1px solid black" }}
-                      />
-                      <Box sx={{ p: 1 }}>
+        {(shopInfo?.status === SHOP_STATUS.DENIED ||
+          shopInfo?.status === SHOP_STATUS.PENDING) && (
+          <Box>Hiện tại của hàng chưa được duyệt hoặc đã bị khoá</Box>
+        )}
+        {shopInfo?.status === SHOP_STATUS.ACCEPT && (
+          <Box>
+            {/* Products List */}
+            <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
+              1 số sản phẩm của shop
+            </Typography>
+            <Grid container spacing={2}>
+              {shopInfo.products?.length === 0 && (
+                <Grid item xs={12}>
+                  <Typography color="text.secondary">
+                    Chưa có sản phẩm nào.
+                  </Typography>
+                </Grid>
+              )}
+              <Grid container spacing={3}>
+                {shopInfo.products
+                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((item) => {
+                    return (
+                      <Grid
+                        size={{ xs: 6, sm: 4, md: 3, lg: 2 }}
+                        key={item._id}
+                        sx={{ display: "flex" }}
+                      >
                         <Box
                           sx={{
-                            height: "50px",
+                            border: "1px solid rgba(0, 0, 0, .05)",
+                            textAlign: "center",
+                            "&:hover": {
+                              borderColor: (theme) => theme.commonColors,
+                              boxShadow: 3,
+                              transform: "scale(1.05)",
+                              transition: "all 0.3s ease",
+                            },
                             overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            color: "black",
-                            mb: 3,
+                            bgcolor: "white",
                           }}
+                          component={Link}
+                          to={`/detail?id=${item._id}`}
                         >
-                          <Typography>{item?.name}</Typography>
+                          <img
+                            src={item?.image[0]}
+                            alt={item.name}
+                            style={{ width: "100%", border: "1px solid black" }}
+                          />
+                          <Box sx={{ p: 1 }}>
+                            <Box
+                              sx={{
+                                height: "50px",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                color: "black",
+                                mb: 3,
+                              }}
+                            >
+                              <Typography>{item?.name}</Typography>
+                            </Box>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                color: "black",
+                                alignItems: "center",
+                              }}
+                            >
+                              <Typography>
+                                {formatPrice(item?.price)}
+                              </Typography>
+                              <Typography sx={{ fontSize: "14px" }}>
+                                Đã bán: {item?.sold}
+                              </Typography>
+                            </Box>
+                          </Box>
                         </Box>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            color: "black",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Typography>{formatPrice(item?.price)}</Typography>
-                          <Typography sx={{ fontSize: "14px" }}>
-                            Đã bán: {item?.sold}
-                          </Typography>
-                        </Box>
-                      </Box>
-                    </Box>
-                  </Grid>
-                );
-              })}
-          </Grid>
-          <TablePagination
-            component="div"
-            count={shopInfo?.products?.length}
-            page={page}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            rowsPerPageOptions={[12, 18, 24]}
-          />
-        </Grid>
-        {/* <ModalUpdateShopInfo
-            open={open}
-            setOpen={setOpen}
-            shopInfo={shopInfo}
-            fetchShopInfo={fetchShopInfo}
-          /> */}
+                      </Grid>
+                    );
+                  })}
+              </Grid>
+              <TablePagination
+                component="div"
+                count={shopInfo?.products?.length}
+                page={page}
+                onPageChange={handleChangePage}
+                rowsPerPage={rowsPerPage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                rowsPerPageOptions={[12, 18, 24]}
+              />
+            </Grid>
+          </Box>
+        )}
       </Container>
 
-      <Container sx={{ my: 3, bgcolor: (theme) => theme.whiteColor, p: 3 }}>
-        <MDEditor.Markdown
-          source={shopInfo?.description}
-          style={{
-            whiteSpace: "pre-wrap",
-          }}
-        />
-      </Container>
+      {/* description */}
+      {shopInfo?.status === SHOP_STATUS.ACCEPT && (
+        <Container sx={{ my: 3, bgcolor: (theme) => theme.whiteColor, p: 3 }}>
+          <MDEditor.Markdown
+            source={shopInfo?.description}
+            style={{
+              whiteSpace: "pre-wrap",
+            }}
+          />
+        </Container>
+      )}
     </Box>
   );
 };

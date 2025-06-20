@@ -7,12 +7,13 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { formatPrice } from "../../../utils/formatter";
 import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
 import { deleteOrder, getOderByStatus } from "../../../api";
-import { ModalRejectOrder } from "./ModalRejectOrder";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
 const RejectOrder = () => {
   const [listOrderRejected, setListOrderRejected] = useState([]);
   const userInfo = useSelector(userInfoSelector);
-
+  const navigate = useNavigate();
   const handleGetAllShopOrder = async () => {
     const data = {
       statusOrder: ORDER_STATUS.REJECTED,
@@ -71,6 +72,9 @@ const RejectOrder = () => {
                   variant="outlined"
                   startIcon={<StorefrontIcon />}
                   sx={{ borderColor: "rgba(0, 0, 0, .09)", color: "#555" }}
+                  onClick={() =>
+                    navigate(`/check_shop_detail?id=${item?.ShopInfo[0]?._id}`)
+                  }
                 >
                   Xem Shop
                 </Button>

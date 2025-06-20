@@ -27,3 +27,8 @@ export const USER_ROLES = {
   ADMIN: "admin",
   SHOP_OWNER: "shop_owner",
 };
+export const SHOP_STATUS = {
+  ACCEPT: "accept",
+  DENIED: "denied",
+  PENDING: "pending",
+};

@@ -162,7 +162,7 @@ const Admin_manager_order = () => {
             </TableCell>
 
             {/* Customer */}
-            <TableCell>
+            <TableCell sx={{ width: "150px" }}>
               {!change?.customer ? (
                 <Typography
                   sx={{ display: "flex", alignItems: "center" }}
@@ -186,7 +186,11 @@ const Admin_manager_order = () => {
             <TableCell>
               {!change?.product ? (
                 <Typography
-                  sx={{ display: "flex", alignItems: "center" }}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                   onClick={() => handleSort("product")}
                 >
                   Sản phẩm
@@ -194,7 +198,11 @@ const Admin_manager_order = () => {
                 </Typography>
               ) : (
                 <Typography
-                  sx={{ display: "flex", alignItems: "center" }}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                   onClick={() => handleSort("productReverse")}
                 >
                   Sản phẩm
@@ -225,7 +233,7 @@ const Admin_manager_order = () => {
             </TableCell>
 
             {/* Quantity */}
-            <TableCell>
+            <TableCell sx={{ width: "150px" }}>
               {!change?.quantity ? (
                 <Typography
                   sx={{ display: "flex", alignItems: "center" }}
@@ -246,7 +254,7 @@ const Admin_manager_order = () => {
             </TableCell>
 
             {/* Status */}
-            <TableCell>
+            <TableCell sx={{ width: "150px" }}>
               {!change?.status ? (
                 <Typography
                   sx={{ display: "flex", alignItems: "center" }}

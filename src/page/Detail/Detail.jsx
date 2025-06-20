@@ -668,6 +668,7 @@ const Detail = () => {
             >
               Mô tả sản phẩm
             </Typography>
+
             {DetailData?.description && (
               <Box pl={2}>
                 <MDEditor.Markdown

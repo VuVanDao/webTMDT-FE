@@ -95,6 +95,9 @@ const AllOrder = () => {
                   variant="outlined"
                   startIcon={<StorefrontIcon />}
                   sx={{ borderColor: "rgba(0, 0, 0, .09)", color: "#555" }}
+                  onClick={() =>
+                    navigate(`/check_shop_detail?id=${item?.ShopInfo[0]?._id}`)
+                  }
                 >
                   Xem Shop
                 </Button>

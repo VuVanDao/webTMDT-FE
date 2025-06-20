@@ -28,9 +28,8 @@ export const verifyUserAPI = async (data) => {
 };
 export const getAllAccount = async () => {
   const response = await authorizeAxiosInstance.get(
-    `${apiRoot}/v1/users/get_all_account`
+    `${apiRoot}/v1/users/get_all_accounts`
   );
-
   return response.data;
 };
 export const createNewAccount = async (data) => {
@@ -63,7 +62,7 @@ export const refreshTokenAPI = async () => {
 };
 export const getAllShop = async () => {
   const response = await authorizeAxiosInstance.get(
-    `${apiRoot}/v1/users/get_all_shop`
+    `${apiRoot}/v1/users/getAllShops`
   );
   return response.data;
 };

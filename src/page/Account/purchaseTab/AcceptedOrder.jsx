@@ -7,12 +7,13 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { formatPrice } from "../../../utils/formatter";
 import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
 import { getOderByStatus } from "../../../api";
+import { useNavigate } from "react-router-dom";
 
 const AcceptedOrder = () => {
   const [listOrderAccepted, setListOrderAccepted] = useState([]);
   const [item, setItem] = useState(false);
   const userInfo = useSelector(userInfoSelector);
-
+  const navigate = useNavigate();
   const handleGetAcceptedOrder = async () => {
     const data = {
       statusOrder: ORDER_STATUS.ACCEPTED,
@@ -62,6 +63,9 @@ const AcceptedOrder = () => {
                   variant="outlined"
                   startIcon={<StorefrontIcon />}
                   sx={{ borderColor: "rgba(0, 0, 0, .09)", color: "#555" }}
+                  onClick={() =>
+                    navigate(`/check_shop_detail?id=${item?.ShopInfo[0]?._id}`)
+                  }
                 >
                   Xem Shop
                 </Button>

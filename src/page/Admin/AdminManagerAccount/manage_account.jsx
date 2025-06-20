@@ -7,11 +7,19 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import { deleteAccount, getAllAccount } from "../../../api";
-import { Avatar, Box, Button, Container, TablePagination } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  TablePagination,
+  Typography,
+} from "@mui/material";
 import { ModalAddAccount } from "./ModalAddAccount";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import { ModalUpdateAccount } from "./ModalUpdateAccount";
-import { toast } from "react-toastify";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 const Manage_account = () => {
   const [listAccount, setListAccount] = useState([]);
@@ -20,6 +28,13 @@ const Manage_account = () => {
   const [infoAccountToUpdate, setInfoAccountToUpdate] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [change, setChange] = useState({
+    name: false,
+    email: false,
+    phoneNumber: false,
+    address: false,
+    role: false,
+  });
   // Xử lý khi thay đổi trang
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -47,11 +62,68 @@ const Manage_account = () => {
       }
     });
   };
+  const handleSort = (type) => {
+    switch (type) {
+      case "name":
+        setListAccount(
+          listAccount.sort((a, b) => a.username.localeCompare(b.username))
+        );
+        setChange({ ...change, name: !change.name });
+        break;
+      case "nameReverse":
+        setListAccount(
+          listAccount.sort((a, b) => b.username.localeCompare(a.username))
+        );
+        setChange({ ...change, name: !change.name });
+        break;
+
+      case "email":
+        setListAccount(
+          listAccount.sort((a, b) => a.email.localeCompare(b.email))
+        );
+        setChange({ ...change, email: !change.email });
+        break;
+      case "emailReverse":
+        setListAccount(
+          listAccount.sort((a, b) => b.email.localeCompare(a.email))
+        );
+        setChange({ ...change, email: !change.email });
+        break;
+
+      case "phoneNumber":
+        setListAccount(
+          listAccount.sort((a, b) => a.phoneNumber.localeCompare(b.phoneNumber))
+        );
+        setChange({ ...change, phoneNumber: !change.phoneNumber });
+        break;
+      case "phoneNumberReverse":
+        setListAccount(
+          listAccount.sort((a, b) => b.phoneNumber.localeCompare(a.phoneNumber))
+        );
+        setChange({ ...change, phoneNumber: !change.phoneNumber });
+        break;
+
+      case "role":
+        setListAccount(
+          listAccount.sort((a, b) => a.role.localeCompare(b.role))
+        );
+        setChange({ ...change, role: !change.role });
+        break;
+      case "roleReverse":
+        setListAccount(
+          listAccount.sort((a, b) => b.role.localeCompare(a.role))
+        );
+        setChange({ ...change, role: !change.role });
+        break;
+      default:
+        break;
+    }
+  };
   useEffect(() => {
     handleGetAllAccount();
   }, []);
   return (
-    <Container sx={{ my: 3, bgcolor: (theme) => theme.whiteColor, p: 3 }}>
+    <Box sx={{ my: 3, bgcolor: (theme) => theme.whiteColor, p: 3, mx: 5 }}>
       <Button
         variant="contained"
         sx={{
@@ -66,13 +138,118 @@ const Manage_account = () => {
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
-            <TableRow>
+            <TableRow sx={{ cursor: "pointer" }}>
               <TableCell>Avatar</TableCell>
-              <TableCell align="center">Name</TableCell>
-              <TableCell align="center">Email</TableCell>
-              <TableCell>PhoneNumber</TableCell>
+              {/* name */}
+              <TableCell align="center">
+                {change.name ? (
+                  <Typography
+                    sx={{ display: "flex", alignItems: "center" }}
+                    onClick={() => handleSort("name")}
+                  >
+                    Name
+                    <ArrowDropUpIcon />
+                  </Typography>
+                ) : (
+                  <Typography
+                    sx={{ display: "flex", alignItems: "center" }}
+                    onClick={() => handleSort("nameReverse")}
+                  >
+                    Name
+                    <ArrowDropDownIcon />
+                  </Typography>
+                )}
+              </TableCell>
+
+              {/* email */}
+              <TableCell align="center">
+                <Box>
+                  {change.email ? (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                      onClick={() => handleSort("email")}
+                    >
+                      Email
+                      <ArrowDropUpIcon />
+                    </Box>
+                  ) : (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                      onClick={() => handleSort("emailReverse")}
+                    >
+                      Email
+                      <ArrowDropDownIcon />
+                    </Box>
+                  )}
+                </Box>
+              </TableCell>
+
+              {/* phoneNumber */}
+              <TableCell>
+                {change.phoneNumber ? (
+                  <Typography
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    onClick={() => handleSort("phoneNumber")}
+                  >
+                    PhoneNumber
+                    <ArrowDropUpIcon />
+                  </Typography>
+                ) : (
+                  <Typography
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    onClick={() => handleSort("phoneNumberReverse")}
+                  >
+                    PhoneNumber
+                    <ArrowDropDownIcon />
+                  </Typography>
+                )}
+              </TableCell>
               <TableCell align="center">Address</TableCell>
-              <TableCell align="center">Role</TableCell>
+
+              {/* role */}
+              <TableCell align="center">
+                {change.role ? (
+                  <Typography
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    onClick={() => handleSort("role")}
+                  >
+                    Role
+                    <ArrowDropUpIcon />
+                  </Typography>
+                ) : (
+                  <Typography
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    onClick={() => handleSort("roleReverse")}
+                  >
+                    Role
+                    <ArrowDropDownIcon />
+                  </Typography>
+                )}
+              </TableCell>
               <TableCell align="center">Hành động</TableCell>
             </TableRow>
           </TableHead>
@@ -147,7 +324,7 @@ const Manage_account = () => {
         handleGetAllAccount={handleGetAllAccount}
         infoAccountToUpdate={infoAccountToUpdate}
       />
-    </Container>
+    </Box>
   );
 };
 
