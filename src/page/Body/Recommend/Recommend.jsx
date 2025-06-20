@@ -2,17 +2,10 @@ import { Box, Grid, Stack, TablePagination, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { formatPrice } from "../../../utils/formatter";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { useSelector } from "react-redux";
-import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
 import { getAllProductUser } from "../../../api";
 import StarRateIcon from "@mui/icons-material/StarRate";
+
 const Recommend = () => {
-  const [optionSortPrice, setOptionSortPrice] = useState(false);
-  const [optionSortAlphabet, setOptionSortAlphabet] = useState(false);
-  const [change, setChange] = useState(false);
-  const userInfo = useSelector(userInfoSelector);
   const [listProduct, setListProduct] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(12);
@@ -44,43 +37,7 @@ const Recommend = () => {
   useEffect(() => {
     handleGetAllProduct();
   }, []);
-  const styleOption = {
-    bgcolor: "white",
-    p: "10px 25px",
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-  };
-  const handleSortPrice = (id) => {
-    switch (id) {
-      case "sell":
-        setChange(!change);
-        setListProduct(listProduct.sort((a, b) => b.sold - a.sold));
-        break;
-      case "high":
-        setListProduct(listProduct.sort((a, b) => a.price - b.price));
-        setOptionSortPrice(!optionSortPrice);
-        break;
-      case "low":
-        setListProduct(listProduct.sort((a, b) => b.price - a.price));
-        setOptionSortPrice(!optionSortPrice);
-        break;
-      case "ABC":
-        setListProduct(
-          listProduct.sort((a, b) => a.name.localeCompare(b.name))
-        );
-        setOptionSortAlphabet(!optionSortAlphabet);
-        break;
-      case "CBA":
-        setListProduct(
-          listProduct.sort((a, b) => b.name.localeCompare(a.name))
-        );
-        setOptionSortAlphabet(!optionSortAlphabet);
-        break;
-      default:
-        break;
-    }
-  };
+
   return (
     <Box>
       <Box
@@ -103,41 +60,6 @@ const Recommend = () => {
           </Typography>
         </Box>
 
-        <Box
-          sx={{
-            bgcolor: "#ededed",
-            width: "100%",
-            p: 2.25,
-            display: "flex",
-            gap: 2,
-            alignItems: "center",
-          }}
-        >
-          <Typography>Sắp xếp theo:</Typography>
-          <Box sx={styleOption} onClick={() => handleSortPrice("sell")}>
-            Bán chạy
-          </Box>
-
-          {optionSortAlphabet ? (
-            <Box sx={styleOption} onClick={() => handleSortPrice("ABC")}>
-              A - Z
-            </Box>
-          ) : (
-            <Box sx={styleOption} onClick={() => handleSortPrice("CBA")}>
-              Z - A
-            </Box>
-          )}
-
-          {optionSortPrice ? (
-            <Box sx={styleOption} onClick={() => handleSortPrice("high")}>
-              Giá từ cao đến thấp <KeyboardArrowDownIcon />
-            </Box>
-          ) : (
-            <Box sx={styleOption} onClick={() => handleSortPrice("low")}>
-              Giá từ thấp đến cao <KeyboardArrowUpIcon />
-            </Box>
-          )}
-        </Box>
         <Grid container spacing={2} sx={{ bgcolor: (theme) => theme.bgColor }}>
           {listProduct
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

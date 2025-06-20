@@ -35,20 +35,21 @@ const MyAccount = ({ color }) => {
         toast.info("Có đơn hàng mới");
       }
     };
-    socketIoInstance.removeAllListeners(
-      `user_place_an_order_be_${userInfo?.shopId}`
-    );
+
     socketIoInstance.on(
-      `user_place_an_order_be_${userInfo?.shopId}`,
+      `user_placed_an_order_be_${userInfo?.shopId}`,
       ReceiveEmitFormBackEnd
     );
+    // socketIoInstance.removeAllListeners(
+    //   `user_placed_an_order_be_${userInfo?.shopId}`
+    // );
     return () => {
       socketIoInstance.off(
-        `user_place_an_order_be_${userInfo?.shopId}`,
+        `user_placed_an_order_be_${userInfo?.shopId}`,
         ReceiveEmitFormBackEnd
       );
     };
-  }, [userInfo?.shopId]);
+  }, []);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };

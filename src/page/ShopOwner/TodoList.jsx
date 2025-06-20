@@ -73,22 +73,22 @@ const TodoList = () => {
             })
           );
           setListOrderAccept(
-            res.filter((item) => {
+            res.payload.filter((item) => {
               return item?.status === ORDER_STATUS.ACCEPTED;
             })
           );
           setListOrderDelivering(
-            res.filter((item) => {
+            res.payload.filter((item) => {
               return item?.status === ORDER_STATUS.DELIVERING;
             })
           );
           setListOrderDone(
-            res.filter((item) => {
+            res.payload.filter((item) => {
               return item?.status === ORDER_STATUS.DONE;
             })
           );
           setListOrderReject(
-            res.filter((item) => {
+            res.payload.filter((item) => {
               return item?.status === ORDER_STATUS.REJECTED;
             })
           );
