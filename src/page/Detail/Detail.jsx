@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Container,
+  Divider,
   Grid,
   Rating,
   Tooltip,
@@ -228,6 +229,7 @@ const Detail = () => {
     );
     return totalRating / DetailData.comments.length;
   };
+
   if (loading) {
     return <DetailLoading />;
   }
@@ -336,7 +338,18 @@ const Detail = () => {
                       readOnly
                     />
                     <Typography>{handleRatingAverage()}</Typography>
+                    <Divider orientation="vertical" flexItem />
+
+                    <Box
+                      sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+                    >
+                      <Typography sx={{ fontSize: "13px" }}>
+                        Đánh giá:
+                      </Typography>
+                      <Typography>{DetailData?.comments?.length}</Typography>
+                    </Box>
                   </Box>
+                  <Divider orientation="vertical" flexItem />
                   <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                     <Typography sx={{ fontSize: "13px" }}>Đã bán:</Typography>
                     <Typography>{DetailData?.sold}</Typography>

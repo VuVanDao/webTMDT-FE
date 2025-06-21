@@ -28,7 +28,7 @@ export const verifyUserAPI = async (data) => {
 };
 export const getAllAccount = async () => {
   const response = await authorizeAxiosInstance.get(
-    `${apiRoot}/v1/users/get_all_accounts`
+    `${apiRoot}/v1/users/get_accounts`
   );
   return response.data;
 };
@@ -62,7 +62,7 @@ export const refreshTokenAPI = async () => {
 };
 export const getAllShop = async () => {
   const response = await authorizeAxiosInstance.get(
-    `${apiRoot}/v1/users/getAllShops`
+    `${apiRoot}/v1/users/getAllShop`
   );
   return response.data;
 };
@@ -118,6 +118,7 @@ export const getAllShopAdminManager = async () => {
   const response = await authorizeAxiosInstance.get(`${apiRoot}/v1/shops`);
   return response.data;
 };
+
 //product
 export const createNew = async (data) => {
   const response = await authorizeAxiosInstance.post(

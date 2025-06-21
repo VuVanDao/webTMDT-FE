@@ -17,15 +17,18 @@ import {
 } from "@mui/material";
 import { ModalAddAccount } from "./ModalAddAccount";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
-import { ModalUpdateAccount } from "./ModalUpdateAccount";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { ModalDetailAccount } from "./ModalDetailAccount";
+import { ModalUpdateAccount } from "./ModalUpdateAccount";
 
 const Manage_account = () => {
   const [listAccount, setListAccount] = useState([]);
   const [open, setOpen] = useState(false);
   const [openModalUpdate, setOpenModalUpdate] = useState(false);
   const [infoAccountToUpdate, setInfoAccountToUpdate] = useState(null);
+  const [openModalDetailAccount, setOpenModalDetailAccount] = useState(false);
+  const [infoAccountDetail, setInfoAccountDetail] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [change, setChange] = useState({
@@ -62,6 +65,7 @@ const Manage_account = () => {
       }
     });
   };
+
   const handleSort = (type) => {
     switch (type) {
       case "name":
@@ -192,34 +196,6 @@ const Manage_account = () => {
                 </Box>
               </TableCell>
 
-              {/* phoneNumber */}
-              <TableCell>
-                {change.phoneNumber ? (
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                    onClick={() => handleSort("phoneNumber")}
-                  >
-                    PhoneNumber
-                    <ArrowDropUpIcon />
-                  </Typography>
-                ) : (
-                  <Typography
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                    onClick={() => handleSort("phoneNumberReverse")}
-                  >
-                    PhoneNumber
-                    <ArrowDropDownIcon />
-                  </Typography>
-                )}
-              </TableCell>
               <TableCell align="center">Address</TableCell>
 
               {/* role */}
@@ -265,13 +241,15 @@ const Manage_account = () => {
                     {item?.username}
                   </TableCell>
                   <TableCell align="center">{item?.email}</TableCell>
-                  <TableCell align="center">{item?.phoneNumber}</TableCell>
+
                   <TableCell align="center" sx={{ width: "355px" }}>
                     {item?.address}
                   </TableCell>
                   <TableCell align="center">{item?.role}</TableCell>
                   <TableCell align="center">
-                    <Box sx={{ display: "flex", gap: 3 }}>
+                    <Box
+                      sx={{ display: "flex", gap: 3, justifyContent: "center" }}
+                    >
                       <Button
                         variant="contained"
                         sx={{
@@ -285,8 +263,20 @@ const Manage_account = () => {
                       <Button
                         variant="contained"
                         onClick={() => {
+                          setOpenModalDetailAccount(!openModalDetailAccount);
+                          setInfoAccountDetail(item?._id);
+                          setInfoAccountToUpdate(item);
+                        }}
+                        color="info"
+                      >
+                        chi tiết
+                      </Button>
+                      <Button
+                        variant="contained"
+                        onClick={() => {
                           handleDeleteAccount(item?._id);
                         }}
+                        color="error"
                       >
                         Xoá
                       </Button>
@@ -323,6 +313,13 @@ const Manage_account = () => {
         setOpenModalUpdate={setOpenModalUpdate}
         handleGetAllAccount={handleGetAllAccount}
         infoAccountToUpdate={infoAccountToUpdate}
+      />
+      <ModalDetailAccount
+        open={openModalDetailAccount}
+        setOpen={setOpenModalDetailAccount}
+        handleGetAllAccount={handleGetAllAccount}
+        infoAccountDetail={infoAccountDetail}
+        infoAccount={infoAccountToUpdate}
       />
     </Box>
   );
