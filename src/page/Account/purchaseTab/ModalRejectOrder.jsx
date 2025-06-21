@@ -39,7 +39,10 @@ export const ModalRejectOrder = ({
       { status: "REJECTED", textMessage: text },
       item?._id
     ).then((res) => {
-      if (!res.error) {
+      if (res.message) {
+        toast.success(res.message);
+        handleRejectOrder(true);
+      } else if (!res.error) {
         toast.success("Đã huỷ đơn");
         handleRejectOrder(true);
       }

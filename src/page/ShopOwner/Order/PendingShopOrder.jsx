@@ -48,7 +48,9 @@ const PendingShopOrder = () => {
         { status: "ACCEPTED", textMessage: "Đơn hàng đang được chuẩn bị" },
         item?._id
       ).then((res) => {
-        if (!res.error) {
+        if (res.message) {
+          toast.info(res.message);
+        } else if (!res.error) {
           handleGetPendingOrder();
           toast.info("Đã xác nhận đơn hàng");
         }

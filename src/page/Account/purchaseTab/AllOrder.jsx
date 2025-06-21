@@ -8,9 +8,9 @@ import { formatPrice } from "../../../utils/formatter";
 import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
 import { getOderByStatus, updateOrder } from "../../../api";
 import { ModalRejectOrder } from "./ModalRejectOrder";
+import { ModalEvaluateProduct } from "./ModalEvaluateProduct";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ModalEvaluateProduct } from "./ModalEvaluateProduct";
 const AllOrder = () => {
   const [listOrders, setListOrders] = useState([]);
   const [openRejectOrder, setOpenRejectOrder] = useState(false);
