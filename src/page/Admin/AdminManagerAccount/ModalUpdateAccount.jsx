@@ -421,7 +421,7 @@ export const ModalUpdateAccount = ({
             {changeRoleMode && (
               <Box>
                 <Select
-                  defaultValue={USER_ROLES.CUSTOMER}
+                  // defaultValue={USER_ROLES.CUSTOMER}
                   onChange={(e) => setRole(e.target.value)}
                 >
                   {Object.values(USER_ROLES).map((role) => (

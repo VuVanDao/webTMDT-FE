@@ -196,9 +196,12 @@ export const ModalDetailAccount = ({
               Tổng số tiền đã giao dịch:
               <Typography variant="h6">
                 {formatPrice(handleGetTotalPrice())}
+                (chỉ tính những đơn hàng đã hoàn thành)
               </Typography>
             </Box>
-            <Typography variant="h6">Danh sách đơn hàng</Typography>
+            <Typography variant="h6">
+              Danh sách đơn hàng , tổng cộng {listOrder?.length} đơn
+            </Typography>
             <Table>
               <TableHead>
                 <TableRow sx={{ cursor: "pointer" }}>

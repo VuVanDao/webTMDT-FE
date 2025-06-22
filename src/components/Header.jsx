@@ -29,7 +29,7 @@ const Header = ({ showHeader }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
   const [resultSearch, setResultSearch] = useState([]);
-  const [searchType, setSearchType] = useState([]);
+  const [searchType, setSearchType] = useState("");
 
   const handleSearch = (e) => {
     const searchValue = e.target.value;
@@ -47,6 +47,7 @@ const Header = ({ showHeader }) => {
     });
   };
   const handleSearchItem = () => {
+    if (!searchType) return;
     navigate(`/search?value=${searchType}`, {
       state: { results: searchType },
     });

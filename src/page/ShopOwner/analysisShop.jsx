@@ -51,7 +51,7 @@ const AnalysisShop = () => {
 
     // Mảng các thứ trong tuần: 0 (Chủ Nhật) đến 6 (Thứ 7)
     const weekdays = [
-      "Chủ Nhật",
+      "Chủ nhật",
       "Thứ 2",
       "Thứ 3",
       "Thứ 4",

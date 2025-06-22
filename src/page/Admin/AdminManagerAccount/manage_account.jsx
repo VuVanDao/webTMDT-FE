@@ -258,7 +258,7 @@ const Manage_account = () => {
                         }}
                         onClick={() => handleUpdateAccount(item)}
                       >
-                        Chỉnh
+                        Sửa
                       </Button>
                       <Button
                         variant="contained"
