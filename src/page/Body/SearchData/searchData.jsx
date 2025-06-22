@@ -35,7 +35,7 @@ const SearchData = () => {
 
   const [change, setChange] = useState(false);
   let [searchParams] = useSearchParams();
-  const { value } = Object.fromEntries([...searchParams]);
+  const { value, tags } = Object.fromEntries([...searchParams]);
 
   const handleSearch = () => {
     setLoading(true);
@@ -72,7 +72,9 @@ const SearchData = () => {
     if (value) {
       dataToSearch.value = value;
     }
-    console.log("🚀 ~ findProduct ~ dataToSearch:", dataToSearch);
+    if (tags) {
+      dataToSearch.tags = tags;
+    }
 
     setLoading(true);
     findProductAPI({ data: dataToSearch })
@@ -83,9 +85,7 @@ const SearchData = () => {
             from: "",
             to: "",
           },
-          shop: {
-            name: "",
-          },
+          rating: 0,
         });
       })
       .finally(() => {
@@ -94,8 +94,11 @@ const SearchData = () => {
   };
 
   useEffect(() => {
+    if (tags) {
+      findProduct();
+    }
     handleSearch();
-  }, [value]);
+  }, [value, tags]);
 
   const styleOption = {
     bgcolor: "white",
@@ -140,7 +143,7 @@ const SearchData = () => {
     return <LoadingPage />;
   }
 
-  if (!value) {
+  if (data?.length === 0) {
     return (
       <Box sx={{ bgcolor: "#f5f5f5" }}>
         <Header showHeader={true} />

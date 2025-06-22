@@ -42,15 +42,11 @@ const Header = ({ showHeader }) => {
   };
   const debounceSearchProduct = useDebounceFn(handleSearch);
   const handleFindItem = (value) => {
-    navigate(`/search?value=${value}`, {
-      state: { results: value },
-    });
+    navigate(`/search?value=${value}`);
   };
   const handleSearchItem = () => {
     if (!searchType) return;
-    navigate(`/search?value=${searchType}`, {
-      state: { results: searchType },
-    });
+    navigate(`/search?value=${searchType}`);
   };
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
