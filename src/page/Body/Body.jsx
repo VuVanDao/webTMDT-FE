@@ -12,7 +12,15 @@ import Tags from "./Tags/Tags";
 
 const Body = () => {
   return (
-    <Box sx={{ bgcolor: "white", color: "black" }}>
+    <Box
+      sx={{
+        bgcolor: "white",
+        color: "black",
+        minWidth: {
+          sm: "1300px !important",
+        },
+      }}
+    >
       {/* Slicker */}
       <Container maxWidth="lg" sx={{ py: 3 }}>
         <Box>

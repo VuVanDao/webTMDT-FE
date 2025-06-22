@@ -7,17 +7,19 @@ import {
   Chip,
   Avatar,
   Divider,
-  TablePagination,
-  Button,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
 import { getDetailShop } from "../../../api";
-import { formatPrice } from "../../../utils/formatter";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 import MDEditor from "@uiw/react-md-editor";
 import { SHOP_STATUS } from "../../../utils/constants";
+import List_product_tab from "./ShopTab/List_product_tab";
+import List_orders_tab from "./ShopTab/List_orders_tab";
+import List_rating_tab from "./ShopTab/list_rating_tab";
 
 const formatDate = (timestamp) => {
   if (!timestamp) return "";
@@ -34,20 +36,15 @@ const formatDate = (timestamp) => {
 const Admin_Detail_Shop = () => {
   const [shopInfo, setShopInfo] = useState(null);
   const [loading, setLoading] = useState(true);
-  const userInfo = useSelector(userInfoSelector);
-  const [open, setOpen] = useState(false);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(12);
+
+  const [value, setValue] = React.useState("1");
 
   let [searchParams] = useSearchParams();
   const { id } = Object.fromEntries([...searchParams]);
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+
   const fetchShopInfo = async () => {
     setLoading(true);
     try {
@@ -78,15 +75,21 @@ const Admin_Detail_Shop = () => {
     );
   }
 
-  if (!shopInfo) return null;
+  if (!shopInfo)
+    return (
+      <Box>
+        <Typography>Lỗi hiển thị</Typography>
+      </Box>
+    );
 
   return (
     <Box>
-      <Container
+      <Box
         sx={{
-          my: 3,
+          m: 3,
           bgcolor: (theme) => theme.whiteColor,
           p: { xs: 1, sm: 3 },
+          mx: 6,
         }}
       >
         <Box
@@ -174,101 +177,32 @@ const Admin_Detail_Shop = () => {
         </Box>
 
         <Divider sx={{ my: 3 }} />
-        {(shopInfo?.status === SHOP_STATUS.DENIED ||
-          shopInfo?.status === SHOP_STATUS.PENDING) && (
-          <Box>Hiện tại của hàng chưa được duyệt hoặc đã bị khoá</Box>
-        )}
-        {shopInfo?.status === SHOP_STATUS.ACCEPT && (
-          <Box>
-            {/* Products List */}
-            <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>
-              1 số sản phẩm của shop
-            </Typography>
-            <Grid container spacing={2}>
-              {shopInfo.products?.length === 0 && (
-                <Grid item xs={12}>
-                  <Typography color="text.secondary">
-                    Chưa có sản phẩm nào.
-                  </Typography>
-                </Grid>
-              )}
-              <Grid container spacing={3}>
-                {shopInfo.products
-                  ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((item) => {
-                    return (
-                      <Grid
-                        size={{ xs: 6, sm: 4, md: 3, lg: 2 }}
-                        key={item._id}
-                        sx={{ display: "flex" }}
-                      >
-                        <Box
-                          sx={{
-                            border: "1px solid rgba(0, 0, 0, .05)",
-                            textAlign: "center",
-                            "&:hover": {
-                              borderColor: (theme) => theme.commonColors,
-                              boxShadow: 3,
-                              transform: "scale(1.05)",
-                              transition: "all 0.3s ease",
-                            },
-                            overflow: "hidden",
-                            bgcolor: "white",
-                          }}
-                          component={Link}
-                          to={`/detail?id=${item._id}`}
-                        >
-                          <img
-                            src={item?.image[0]}
-                            alt={item.name}
-                            style={{ width: "100%", border: "1px solid black" }}
-                          />
-                          <Box sx={{ p: 1 }}>
-                            <Box
-                              sx={{
-                                height: "50px",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                color: "black",
-                                mb: 3,
-                              }}
-                            >
-                              <Typography>{item?.name}</Typography>
-                            </Box>
-                            <Box
-                              sx={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                color: "black",
-                                alignItems: "center",
-                              }}
-                            >
-                              <Typography>
-                                {formatPrice(item?.price)}
-                              </Typography>
-                              <Typography sx={{ fontSize: "14px" }}>
-                                Đã bán: {item?.sold}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </Box>
-                      </Grid>
-                    );
-                  })}
-              </Grid>
-              <TablePagination
-                component="div"
-                count={shopInfo?.products?.length}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                rowsPerPageOptions={[12, 18, 24]}
-              />
-            </Grid>
+
+        <TabContext value={value}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <TabList onChange={handleChange} aria-label="lab API tabs example">
+              <Tab label="Danh sách sản phẩm" value="1" />
+              <Tab label="Giao dịch gần đây" value="2" />
+              <Tab label="Đánh giá gần đây" value="3" />
+            </TabList>
           </Box>
-        )}
-      </Container>
+          <TabPanel value="1">
+            {(shopInfo?.status === SHOP_STATUS.DENIED ||
+              shopInfo?.status === SHOP_STATUS.PENDING) && (
+              <Box>Hiện tại của hàng chưa được duyệt hoặc đã bị khoá</Box>
+            )}
+            {shopInfo?.status === SHOP_STATUS.ACCEPT && (
+              <List_product_tab shopInfoProducts={shopInfo.products} />
+            )}
+          </TabPanel>
+          <TabPanel value="2">
+            <List_orders_tab shopId={id} />
+          </TabPanel>
+          <TabPanel value="3">
+            <List_rating_tab products={shopInfo?.products} />
+          </TabPanel>
+        </TabContext>
+      </Box>
 
       {/* description */}
       {shopInfo?.status === SHOP_STATUS.ACCEPT && (
