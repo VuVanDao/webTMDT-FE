@@ -49,6 +49,8 @@ import CheckShopDetail from "./page/Detail/CheckShopDetail";
 import Admin_manager_category from "./page/Admin/AdminManagerCategory/Admin_manager_category";
 import Admin_manager_order from "./page/Admin/AdminManagerOrder/Admin_manager_order";
 import ChangePassword from "./page/Account/Password/changePassword";
+import { toast } from "react-toastify";
+import FormRegisterOpenShop from "./components/FormRegisterOpenShop/FormRegisterOpenShop";
 
 const ProtectedRoute = () => {
   const user = useSelector(userInfoSelector);
@@ -60,6 +62,7 @@ const ProtectedRoute = () => {
 const ProtectRegisterRouter = () => {
   const user = useSelector(userInfoSelector);
   if (user?.role === "shop_owner") {
+    toast.info("Bạn đã là 1 người bán rồi");
     return <Navigate to={"/homePage"} />;
   }
   return <Outlet />;
@@ -114,7 +117,10 @@ const App = () => {
 
           <Route element={<ProtectRegisterRouter />}>
             {/* register shop */}
-            <Route path="/register_shop" element={<Welcome />} />
+            <Route
+              path="/form_register_shop_sent"
+              element={<FormRegisterOpenShop />}
+            />
 
             <Route path="/register_shop" element={<RegisterPage />}>
               <Route
@@ -127,9 +133,6 @@ const App = () => {
               <Route path="step_2_extra" element={<Step_2_extra />} />
               <Route path="step_3" element={<Step_3 />} />
               <Route path="final_step" element={<FinalStep />} />
-              {/* <Route path="addNewProduct" element={<AddNewProduct />} /> */}
-              {/* <Route path="updateProduct" element={<UpdateProduct />} /> */}
-              {/* <Route path="deleteProduct" element={<DeleteProduct />} /> */}
             </Route>
           </Route>
 

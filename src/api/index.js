@@ -118,6 +118,12 @@ export const getAllShopAdminManager = async () => {
   const response = await authorizeAxiosInstance.get(`${apiRoot}/v1/shops`);
   return response.data;
 };
+export const deleteOneShop = async (id) => {
+  const response = await authorizeAxiosInstance.delete(
+    `${apiRoot}/v1/shops?id=${id}`
+  );
+  return response.data;
+};
 
 //product
 export const createNew = async (data) => {

@@ -14,6 +14,8 @@ const Footer = () => {
         height: (theme) => theme.customHeight.Footer,
         bgcolor: "white",
         color: "black",
+        position: "relative",
+        bottom: 0,
       }}
     >
       <Container>

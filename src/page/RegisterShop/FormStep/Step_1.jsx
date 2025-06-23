@@ -49,7 +49,6 @@ const boxStyle = {
   alignItems: "center",
   gap: 5,
   width: "100%",
-  //   border: "1px solid",
   color: "black",
 };
 

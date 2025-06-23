@@ -9,40 +9,13 @@ import MDEditor from "@uiw/react-md-editor";
 
 const Step_2_extra = () => {
   const [description, setDescription] = useState("");
-  const fieldsetCommonStyle100 = {
-    "& label": {
-      color: "#ccc",
-    },
-    "& input": {
-      color: "black !important",
-    },
-    "& label.Mui-focused": {
-      color: "black !important",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#ccc",
-        color: "black !important",
-      },
-      "&:hover fieldset": {
-        borderColor: "black",
-        color: "black !important",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "black",
-        color: "black !important",
-      },
-    },
-  };
+
   const boxStyle = {
     my: 2,
   };
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSetDescription = (e) => {
-    setDescription(e?.target?.value);
-  };
   const handleConfirmDes = () => {
     if (!description) {
       toast.error("không được để trống phần miêu tả");
@@ -55,15 +28,6 @@ const Step_2_extra = () => {
       <StepperExample activeStep={2} />
       <Divider sx={{ my: 3 }} />
       <Box sx={boxStyle}>
-        {/* <TextField
-          // defaultValue="test"
-          fullWidth
-          multiline
-          label="Miêu tả cửa hàng"
-          rows={5}
-          sx={fieldsetCommonStyle100}
-          onChange={handleSetDescription}
-        /> */}
         <MDEditor
           value={description}
           onChange={setDescription}

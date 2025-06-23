@@ -13,6 +13,7 @@ import {
   DataFormRegisterShopSelector,
   updateDataFormRegisterShopStep2,
 } from "../../../redux/slice/dataFromRegisterShopSlice";
+import { toast } from "react-toastify";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -44,9 +45,11 @@ const Step_2 = () => {
   const navigate = useNavigate();
   const dataFormRegisterShop = useSelector(DataFormRegisterShopSelector);
   const validateBefore = (data) => {
+    if (!data) return false;
+
     const condition = ["name", "address", "email", "phoneNumber"];
     condition.map((item) => {
-      if (!data[item] || data[item] === null) {
+      if (!data[item]) {
         return false;
       }
     });
@@ -54,6 +57,7 @@ const Step_2 = () => {
   };
   useEffect(() => {
     if (!validateBefore(dataFormRegisterShop)) {
+      toast.warning("Hãy điền đầy đủ thông tin trước");
       navigate("/register_shop/step_1");
     }
     if (dataFormRegisterShop?.delivery_type?.length > 0) {

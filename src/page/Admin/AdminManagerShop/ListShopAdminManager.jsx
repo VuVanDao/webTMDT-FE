@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllShopAdminManager } from "../../../api";
+import { deleteOneShop, getAllShopAdminManager } from "../../../api";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,7 +11,6 @@ import {
   Avatar,
   Box,
   Button,
-  Container,
   TablePagination,
   Tooltip,
   Typography,
@@ -20,12 +19,13 @@ import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import { useNavigate } from "react-router-dom";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { useConfirm } from "material-ui-confirm";
+import { toast } from "react-toastify";
 
 const ListShopAdminManager = () => {
   const [listShop, setListShop] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const navigate = useNavigate();
   const [change, setChange] = useState({
     name: false,
     shopOwner: false,
@@ -33,6 +33,8 @@ const ListShopAdminManager = () => {
     shopAddress: false,
     shopStatus: false,
   });
+  const navigate = useNavigate();
+  const confirm = useConfirm();
 
   // Xử lý khi thay đổi trang
   const handleChangePage = (event, newPage) => {
@@ -47,6 +49,20 @@ const ListShopAdminManager = () => {
     const res = await getAllShopAdminManager();
     if (!res.error) {
       setListShop(res);
+    }
+  };
+  const handleDeleteShop = async (id) => {
+    const { confirmed, reason } = await confirm({
+      title: "Xác nhận xoá cửu hàng này",
+      description: "sau khi xoá dữ liệu sẽ không thể khôi phục",
+    });
+    if (confirmed) {
+      deleteOneShop(id).then((res) => {
+        if (!res?.error) {
+          toast.info("đã xoá");
+          handleGetAllShop();
+        }
+      });
     }
   };
   const handleSort = (type) => {
@@ -309,7 +325,7 @@ const ListShopAdminManager = () => {
                       <Button
                         variant="contained"
                         onClick={() => {
-                          // handleDeleteAccount(item?._id);
+                          handleDeleteShop(item?._id);
                         }}
                         size="small"
                       >

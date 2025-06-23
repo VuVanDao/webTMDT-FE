@@ -22,28 +22,28 @@ export const dataFormRegisterShopSlice = createSlice({
         description: action.payload,
       };
     },
-    clearData: (state, action) => {
+    updateDataFormRegisterShopStep3: (state, action) => {
+      state.dataFromRegister = {
+        ...state.dataFromRegister,
+        image: action.payload,
+      };
+    },
+    confirmData: (state, action) => {
+      state.dataFromRegister = { ...state.dataFromRegister, sent: true };
+    },
+    cancelData: (state, action) => {
       state.dataFromRegister = null;
     },
   },
-  //extraReducer : noi xu li du lieu bat dong bo
-  // extraReducers: (builder) => {
-  //   builder.addCase(
-  //     registerShop.fulfilled /*ten function */,
-  //     (state, action) => {
-  //       // action.payload chinh la response.data
-  //       const data = action.payload;
-  //       state.dataFromRegister = data;
-  //     }
-  //   );
-  // },
 });
 
 export const {
   updateDataFormRegisterShopStep1,
   updateDataFormRegisterShopStep2,
   updateDataFormRegisterShopStep2extra,
-  clearData,
+  updateDataFormRegisterShopStep3,
+  confirmData,
+  cancelData,
 } = dataFormRegisterShopSlice.actions; //actions: danh cho cac component goi = dispatch() cap nhat du lieu dong bo
 
 //Selector

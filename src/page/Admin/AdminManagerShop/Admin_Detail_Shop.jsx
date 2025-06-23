@@ -7,6 +7,7 @@ import {
   Chip,
   Avatar,
   Divider,
+  Button,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { getDetailShop } from "../../../api";
@@ -174,6 +175,15 @@ const Admin_Detail_Shop = () => {
               </Grid>
             </Grid>
           </Box>
+          <Button
+            variant="container"
+            sx={{
+              bgcolor: (theme) => theme.commonColors,
+              color: "white",
+            }}
+          >
+            Khoá shop
+          </Button>
         </Box>
 
         <Divider sx={{ my: 3 }} />

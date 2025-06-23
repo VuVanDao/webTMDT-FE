@@ -5,23 +5,6 @@ import { useNavigate } from "react-router-dom";
 const FinalStep = () => {
   const navigate = useNavigate();
 
-  // const validateBefore = (data) => {
-  //   const condition = [
-  //     "name",
-  //     "address",
-  //     "email",
-  //     "phoneNumber",
-  //     "delivery_type",
-  //     "logo",
-  //   ];
-  //   condition.map((item) => {
-  //     if (!data[item]) {
-  //       return false;
-  //     }
-  //   });
-  //   return true;
-  // };
-
   return (
     <Box>
       <StepperExample activeStep={4} />

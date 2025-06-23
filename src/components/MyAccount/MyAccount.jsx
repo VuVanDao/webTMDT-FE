@@ -19,14 +19,16 @@ import {
   userInfoSelector,
 } from "../../redux/slice/userInfoSlice";
 import { socketIoInstance } from "../../main";
+import { DataFormRegisterShopSelector } from "../../redux/slice/dataFromRegisterShopSlice";
 
 const MyAccount = ({ color }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
-  const userInfo = useSelector(userInfoSelector);
   const dispatch = useDispatch();
+  const userInfo = useSelector(userInfoSelector);
+  const dataFormRegisterShop = useSelector(DataFormRegisterShopSelector);
 
   useEffect(() => {
     //function xu li su kien realTime
@@ -74,6 +76,9 @@ const MyAccount = ({ color }) => {
   };
   const registerShop = () => {
     navigate("/register_shop");
+  };
+  const FormRegisterOpenShop = () => {
+    navigate("/form_register_shop_sent");
   };
   if (!userInfo) {
     return (
@@ -161,12 +166,19 @@ const MyAccount = ({ color }) => {
             </ListItemIcon>
             Cửa hàng của tôi
           </MenuItem>
-        ) : (
+        ) : !dataFormRegisterShop && !dataFormRegisterShop?.sent ? (
           <MenuItem onClick={registerShop}>
             <ListItemIcon>
               <DriveFileRenameOutlineIcon fontSize="small" />
             </ListItemIcon>
             Đăng kí mở shop
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={FormRegisterOpenShop}>
+            <ListItemIcon>
+              <DriveFileRenameOutlineIcon fontSize="small" />
+            </ListItemIcon>
+            Xem thông tin đã gửi
           </MenuItem>
         )}
         {userInfo.role === "admin" && (

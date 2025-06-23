@@ -4,6 +4,7 @@ export const ALLOW_COMMON_FILE_TYPES = [
   "image/jpeg",
   "image/png",
   "image/gif",
+  "image/jfif",
 ];
 export const singleFileValidator = (file) => {
   if (!file || !file.name || !file.size || !file.type) {
@@ -13,7 +14,7 @@ export const singleFileValidator = (file) => {
     return "Maximum file size exceeded. (10MB)";
   }
   if (!ALLOW_COMMON_FILE_TYPES.includes(file.type)) {
-    return "File type is invalid. Only accept jpg, jpeg and png";
+    return "File type is invalid. Only accept jpg, jpeg,gif,jfif and png";
   }
   return null;
 };
