@@ -54,6 +54,16 @@ const Notification = () => {
         handleGetNotification();
       }
     };
+    const ReceiveEmitBrowsedShopFormBackEnd = async (dataToEmit) => {
+      if (dataToEmit?.Owner[0]?._id === userInfo?._id) {
+        await newNotification({
+          content: `Đã duyệt mở cửa hàng ${dataToEmit?.name}`,
+          ownerNotificationId: dataToEmit?.Owner[0]?._id,
+        });
+        toast.success("Có thông báo mới về đơn hàng của bạn");
+        handleGetNotification();
+      }
+    };
     socketIoInstance.removeAllListeners(
       `notification_place_order_from_be_${userInfo?._id}`
     );
@@ -71,6 +81,14 @@ const Notification = () => {
       ReceiveEmitAcceptedOrderFormBackEnd
     );
 
+    //browsed shop
+    socketIoInstance.removeAllListeners(
+      `admin_browse_shop_from_be_${userInfo?._id}`
+    );
+    socketIoInstance.on(
+      `admin_browse_shop_from_be_${userInfo?._id}`,
+      ReceiveEmitAcceptedOrderFormBackEnd
+    );
     return () => {
       socketIoInstance.off(
         `notification_place_order_from_be_${userInfo?._id}`,
@@ -81,6 +99,12 @@ const Notification = () => {
       socketIoInstance.off(
         `accept_delivery_order_from_be_${userInfo?._id}`,
         ReceiveEmitAcceptedOrderFormBackEnd
+      );
+
+      //browsed shop
+      socketIoInstance.off(
+        `admin_browse_shop_from_be_${userInfo?._id}`,
+        ReceiveEmitBrowsedShopFormBackEnd
       );
     };
   }, []);

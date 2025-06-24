@@ -9,6 +9,7 @@ import { Lightbox } from "yet-another-react-lightbox";
 import { browseShop } from "../../api";
 import { toast } from "react-toastify";
 import MDEditor from "@uiw/react-md-editor";
+import { socketIoInstance } from "../../main";
 export const DetailModal = ({
   openModal,
   setOpenModal,
@@ -28,6 +29,7 @@ export const DetailModal = ({
     });
     if (!res.error) {
       toast.success("Đã duyệt");
+      socketIoInstance.emit("admin_browse_shop_from_fe", dataDetailShop);
       handleGetAllShop();
       setOpenModal(!openModal);
     }

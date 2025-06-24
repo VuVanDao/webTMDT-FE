@@ -37,8 +37,7 @@ const ShopDetail = () => {
       icon: "Store",
       children: [
         { id: 1, title: "Trang chủ", link: "/shop_detail/myShop" },
-        { id: 2, title: "Danh sách đơn hàng", link: "/shop_detail/orders" },
-        { id: 3, title: "Thông tin cửa hàng", link: "/shop_detail/shopInfo" },
+        { id: 2, title: "Thông tin cửa hàng", link: "/shop_detail/shopInfo" },
       ],
     },
     {
@@ -49,7 +48,13 @@ const ShopDetail = () => {
         { id: 2, title: "Thêm sản phẩm", link: "/shop_detail/addNewProduct" },
       ],
     },
-    { label: "Quản Lý Đơn Hàng", icon: "Inventory" },
+    {
+      label: "Quản Lý Đơn Hàng",
+      icon: "Inventory",
+      children: [
+        { id: 1, title: "Danh sách đơn hàng", link: "/shop_detail/orders" },
+      ],
+    },
     { label: "Kênh Marketing", icon: "Campaign" },
     { label: "Quản lý khách hàng", icon: "Group" },
     { label: "Tài Chính", icon: "AttachMoney" },
