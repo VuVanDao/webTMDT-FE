@@ -4,16 +4,18 @@ import { Box, Button, Grid, Tooltip, Typography } from "@mui/material";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import { ModalAddBrands } from "./AddNewBrands";
 import {
+  deleteBrand,
   findBrandByAlphabet,
   getAllBrand,
 } from "../../../api/brandAPI/brandAPI";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { Alphabet } from "../../../utils/constants";
+import { useConfirm } from "material-ui-confirm";
 
 const Admin_manager_brands = () => {
   const [brands, setBrands] = useState([]);
   const [open, setOpen] = useState(false);
-
+  const confirm = useConfirm();
   const handleGetAllBrand = async () => {
     const res = await getAllBrand();
     if (!res.error) {
@@ -28,6 +30,21 @@ const Admin_manager_brands = () => {
           setBrands(res);
         }
       });
+    }
+  };
+  const handleDeleteBrands = async (id) => {
+    console.log("🚀 ~ deleteBrands ~ id:", id);
+    if (id) {
+      const { confirmed } = await confirm({
+        title: "Xác nhận loại bỏ thương hiệu này",
+      });
+      if (confirmed) {
+        deleteBrand(id).then((res) => {
+          if (!res?.error) {
+            handleGetAllBrand(res);
+          }
+        });
+      }
     }
   };
   useEffect(() => {
@@ -96,7 +113,7 @@ const Admin_manager_brands = () => {
       </Box>
 
       <Grid container spacing={3} mt={3}>
-        {brands?.map(({ _id, brandName, brandImage }) => (
+        {brands?.map(({ _id, brandName, brandImage, shopOwnerBrand }) => (
           <Grid
             key={_id}
             size={{ xs: 6, sm: 4, md: 2 }}
@@ -115,10 +132,10 @@ const Admin_manager_brands = () => {
               style={{ width: "50px", height: "50px" }}
             />
             <Typography>{brandName}</Typography>
-            <Tooltip title="Xóa danh mục" placement="top">
+            <Tooltip title="Xóa thương hiệu này" placement="top">
               <HighlightOffIcon
                 sx={{ cursor: "pointer" }}
-                onClick={() => handleDeleteCategory(_id)}
+                onClick={() => handleDeleteBrands(_id)}
               />
             </Tooltip>
           </Grid>

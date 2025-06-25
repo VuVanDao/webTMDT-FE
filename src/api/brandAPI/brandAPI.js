@@ -18,3 +18,9 @@ export const findBrandByAlphabet = async (id) => {
   );
   return response.data;
 };
+export const deleteBrand = async (id) => {
+  const response = await authorizeAxiosInstance.delete(
+    `${apiRoot}/v1/brands?id=${id}`
+  );
+  return response.data;
+};
