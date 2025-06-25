@@ -158,7 +158,6 @@ const SearchData = () => {
               sx={{
                 bgcolor: "#ededed",
                 p: 2,
-                // width: "100%",
               }}
             >
               <Box

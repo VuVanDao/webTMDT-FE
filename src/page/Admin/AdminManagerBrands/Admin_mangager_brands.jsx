@@ -3,35 +3,12 @@ import { deleteAccount } from "../../../api";
 import { Box, Button, Grid, Tooltip, Typography } from "@mui/material";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import { ModalAddBrands } from "./AddNewBrands";
-import { getAllBrand } from "../../../api/brandAPI/brandAPI";
+import {
+  findBrandByAlphabet,
+  getAllBrand,
+} from "../../../api/brandAPI/brandAPI";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-
-const Alphabet = [
-  "All",
-  "A",
-  "B",
-  "C",
-  "D",
-  "E",
-  "F",
-  "H",
-  "J",
-  "K",
-  "L",
-  "M",
-  "N",
-  "O",
-  "P",
-  "R",
-  "S",
-  "T",
-  "U",
-  "V",
-  "W",
-  "X",
-  "Y",
-  "Z",
-];
+import { Alphabet } from "../../../utils/constants";
 
 const Admin_manager_brands = () => {
   const [brands, setBrands] = useState([]);
@@ -44,6 +21,15 @@ const Admin_manager_brands = () => {
     }
   };
 
+  const handleFindBrand = async (id) => {
+    if (id) {
+      findBrandByAlphabet(id).then((res) => {
+        if (!res?.error) {
+          setBrands(res);
+        }
+      });
+    }
+  };
   useEffect(() => {
     handleGetAllBrand();
   }, []);
@@ -61,8 +47,9 @@ const Admin_manager_brands = () => {
           borderBottom: "1px solid rgba(0, 0, 0, .09)",
         }}
       >
-        {Alphabet?.map((item) => (
+        {Alphabet?.map((item, index) => (
           <Box
+            key={index}
             sx={{
               color: "rgba(0,0,0,.4)",
               "&:hover": {
@@ -75,6 +62,7 @@ const Admin_manager_brands = () => {
               px: 2,
               py: 1,
             }}
+            onClick={() => handleFindBrand(item)}
           >
             {item}
           </Box>

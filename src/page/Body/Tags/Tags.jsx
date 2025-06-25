@@ -62,6 +62,7 @@ const Tags = () => {
                       },
                       overflow: "hidden",
                       p: 1,
+                      cursor: "pointer",
                     }}
                     onClick={() => findByCategory(name)}
                   >

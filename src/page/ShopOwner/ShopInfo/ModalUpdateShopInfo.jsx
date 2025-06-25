@@ -4,11 +4,10 @@ import {
   Button,
   Divider,
   InputLabel,
-  MenuItem,
   Modal,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ToggleFocusInput from "../../../components/customInputFile/ToggleFocusInput";
 import MDEditor from "@uiw/react-md-editor";
 import { toast } from "react-toastify";
@@ -98,7 +97,6 @@ const ModalUpdateShopInfo = ({ open, setOpen, shopInfo, fetchShopInfo }) => {
       return result;
     });
   };
-  useEffect(() => {}, []);
   return (
     <Modal open={open} onClose={handleClose}>
       <Box sx={style}>
