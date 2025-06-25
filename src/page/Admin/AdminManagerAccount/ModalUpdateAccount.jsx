@@ -259,6 +259,7 @@ export const ModalUpdateAccount = ({
                 </Box>
               </Box>
             )}
+
             {changeCommonInfoMode && ( //   email & address
               <Box mb={5}>
                 <Box
@@ -392,6 +393,7 @@ export const ModalUpdateAccount = ({
                 </Box>
               </Box>
             )}
+
             {changeImageMode && (
               <Box sx={{ textAlign: "center" }}>
                 <img
@@ -418,6 +420,7 @@ export const ModalUpdateAccount = ({
                 </Button>
               </Box>
             )}
+
             {changeRoleMode && (
               <Box>
                 <Select

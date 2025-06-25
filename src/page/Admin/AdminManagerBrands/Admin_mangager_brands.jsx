@@ -1,0 +1,168 @@
+import { useEffect, useState } from "react";
+import { deleteAccount } from "../../../api";
+import { Box, Button, Grid, Tooltip, Typography } from "@mui/material";
+import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
+import { ModalAddBrands } from "./AddNewBrands";
+import { getAllBrand } from "../../../api/brandAPI/brandAPI";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+
+const Alphabet = [
+  "All",
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "H",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+];
+
+const Admin_manager_brands = () => {
+  const [brands, setBrands] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  const handleGetAllBrand = async () => {
+    const res = await getAllBrand();
+    if (!res.error) {
+      setBrands(res);
+    }
+  };
+
+  useEffect(() => {
+    handleGetAllBrand();
+  }, []);
+  return (
+    <Box sx={{ my: 3, bgcolor: (theme) => theme.whiteColor, p: 3, mx: 5 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          position: "sticky",
+          top: "80px",
+          zIndex: 3,
+          bgcolor: "white",
+          py: 3,
+          borderBottom: "1px solid rgba(0, 0, 0, .09)",
+        }}
+      >
+        {Alphabet?.map((item) => (
+          <Box
+            sx={{
+              color: "rgba(0,0,0,.4)",
+              "&:hover": {
+                color: "black",
+                bgcolor: "rgba(0,0,0,.4)",
+              },
+              cursor: "pointer",
+              borderRadius: "5px",
+              transition: "all 0.5s",
+              px: 2,
+              py: 1,
+            }}
+          >
+            {item}
+          </Box>
+        ))}
+      </Box>
+      {brands?.length === 0 && (
+        <Typography my={3}>Chưa đăng kí thương hiệu nào</Typography>
+      )}
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Typography>
+          danh sách các danh mục hiện có ({brands.length})
+        </Typography>
+        <Button
+          variant="contained"
+          sx={{
+            bgcolor: (theme) => theme.commonColors,
+            color: "white",
+            my: 2,
+          }}
+          onClick={() => setOpen(!open)}
+        >
+          Thêm mới
+        </Button>
+      </Box>
+
+      <Grid container spacing={3} mt={3}>
+        {brands?.map(({ _id, brandName, brandImage }) => (
+          <Grid
+            key={_id}
+            size={{ xs: 6, sm: 4, md: 2 }}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              border: "1px solid black",
+              p: "5px",
+              borderRadius: "10px",
+            }}
+          >
+            <img
+              src={brandImage}
+              alt={brandName}
+              style={{ width: "50px", height: "50px" }}
+            />
+            <Typography>{brandName}</Typography>
+            <Tooltip title="Xóa danh mục" placement="top">
+              <HighlightOffIcon
+                sx={{ cursor: "pointer" }}
+                onClick={() => handleDeleteCategory(_id)}
+              />
+            </Tooltip>
+          </Grid>
+        ))}
+      </Grid>
+      <Button
+        variant="contained"
+        sx={{ mt: 3 }}
+        onClick={() => window.scrollTo(0, 0)}
+      >
+        <ArrowCircleUpIcon />
+      </Button>
+      <ModalAddBrands
+        open={open}
+        setOpen={setOpen}
+        handleGetAllBrand={handleGetAllBrand}
+      />
+      {/* <ModalUpdateAccount
+        open={openModalUpdate}
+        setOpenModalUpdate={setOpenModalUpdate}
+        handleGetAllAccount={handleGetAllAccount}
+        infoAccountToUpdate={infoAccountToUpdate}
+      />
+      <ModalDetailAccount
+        open={openModalDetailAccount}
+        setOpen={setOpenModalDetailAccount}
+        handleGetAllAccount={handleGetAllAccount}
+        infoAccountDetail={infoAccountDetail}
+        infoAccount={infoAccountToUpdate}
+      /> */}
+    </Box>
+  );
+};
+
+export default Admin_manager_brands;

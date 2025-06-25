@@ -64,6 +64,17 @@ const AdminPage = () => {
         },
       ],
     },
+    {
+      label: "Thương hiệu",
+      icon: "CatchingPokemon",
+      children: [
+        {
+          id: 1,
+          title: "Danh sách các thương hiệu",
+          link: "/admin/admin_manage_brands",
+        },
+      ],
+    },
   ];
 
   const DrawerList = (

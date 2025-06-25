@@ -23,8 +23,19 @@ const Tags = () => {
     <Box sx={{ bgcolor: "#f5f5f5", p: 3 }}>
       <Container>
         <Box sx={{ bgcolor: "white" }}>
-          <Box sx={{ p: 2 }}>
+          <Box sx={{ p: 2, display: "flex", justifyContent: "space-between" }}>
             <Typography>DANH MỤC</Typography>
+            <Typography
+              sx={{
+                cursor: "pointer",
+                "&:hover": {
+                  textDecoration: "underline",
+                  color: (theme) => theme.commonColors,
+                },
+              }}
+            >
+              TẤT CẢ
+            </Typography>
           </Box>
           <Box
             sx={{

@@ -51,6 +51,7 @@ import Admin_manager_order from "./page/Admin/AdminManagerOrder/Admin_manager_or
 import ChangePassword from "./page/Account/Password/changePassword";
 import { toast } from "react-toastify";
 import FormRegisterOpenShop from "./components/FormRegisterOpenShop/FormRegisterOpenShop";
+import Admin_manager_brands from "./page/Admin/AdminManagerBrands/Admin_mangager_brands";
 
 const ProtectedRoute = () => {
   const user = useSelector(userInfoSelector);
@@ -160,6 +161,10 @@ const App = () => {
               <Route
                 path="admin_manage_order"
                 element={<Admin_manager_order />}
+              />
+              <Route
+                path="admin_manage_brands"
+                element={<Admin_manager_brands />}
               />
             </Route>
           </Route>
