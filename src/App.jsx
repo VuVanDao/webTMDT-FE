@@ -52,6 +52,7 @@ import ChangePassword from "./page/Account/Password/changePassword";
 import { toast } from "react-toastify";
 import FormRegisterOpenShop from "./components/FormRegisterOpenShop/FormRegisterOpenShop";
 import Admin_manager_brands from "./page/Admin/AdminManagerBrands/Admin_mangager_brands";
+import All_tag from "./page/Body/AllTag/All_tag";
 
 const ProtectedRoute = () => {
   const user = useSelector(userInfoSelector);
@@ -88,6 +89,7 @@ const App = () => {
         <Route path="/detail" element={<Detail />} />
         <Route path="/search" element={<SearchData />} />
         <Route path="/check_shop_detail" element={<CheckShopDetail />} />
+        <Route path="/all_tag" element={<All_tag />} />
 
         <Route element={<ProtectedRoute />}>
           {/* user */}

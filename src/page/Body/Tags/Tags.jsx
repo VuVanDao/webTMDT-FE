@@ -33,6 +33,9 @@ const Tags = () => {
                   color: (theme) => theme.commonColors,
                 },
               }}
+              onClick={() => {
+                navigate("/all_tag");
+              }}
             >
               TẤT CẢ
             </Typography>
@@ -58,7 +61,6 @@ const Tags = () => {
                       "&:hover": {
                         borderColor: "rgba(0, 0, 0, .12)",
                         boxShadow: "0 0 .8125rem 0 rgba(0, 0, 0, .05)",
-                        // transform: "translateZ(0)",
                       },
                       overflow: "hidden",
                       p: 1,

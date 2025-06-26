@@ -33,7 +33,6 @@ const Admin_manager_brands = () => {
     }
   };
   const handleDeleteBrands = async (id) => {
-    console.log("🚀 ~ deleteBrands ~ id:", id);
     if (id) {
       const { confirmed } = await confirm({
         title: "Xác nhận loại bỏ thương hiệu này",
