@@ -33,7 +33,9 @@ const ModalUpdateShopInfo = ({ open, setOpen, shopInfo, fetchShopInfo }) => {
   );
   const [listTags, setListTags] = useState([]);
   const [updateTagsMode, setUpdateTagsMode] = useState(false);
+
   const handleClose = () => setOpen(false);
+
   const handleUpdate = async (e, key) => {
     const data = {
       [key]: e,

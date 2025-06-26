@@ -16,6 +16,7 @@ import { getAllShopAdminManager } from "../../../api";
 import { updateBrand } from "../../../api/brandAPI/brandAPI";
 import { toast } from "react-toastify";
 import _ from "lodash";
+import { ListTags } from "../../../components/ListTags/ListTags";
 
 const style = {
   position: "absolute",
@@ -41,6 +42,8 @@ export const ModalDetailBrand = ({
   const [listShop, setListShop] = useState([]);
   const [openSelection, setOpenSelection] = useState(false);
   const [shopSelected, setShopSelected] = useState([]);
+  const [tagsSelected, setTagsSelected] = useState([]);
+  const [updateTagsMode, setUpdateTagsMode] = useState(false);
 
   const handleChange = (event) => {
     const {
@@ -81,6 +84,21 @@ export const ModalDetailBrand = ({
       }
     });
   };
+
+  const handleSetTags = async (result) => {
+    setTagsSelected((preState) => {
+      return result;
+    });
+  };
+
+  const handleSetTagsForBrand = async () => {
+    updateBrand({ tags: tagsSelected }, infoBrand?._id).then((res) => {
+      if (!res?.error) {
+        toast.success("Thao tác thành công");
+        handleGetAllBrand();
+      }
+    });
+  };
   useEffect(() => {
     handleGetAllShop();
   }, []);
@@ -106,13 +124,13 @@ export const ModalDetailBrand = ({
             />
           </Box>
           <Divider sx={{ my: 5 }} />
-          <Typography variant="h5">Tên: {infoBrand?.brandName}</Typography>
+
           <Typography variant="h6">
             Cửa hàng sở hữu thương hiệu hợp pháp
           </Typography>
           {infoBrand?.shopOwnerBrand?.length > 0
             ? infoBrand?.shopOwnerBrand?.map((item) => (
-                <Box>
+                <Box key={item?._id}>
                   <img
                     src={infoBrand?.brandImage}
                     style={{
@@ -217,6 +235,75 @@ export const ModalDetailBrand = ({
                   dừng lại
                 </Button>
               </Box>
+            </Box>
+          )}
+
+          <Typography mt={5}>loại sản phẩm sẽ bán</Typography>
+          {!updateTagsMode ? (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 3,
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 3,
+                }}
+              >
+                {infoBrand?.tags?.map((item, index) => {
+                  return (
+                    <Box
+                      key={index}
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        cursor: "pointer",
+                        border: "1px solid black",
+                        p: "5px 10px",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      <Typography variant="caption">{item}</Typography>
+                    </Box>
+                  );
+                })}
+              </Box>
+              <Button
+                variant="contained"
+                sx={{
+                  bgcolor: (theme) => theme.commonColors,
+                }}
+                onClick={() => setUpdateTagsMode(!updateTagsMode)}
+                size="small"
+              >
+                Chỉnh sửa
+              </Button>
+            </Box>
+          ) : (
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <ListTags
+                handleSelectTags={handleSetTags}
+                tagsIdData={infoBrand?.tags}
+              />
+
+              <Button
+                variant="contained"
+                sx={{ bgcolor: (theme) => theme.commonColors, m: 3 }}
+                onClick={handleSetTagsForBrand}
+              >
+                Cập nhật
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => setUpdateTagsMode(!updateTagsMode)}
+              >
+                Tạm dừng
+              </Button>
             </Box>
           )}
         </Box>

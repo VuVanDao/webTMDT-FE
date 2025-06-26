@@ -112,7 +112,7 @@ const Admin_manager_brands = () => {
         </Button>
       </Box>
       <Grid container spacing={3} mt={3}>
-        {brands?.map(({ _id, brandName, brandImage, shopOwnerBrand }) => (
+        {brands?.map(({ _id, brandName, brandImage, shopOwnerBrand, tags }) => (
           <Grid
             key={_id}
             size={{ xs: 6, sm: 4, md: 2 }}
@@ -135,6 +135,7 @@ const Admin_manager_brands = () => {
                   brandName,
                   brandImage,
                   shopOwnerBrand,
+                  tags,
                 });
                 setOpenDetail(!openDetail);
               }}

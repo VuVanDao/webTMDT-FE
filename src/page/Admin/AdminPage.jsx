@@ -41,16 +41,6 @@ const AdminPage = () => {
       children: [
         { id: 1, title: "Duyệt đăng kí", link: "/admin/admin_browser_shop" },
         { id: 2, title: "Quản lí shop", link: "/admin/admin_manage_shop" },
-        {
-          id: 3,
-          title: "Quản lí danh mục",
-          link: "/admin/admin_manage_category",
-        },
-        {
-          id: 4,
-          title: "Quản lí các đơn hàng",
-          link: "/admin/admin_manage_order",
-        },
       ],
     },
     {
@@ -72,6 +62,28 @@ const AdminPage = () => {
           id: 1,
           title: "Danh sách các thương hiệu",
           link: "/admin/admin_manage_brands",
+        },
+      ],
+    },
+    {
+      label: "Danh mục",
+      icon: "Category",
+      children: [
+        {
+          id: 1,
+          title: "Quản lí danh mục",
+          link: "/admin/admin_manage_category",
+        },
+      ],
+    },
+    {
+      label: "Các đơn hàng",
+      icon: "ContentPaste",
+      children: [
+        {
+          id: 1,
+          title: "Quản lí các đơn hàng",
+          link: "/admin/admin_manage_order",
         },
       ],
     },
