@@ -11,10 +11,12 @@ import {
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { Alphabet } from "../../../utils/constants";
 import { useConfirm } from "material-ui-confirm";
-
+import { ModalDetailBrand } from "./ModalDetailBrand";
 const Admin_manager_brands = () => {
   const [brands, setBrands] = useState([]);
   const [open, setOpen] = useState(false);
+  const [openDetail, setOpenDetail] = useState(false);
+  const [infoBrand, setInfoBrand] = useState({});
   const confirm = useConfirm();
   const handleGetAllBrand = async () => {
     const res = await getAllBrand();
@@ -87,7 +89,6 @@ const Admin_manager_brands = () => {
       {brands?.length === 0 && (
         <Typography my={3}>Chưa đăng kí thương hiệu nào</Typography>
       )}
-
       <Box
         sx={{
           display: "flex",
@@ -110,7 +111,6 @@ const Admin_manager_brands = () => {
           Thêm mới
         </Button>
       </Box>
-
       <Grid container spacing={3} mt={3}>
         {brands?.map(({ _id, brandName, brandImage, shopOwnerBrand }) => (
           <Grid
@@ -128,7 +128,16 @@ const Admin_manager_brands = () => {
             <img
               src={brandImage}
               alt={brandName}
-              style={{ width: "50px", height: "50px" }}
+              style={{ width: "50px", height: "50px", cursor: "pointer" }}
+              onClick={() => {
+                setInfoBrand({
+                  _id,
+                  brandName,
+                  brandImage,
+                  shopOwnerBrand,
+                });
+                setOpenDetail(!openDetail);
+              }}
             />
             <Typography>{brandName}</Typography>
             <Tooltip title="Xóa thương hiệu này" placement="top">
@@ -157,14 +166,14 @@ const Admin_manager_brands = () => {
         setOpenModalUpdate={setOpenModalUpdate}
         handleGetAllAccount={handleGetAllAccount}
         infoAccountToUpdate={infoAccountToUpdate}
-      />
-      <ModalDetailAccount
-        open={openModalDetailAccount}
-        setOpen={setOpenModalDetailAccount}
-        handleGetAllAccount={handleGetAllAccount}
-        infoAccountDetail={infoAccountDetail}
-        infoAccount={infoAccountToUpdate}
       /> */}
+
+      <ModalDetailBrand
+        open={openDetail}
+        setOpen={setOpenDetail}
+        infoBrand={infoBrand}
+        handleGetAllBrand={handleGetAllBrand}
+      />
     </Box>
   );
 };

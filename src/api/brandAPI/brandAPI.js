@@ -24,3 +24,10 @@ export const deleteBrand = async (id) => {
   );
   return response.data;
 };
+export const updateBrand = async (data, id) => {
+  const response = await authorizeAxiosInstance.put(
+    `${apiRoot}/v1/brands?id=${id}`,
+    data
+  );
+  return response.data;
+};
