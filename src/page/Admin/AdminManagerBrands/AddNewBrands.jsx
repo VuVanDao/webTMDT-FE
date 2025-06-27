@@ -104,6 +104,7 @@ export const ModalAddBrands = ({ open, setOpen, handleGetAllBrand }) => {
   };
   const handleClose = () => {
     reset();
+    setImageToView(null);
     setOpen(!open);
     handleGetAllBrand();
   };

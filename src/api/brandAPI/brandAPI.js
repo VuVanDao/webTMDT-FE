@@ -31,3 +31,10 @@ export const updateBrand = async (data, id) => {
   );
   return response.data;
 };
+export const findBrandByTags = async (tag) => {
+  const response = await authorizeAxiosInstance.post(
+    `${apiRoot}/v1/brands/find`,
+    tag
+  );
+  return response.data;
+};

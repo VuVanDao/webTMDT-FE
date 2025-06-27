@@ -6,9 +6,11 @@ import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import { getAllCategory } from "../../../api";
 import { findTagByAlphabet } from "../../../api/tagAPI/tagAPI";
+import { useNavigate } from "react-router-dom";
 
 const All_tag = () => {
   const [tags, setTags] = useState([]);
+  const navigate = useNavigate();
   const handleGetAllTag = async () => {
     const res = await getAllCategory();
     if (!res.error) {
@@ -25,7 +27,9 @@ const All_tag = () => {
       });
     }
   };
-
+  const handleFindByTags = (name) => {
+    navigate(`/find_by_tags?tags=${name}`);
+  };
   useEffect(() => {
     handleGetAllTag();
   }, []);
@@ -82,6 +86,7 @@ const All_tag = () => {
                 height: "100px",
                 cursor: "pointer",
               }}
+              onClick={() => handleFindByTags(name)}
             >
               <img
                 src={image}

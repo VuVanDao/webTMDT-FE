@@ -25,6 +25,8 @@ const style = {
   boxShadow: 24,
   p: 4,
   width: "1200px",
+  overflow: "auto",
+  height: "90vh",
 };
 
 const ModalUpdateShopInfo = ({ open, setOpen, shopInfo, fetchShopInfo }) => {
@@ -256,6 +258,15 @@ const ModalUpdateShopInfo = ({ open, setOpen, shopInfo, fetchShopInfo }) => {
             </Box>
           )}
 
+          {/* brand */}
+          <Typography>Thương hiệu</Typography>
+          <Typography>{shopInfo?.shopBrand?.brandName}</Typography>
+          <Box sx={{ textAlign: "center" }}>
+            <img
+              src={shopInfo?.shopBrand?.brandImage}
+              style={{ width: "300px", height: "200px" }}
+            />
+          </Box>
           {/* description */}
           <Box>
             <Box

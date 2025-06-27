@@ -58,3 +58,10 @@ export const Alphabet = [
   "Y",
   "Z",
 ];
+
+export const list_image_findByTagPage = [
+  "https://cf.shopee.vn/file/vn-11134258-7ra0g-maibrtd64ozw04",
+  "https://cf.shopee.vn/file/vn-11134258-7ra0g-ma7zhoxnymir5b",
+  "https://cf.shopee.vn/file/vn-50009109-727a24a85a60935da5ccb9008298f681",
+  "https://cf.shopee.vn/file/vn-11134258-7ra0g-mae7vigb5m8oee",
+];

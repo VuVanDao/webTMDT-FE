@@ -8,7 +8,7 @@ const Tags = () => {
   const navigate = useNavigate();
 
   const findByCategory = (name) => {
-    navigate(`/search?tags=${name}`);
+    navigate(`/find_by_tags?tags=${name}`);
   };
   const fetchCategories = async () => {
     const response = await getAllCategory();

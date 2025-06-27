@@ -212,7 +212,7 @@ export const ModalDetailProduct = ({
               gap: 10,
             }}
           >
-            {/* right */}
+            {/* left */}
             <Box
               sx={{
                 width: "500px",
@@ -310,7 +310,7 @@ export const ModalDetailProduct = ({
               </Button>
             </Box>
 
-            {/* left */}
+            {/* right */}
 
             {updateImage ? (
               <FormUpdateImage

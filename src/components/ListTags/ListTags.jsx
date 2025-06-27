@@ -19,28 +19,6 @@ const MenuProps = {
   },
 };
 
-const names = [
-  "Thời trang nam",
-  "Điện thoại & phụ kiện",
-  "Thiết bị điện tử",
-  "Laptop",
-  "Máy ảnh & Máy quay phim",
-  "Đồng hồ",
-  "Giày dép nam",
-  "Thiết bị gia dụng",
-  "Thời trang nữ",
-  "Quần áo",
-  "Mẹ và bé",
-  "Sắc đẹp",
-  "Giày dép nữ",
-  "Sách",
-  "Đồ chơi",
-  "Thời trang trẻ em",
-  "Giặt giũ & chăm sóc nhà cửa",
-  "Đồ ăn",
-  "Đồ uống",
-];
-
 export const ListTags = ({ handleSelectTags, tagsIdData }) => {
   const [tags, setTags] = useState([]);
   const [categories, setCategories] = useState([]);
