@@ -193,16 +193,22 @@ const ShopInfo = () => {
               </Typography>
             </Grid>
           )}
+          <TablePagination
+            component="div"
+            count={shopInfo?.products?.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[12, 18, 24]}
+            sx={{ width: "100%" }}
+          />
           <Grid container spacing={3}>
             {shopInfo.products
               ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((item) => {
                 return (
-                  <Grid
-                    size={{ xs: 6, sm: 4, md: 3, lg: 2 }}
-                    key={item._id}
-                    sx={{ display: "flex" }}
-                  >
+                  <Box key={item._id} sx={{ display: "flex", width: "180px" }}>
                     <Box
                       sx={{
                         border: "1px solid rgba(0, 0, 0, .05)",
@@ -251,19 +257,10 @@ const ShopInfo = () => {
                         </Box>
                       </Box>
                     </Box>
-                  </Grid>
+                  </Box>
                 );
               })}
           </Grid>
-          <TablePagination
-            component="div"
-            count={shopInfo?.products?.length}
-            page={page}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            rowsPerPageOptions={[12, 18, 24]}
-          />
         </Grid>
         <ModalUpdateShopInfo
           open={open}
