@@ -54,12 +54,14 @@ const FindByTag = () => {
     },
     rating: 0,
   });
-  const [open, setOpen] = useState(false);
+  const [change, setChange] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [loading, setLoading] = useState(false);
-  const [optionSortPrice, setOptionSortPrice] = useState(false);
-  const [optionSortAlphabet, setOptionSortAlphabet] = useState(false);
+  const [sortOption, setSortOption] = useState({
+    price: false,
+  });
+
   let [searchParams] = useSearchParams();
   const { tags } = Object.fromEntries([...searchParams]);
 
@@ -128,6 +130,35 @@ const FindByTag = () => {
       });
       setLoading(false);
     });
+  };
+
+  const handleSortPrice = (id) => {
+    switch (id) {
+      case "sold":
+        const test = products.sort((a, b) => b.sold - a.sold);
+        setChange(!change);
+        setProducts(test);
+        break;
+      case "price":
+        if (sortOption.price === true) {
+          setProducts(products.sort((a, b) => a.price - b.price));
+          setSortOption({ ...sortOption, price: !sortOption.price });
+        } else {
+          setProducts(products.sort((a, b) => b.price - a.price));
+          setSortOption({
+            ...sortOption,
+            price: !sortOption.price,
+          });
+        }
+        break;
+
+      case "rate":
+        setData(products.sort((a, b) => b.ratingAverage - a.ratingAverage));
+        setChange(!change);
+        break;
+      default:
+        break;
+    }
   };
   useEffect(() => {
     handleGetBrand();
@@ -438,39 +469,26 @@ const FindByTag = () => {
                       </Typography>
                       <Box
                         sx={styleOption}
-                        onClick={() => handleSortPrice("sell")}
+                        onClick={() => handleSortPrice("sold")}
                       >
                         Bán chạy
                       </Box>
-                      {optionSortAlphabet ? (
-                        <Box
-                          sx={styleOption}
-                          onClick={() => handleSortPrice("ABC")}
-                        >
-                          A - Z
-                        </Box>
-                      ) : (
-                        <Box
-                          sx={styleOption}
-                          onClick={() => handleSortPrice("CBA")}
-                        >
-                          Z - A
-                        </Box>
-                      )}
+
                       <Box
                         sx={styleOption}
-                        onClick={() => handleSortPrice("high")}
+                        onClick={() => handleSortPrice("price")}
                       >
                         Giá
-                        {optionSortPrice ? (
+                        {sortOption.price ? (
                           <KeyboardArrowDownIcon />
                         ) : (
                           <KeyboardArrowUpIcon />
                         )}
                       </Box>
+
                       <Box
                         sx={styleOption}
-                        onClick={() => handleSortPrice("ratingAverage")}
+                        onClick={() => handleSortPrice("rate")}
                       >
                         Đánh giá
                       </Box>

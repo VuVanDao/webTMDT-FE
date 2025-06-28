@@ -37,6 +37,14 @@ const SearchData = () => {
   let [searchParams] = useSearchParams();
   const { value, tags } = Object.fromEntries([...searchParams]);
 
+  const styleOption = {
+    bgcolor: "white",
+    p: "10px 25px",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+  };
+
   const handleSearch = () => {
     setLoading(true);
     const searchPath = `?${createSearchParams({ "q[name]": value })}`;
@@ -93,20 +101,6 @@ const SearchData = () => {
       });
   };
 
-  useEffect(() => {
-    if (tags) {
-      findProduct();
-    }
-    handleSearch();
-  }, [value, tags]);
-
-  const styleOption = {
-    bgcolor: "white",
-    p: "10px 25px",
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-  };
   const handleSortPrice = (id) => {
     switch (id) {
       case "sell":
@@ -138,6 +132,13 @@ const SearchData = () => {
         break;
     }
   };
+
+  useEffect(() => {
+    if (tags) {
+      findProduct();
+    }
+    handleSearch();
+  }, [value, tags]);
 
   if (loading) {
     return <LoadingPage />;
