@@ -241,27 +241,31 @@ const FindByTag = () => {
 
               {/* brand */}
               <Grid container mt={4}>
-                {brands?.map(({ _id, brandName, brandImage }) => (
-                  <Grid
-                    key={_id}
-                    size={{ xs: 6, sm: 4, md: 2 }}
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: "112px",
-                      width: "200px",
-                      cursor: "pointer",
-                      boxShadow: "0 0 4px 0 rgba(0,0,0,.08)",
-                    }}
-                  >
-                    <img
-                      src={brandImage}
-                      alt={brandName}
-                      style={{ width: "100%", height: "100%" }}
-                    />
-                  </Grid>
-                ))}
+                {brands?.map(({ _id, brandName, brandImage }, index) => {
+                  if (index < 12) {
+                    return (
+                      <Grid
+                        key={_id}
+                        size={{ xs: 6, sm: 4, md: 2 }}
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          height: "112px",
+                          width: "200px",
+                          cursor: "pointer",
+                          boxShadow: "0 0 4px 0 rgba(0,0,0,.08)",
+                        }}
+                      >
+                        <img
+                          src={brandImage}
+                          alt={brandName}
+                          style={{ width: "100%", height: "100%" }}
+                        />
+                      </Grid>
+                    );
+                  }
+                })}
               </Grid>
 
               <Box

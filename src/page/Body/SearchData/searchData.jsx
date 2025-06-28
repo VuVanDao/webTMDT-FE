@@ -4,8 +4,10 @@ import {
   Box,
   Button,
   Container,
+  Divider,
   Grid,
   Rating,
+  TablePagination,
   TextField,
   Typography,
 } from "@mui/material";
@@ -19,12 +21,22 @@ import _ from "lodash";
 import LoadingPage from "./LoadingPage";
 import { toast } from "react-toastify";
 import StarRateIcon from "@mui/icons-material/StarRate";
+import ListIcon from "@mui/icons-material/List";
+import FilterListAltIcon from "@mui/icons-material/FilterListAlt";
 
+const styleOption = {
+  bgcolor: "white",
+  cursor: "pointer",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "90px",
+  height: "32px",
+  fontSize: "14px",
+};
 const SearchData = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [optionSortPrice, setOptionSortPrice] = useState(false);
-  const [optionSortAlphabet, setOptionSortAlphabet] = useState(false);
   const [searchValue, setSearchValue] = useState({
     price: {
       from: "",
@@ -34,15 +46,17 @@ const SearchData = () => {
   });
 
   const [change, setChange] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   let [searchParams] = useSearchParams();
-  const { value, tags } = Object.fromEntries([...searchParams]);
+  const { value } = Object.fromEntries([...searchParams]);
 
-  const styleOption = {
-    bgcolor: "white",
-    p: "10px 25px",
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
   const handleSearch = () => {
@@ -54,7 +68,7 @@ const SearchData = () => {
     });
   };
 
-  const findProduct = () => {
+  const findProduct = (ratingValue = null) => {
     let searchValueClone = _.cloneDeep(searchValue);
     let dataToSearch = {};
     if (searchValueClone.price.from) {
@@ -76,12 +90,11 @@ const SearchData = () => {
     }
     if (searchValueClone?.rating >= 1) {
       dataToSearch.ratingAverage = searchValueClone.rating;
+    } else if (ratingValue) {
+      dataToSearch.ratingAverage = ratingValue;
     }
     if (value) {
       dataToSearch.value = value;
-    }
-    if (tags) {
-      dataToSearch.tags = tags;
     }
 
     setLoading(true);
@@ -103,28 +116,25 @@ const SearchData = () => {
 
   const handleSortPrice = (id) => {
     switch (id) {
-      case "sell":
+      case "sold":
         const test = data.sort((a, b) => b.sold - a.sold);
         setChange(!change);
         setData(test);
         break;
-      case "high":
-        setData(data.sort((a, b) => a.price - b.price));
-        setOptionSortPrice(!optionSortPrice);
+      case "price":
+        if (searchValue.price === true) {
+          setData(data.sort((a, b) => a.price - b.price));
+          setSearchValue({ ...searchValue, price: !searchValue.price });
+        } else {
+          setData(data.sort((a, b) => b.price - a.price));
+          setSearchValue({
+            ...searchValue,
+            price: !searchValue.price,
+          });
+        }
         break;
-      case "low":
-        setData(data.sort((a, b) => b.price - a.price));
-        setOptionSortPrice(!optionSortPrice);
-        break;
-      case "ABC":
-        setData(data.sort((a, b) => a.name.localeCompare(b.name)));
-        setOptionSortAlphabet(!optionSortAlphabet);
-        break;
-      case "CBA":
-        setData(data.sort((a, b) => b.name.localeCompare(a.name)));
-        setOptionSortAlphabet(!optionSortAlphabet);
-        break;
-      case "ratingAverage":
+
+      case "rate":
         setData(data.sort((a, b) => b.ratingAverage - a.ratingAverage));
         setChange(!change);
         break;
@@ -134,11 +144,8 @@ const SearchData = () => {
   };
 
   useEffect(() => {
-    if (tags) {
-      findProduct();
-    }
     handleSearch();
-  }, [value, tags]);
+  }, [value]);
 
   if (loading) {
     return <LoadingPage />;
@@ -147,7 +154,7 @@ const SearchData = () => {
   return (
     <Box sx={{ bgcolor: "#f5f5f5" }}>
       <Header showHeader={true} />
-      <Container>
+      <Container sx={{ my: 3 }}>
         {data?.length === 0 ? (
           <Box
             sx={{
@@ -155,165 +162,6 @@ const SearchData = () => {
               width: "100%",
             }}
           >
-            <Box
-              sx={{
-                bgcolor: "#ededed",
-                p: 2,
-              }}
-            >
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  gap: 2,
-                  alignItems: "center",
-                  py: 2,
-                }}
-              >
-                <Typography>Sắp xếp theo:</Typography>
-                <Box sx={styleOption} onClick={() => handleSortPrice("sell")}>
-                  Bán chạy
-                </Box>
-                {optionSortAlphabet ? (
-                  <Box sx={styleOption} onClick={() => handleSortPrice("ABC")}>
-                    A - Z
-                  </Box>
-                ) : (
-                  <Box sx={styleOption} onClick={() => handleSortPrice("CBA")}>
-                    Z - A
-                  </Box>
-                )}
-                {optionSortPrice ? (
-                  <Box sx={styleOption} onClick={() => handleSortPrice("high")}>
-                    Giá từ cao đến thấp <KeyboardArrowDownIcon />
-                  </Box>
-                ) : (
-                  <Box sx={styleOption} onClick={() => handleSortPrice("low")}>
-                    Giá từ thấp đến cao <KeyboardArrowUpIcon />
-                  </Box>
-                )}
-                <Box
-                  sx={styleOption}
-                  onClick={() => handleSortPrice("ratingAverage")}
-                >
-                  Theo đánh giá
-                </Box>
-              </Box>
-
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  gap: 2,
-                  alignItems: "center",
-                  py: 2,
-                }}
-              >
-                <Typography>Khoảng giá:</Typography>
-                <Box sx={{ display: "flex", gap: 2 }}>
-                  <TextField
-                    type="number"
-                    size="small"
-                    sx={{
-                      bgcolor: "white",
-                      "& .MuiOutlinedInput-root": {
-                        "& fieldset": {
-                          borderColor: "white",
-                          color: "white",
-                        },
-                        "&:hover fieldset": {
-                          borderColor: "white",
-                          color: "white",
-                        },
-                        "&.Mui-focused fieldset": {
-                          borderColor: "white",
-                          color: "white",
-                        },
-                      },
-                    }}
-                    placeholder="từ"
-                    value={searchValue.price.from}
-                    onChange={(e) =>
-                      setSearchValue({
-                        ...searchValue,
-                        price: {
-                          ...searchValue.price,
-                          from: e.target.value,
-                        },
-                      })
-                    }
-                  />
-
-                  <TextField
-                    type="number"
-                    size="small"
-                    sx={{
-                      bgcolor: "white",
-                      "& .MuiOutlinedInput-root": {
-                        "& fieldset": {
-                          borderColor: "white",
-                          color: "white",
-                        },
-                        "&:hover fieldset": {
-                          borderColor: "white",
-                          color: "white",
-                        },
-                        "&.Mui-focused fieldset": {
-                          borderColor: "white",
-                          color: "white",
-                        },
-                      },
-                    }}
-                    placeholder="đến"
-                    value={searchValue.price.to}
-                    onChange={(e) =>
-                      setSearchValue({
-                        ...searchValue,
-                        price: {
-                          ...searchValue.price,
-                          to: e.target.value,
-                        },
-                      })
-                    }
-                  />
-                </Box>
-              </Box>
-
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  gap: 2,
-                  alignItems: "center",
-                  py: 2,
-                }}
-              >
-                <Typography>đánh giá:</Typography>
-                <Box sx={{ display: "flex", gap: 2 }}>
-                  <Rating
-                    name="simple-controlled"
-                    value={searchValue.rating}
-                    onChange={(event, newValue) => {
-                      setSearchValue({
-                        ...searchValue,
-                        rating: newValue,
-                      });
-                    }}
-                  />
-                </Box>
-              </Box>
-
-              <Button
-                sx={{
-                  bgcolor: (theme) => theme.commonColors,
-                  color: "white",
-                  m: "auto",
-                }}
-                onClick={() => findProduct("price")}
-              >
-                Áp dụng
-              </Button>
-            </Box>
             <Typography
               sx={{
                 color: "black",
@@ -327,71 +175,62 @@ const SearchData = () => {
         ) : (
           <Box
             sx={{
-              p: 3,
+              width: "100%",
+              display: "flex",
+              gap: 1,
             }}
           >
             <Box
               sx={{
-                bgcolor: "#ededed",
-                p: 2,
-                // width: "100%",
+                width: "20%",
+                p: 1,
               }}
             >
               <Box
                 sx={{
-                  width: "100%",
                   display: "flex",
-                  gap: 2,
                   alignItems: "center",
-                  py: 2,
+                  gap: 1,
+                  fontSize: "20px",
                 }}
               >
-                <Typography>Sắp xếp theo:</Typography>
-                <Box sx={styleOption} onClick={() => handleSortPrice("sell")}>
-                  Bán chạy
-                </Box>
-                {optionSortAlphabet ? (
-                  <Box sx={styleOption} onClick={() => handleSortPrice("ABC")}>
-                    A - Z
-                  </Box>
-                ) : (
-                  <Box sx={styleOption} onClick={() => handleSortPrice("CBA")}>
-                    Z - A
-                  </Box>
-                )}
-                {optionSortPrice ? (
-                  <Box sx={styleOption} onClick={() => handleSortPrice("high")}>
-                    Giá từ cao đến thấp <KeyboardArrowDownIcon />
-                  </Box>
-                ) : (
-                  <Box sx={styleOption} onClick={() => handleSortPrice("low")}>
-                    Giá từ thấp đến cao <KeyboardArrowUpIcon />
-                  </Box>
-                )}
-                <Box
-                  sx={styleOption}
-                  onClick={() => handleSortPrice("ratingAverage")}
+                <FilterListAltIcon />
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: "15px",
+                    textTransform: "uppercase",
+                  }}
                 >
-                  Theo đánh giá
-                </Box>
+                  Bộ lọc tìm kiếm
+                </Typography>
               </Box>
 
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  gap: 2,
-                  alignItems: "center",
-                  py: 2,
-                }}
-              >
-                <Typography>Khoảng giá:</Typography>
-                <Box sx={{ display: "flex", gap: 2 }}>
+              {/* find by price */}
+              <Box>
+                <Typography>Khoảng giá</Typography>
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    mt: 3,
+                    // justifyContent: "space-between",
+                  }}
+                >
                   <TextField
-                    type="number"
                     size="small"
+                    placeholder="từ"
+                    type="number"
                     sx={{
+                      width: "100px",
                       bgcolor: "white",
+                      "& input": {
+                        height: "15px",
+                        fontSize: "12px",
+                        p: "8px",
+                      },
                       "& .MuiOutlinedInput-root": {
                         "& fieldset": {
                           borderColor: "white",
@@ -407,7 +246,6 @@ const SearchData = () => {
                         },
                       },
                     }}
-                    placeholder="từ"
                     value={searchValue.price.from}
                     onChange={(e) =>
                       setSearchValue({
@@ -419,12 +257,19 @@ const SearchData = () => {
                       })
                     }
                   />
-
+                  <Divider sx={{ bgcolor: "black", width: "5px" }} />
                   <TextField
-                    type="number"
                     size="small"
+                    placeholder="đến"
+                    type="number"
                     sx={{
+                      width: "100px",
                       bgcolor: "white",
+                      "& input": {
+                        height: "15px",
+                        fontSize: "12px",
+                        p: "8px",
+                      },
                       "& .MuiOutlinedInput-root": {
                         "& fieldset": {
                           borderColor: "white",
@@ -440,7 +285,6 @@ const SearchData = () => {
                         },
                       },
                     }}
-                    placeholder="đến"
                     value={searchValue.price.to}
                     onChange={(e) =>
                       setSearchValue({
@@ -453,19 +297,26 @@ const SearchData = () => {
                     }
                   />
                 </Box>
+
+                <Button
+                  sx={{
+                    bgcolor: (theme) => theme.commonColors,
+                    color: "white",
+                    mt: 1,
+                  }}
+                  onClick={() => findProduct()}
+                  size="small"
+                  fullWidth
+                >
+                  Áp dụng
+                </Button>
               </Box>
 
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  gap: 2,
-                  alignItems: "center",
-                  py: 2,
-                }}
-              >
-                <Typography>đánh giá:</Typography>
-                <Box sx={{ display: "flex", gap: 2 }}>
+              <Divider sx={{ my: 3 }} />
+
+              <Box>
+                <Typography>đánh giá</Typography>
+                <Box>
                   <Rating
                     name="simple-controlled"
                     value={searchValue.rating}
@@ -474,6 +325,8 @@ const SearchData = () => {
                         ...searchValue,
                         rating: newValue,
                       });
+
+                      findProduct(newValue);
                     }}
                   />
                 </Box>
@@ -483,103 +336,157 @@ const SearchData = () => {
                 sx={{
                   bgcolor: (theme) => theme.commonColors,
                   color: "white",
-                  m: "auto",
+                  mt: 1,
                 }}
-                onClick={() => findProduct("price")}
+                size="small"
+                fullWidth
               >
-                Áp dụng
+                Xoá tất cả
               </Button>
             </Box>
 
-            <Box
-              sx={{
-                flexGrow: 1,
-                p: "15px 0",
-              }}
-            >
+            {/* result data search */}
+            <Box sx={{ width: "80%" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  p: 1,
+                  bgcolor: "rgba(0, 0, 0, .03)",
+                  mb: 3,
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: 1,
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography sx={{ fontSize: "14px" }}>
+                    Sắp xếp theo:
+                  </Typography>
+                  <Box sx={styleOption} onClick={() => handleSortPrice("sold")}>
+                    Bán chạy
+                  </Box>
+
+                  <Box
+                    sx={styleOption}
+                    onClick={() => handleSortPrice("price")}
+                  >
+                    Giá
+                    {!searchValue.price ? (
+                      <KeyboardArrowDownIcon />
+                    ) : (
+                      <KeyboardArrowUpIcon />
+                    )}
+                  </Box>
+
+                  <Box sx={styleOption} onClick={() => handleSortPrice("rate")}>
+                    Đánh giá
+                  </Box>
+                </Box>
+
+                <TablePagination
+                  component="div"
+                  count={data?.length}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  rowsPerPage={rowsPerPage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                  rowsPerPageOptions={[10, 15, 20]}
+                  sx={{ width: "400px" }}
+                />
+              </Box>
+
               {data?.length > 0 ? (
-                <Grid container spacing={2}>
-                  {data?.map((item) => {
-                    return (
-                      <Grid
-                        size={{ xs: 6, sm: 4, md: 3, lg: 2 }}
-                        key={item?._id}
-                        sx={{ display: "flex" }}
-                      >
+                <Grid container spacing={2.5}>
+                  {data
+                    ?.slice(
+                      page * rowsPerPage,
+                      page * rowsPerPage + rowsPerPage
+                    )
+                    ?.map((item) => {
+                      return (
                         <Box
-                          sx={{
-                            border: "1px solid rgba(0, 0, 0, .05)",
-                            textAlign: "center",
-                            "&:hover": {
-                              borderColor: (theme) => theme.commonColors,
-                              boxShadow: "0 0 .8125rem 0 rgba(0, 0, 0, .05)",
-                              transform: "scale(1)",
-                            },
-                            overflow: "hidden",
-                            bgcolor: "white",
-                          }}
-                          component={Link}
-                          to={`/detail?id=${item?._id}`}
+                          key={item?._id}
+                          sx={{ display: "flex", width: "180px" }}
                         >
-                          <img
-                            src={item?.image[0]}
-                            alt={item?.name}
-                            style={{
-                              width: "100%",
-                              border: "1px solid black",
-                              height: "180px",
+                          <Box
+                            sx={{
+                              border: "1px solid rgba(0, 0, 0, .05)",
+                              textAlign: "center",
+                              "&:hover": {
+                                borderColor: (theme) => theme.commonColors,
+                                boxShadow: "0 0 .8125rem 0 rgba(0, 0, 0, .05)",
+                                transform: "scale(1)",
+                              },
+                              overflow: "hidden",
+                              bgcolor: "white",
                             }}
-                          />
-                          <Box sx={{ p: 1 }}>
-                            <Box
-                              sx={{
-                                height: "50px",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                color: "black",
-                                mb: 3,
+                            component={Link}
+                            to={`/detail?id=${item?._id}`}
+                          >
+                            <img
+                              src={item?.image[0]}
+                              alt={item?.name}
+                              style={{
+                                width: "100%",
+                                border: "1px solid black",
+                                height: "180px",
                               }}
-                            >
-                              <Typography>{item?.name}</Typography>
-                            </Box>
-                            <Box
-                              sx={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                color: "black",
-                                alignItems: "flex-end",
-                              }}
-                            >
-                              <Box>
-                                <Typography
-                                  sx={{
-                                    fontSize: "14px",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: 0.5,
-                                  }}
-                                >
-                                  <StarRateIcon
+                            />
+                            <Box sx={{ p: 1 }}>
+                              <Box
+                                sx={{
+                                  height: "50px",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  color: "black",
+                                  mb: 3,
+                                }}
+                              >
+                                <Typography>{item?.name}</Typography>
+                              </Box>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  color: "black",
+                                  alignItems: "flex-end",
+                                }}
+                              >
+                                <Box>
+                                  <Typography
                                     sx={{
-                                      color: "gold",
                                       fontSize: "14px",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      gap: 0.5,
                                     }}
-                                  />
-                                  {item?.ratingAverage}
-                                </Typography>
-                                <Typography>
-                                  {formatPrice(item?.price)}
+                                  >
+                                    <StarRateIcon
+                                      sx={{
+                                        color: "gold",
+                                        fontSize: "14px",
+                                      }}
+                                    />
+                                    {item?.ratingAverage}
+                                  </Typography>
+                                  <Typography>
+                                    {formatPrice(item?.price)}
+                                  </Typography>
+                                </Box>
+                                <Typography sx={{ fontSize: "14px" }}>
+                                  Đã bán: {item?.sold}
                                 </Typography>
                               </Box>
-                              <Typography sx={{ fontSize: "14px" }}>
-                                Đã bán: {item?.sold}
-                              </Typography>
                             </Box>
                           </Box>
                         </Box>
-                      </Grid>
-                    );
-                  })}
+                      );
+                    })}
                 </Grid>
               ) : (
                 <Box sx={{ bgcolor: "#f5f5f5" }}>
