@@ -14,6 +14,7 @@ import ListIcon from "@mui/icons-material/List";
 import FilterListAltIcon from "@mui/icons-material/FilterListAlt";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import StarRateIcon from "@mui/icons-material/StarRate";
 
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
@@ -153,7 +154,7 @@ const FindByTag = () => {
         break;
 
       case "rate":
-        setData(products.sort((a, b) => b.ratingAverage - a.ratingAverage));
+        setProducts(products.sort((a, b) => b.ratingAverage - a.ratingAverage));
         setChange(!change);
         break;
       default:
@@ -454,6 +455,7 @@ const FindByTag = () => {
                       alignItems: "center",
                       p: 1,
                       bgcolor: "rgba(0, 0, 0, .03)",
+                      mb: 3,
                     }}
                   >
                     <Box
@@ -505,6 +507,7 @@ const FindByTag = () => {
                       sx={{ width: "650px" }}
                     />
                   </Box>
+
                   <Grid container spacing={2.5}>
                     {products
                       ?.slice(
@@ -559,12 +562,30 @@ const FindByTag = () => {
                                     display: "flex",
                                     justifyContent: "space-between",
                                     color: "black",
-                                    alignItems: "center",
+                                    alignItems: "flex-end",
                                   }}
                                 >
-                                  <Typography>
-                                    {formatPrice(item?.price)}
-                                  </Typography>
+                                  <Box>
+                                    <Typography
+                                      sx={{
+                                        fontSize: "14px",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        gap: 0.5,
+                                      }}
+                                    >
+                                      <StarRateIcon
+                                        sx={{
+                                          color: "gold",
+                                          fontSize: "14px",
+                                        }}
+                                      />
+                                      {item?.ratingAverage}
+                                    </Typography>
+                                    <Typography>
+                                      {formatPrice(item?.price)}
+                                    </Typography>
+                                  </Box>
                                   <Typography sx={{ fontSize: "14px" }}>
                                     Đã bán: {item?.sold}
                                   </Typography>

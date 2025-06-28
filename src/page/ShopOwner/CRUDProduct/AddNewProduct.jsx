@@ -15,9 +15,40 @@ import { useSelector } from "react-redux";
 import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
 import { toast } from "react-toastify";
 import { useConfirm } from "material-ui-confirm";
-import { addImage, createNew } from "../../../api";
+import { createNew } from "../../../api";
 import { SizesList } from "../../../components/SizeList/SizeList";
 import MDEditor from "@uiw/react-md-editor";
+import axios from "axios";
+
+const fieldsetCommonStyle100 = {
+  "& label": {
+    color: "#ccc",
+  },
+  "& input": {
+    color: "black",
+  },
+  "& label.Mui-focused": {
+    color: "black",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "#ccc",
+    },
+    "&:hover fieldset": {
+      borderColor: "black",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "black",
+    },
+  },
+  ".MuiSvgIcon-root": {
+    color: "black",
+  },
+};
+
+const boxStyle = {
+  my: 2,
+};
 
 const AddNewProduct = () => {
   const [listImage, setListImage] = useState([]);
@@ -25,6 +56,7 @@ const AddNewProduct = () => {
   const [listTags, setListTags] = useState([]);
   const [listSizes, setListSizes] = useState([]);
   const [openSizeList, setOpenSizeList] = useState(false);
+  const [value, setValue] = useState("");
 
   const {
     register,
@@ -34,41 +66,9 @@ const AddNewProduct = () => {
     formState: { errors },
   } = useForm();
 
-  const [value, setValue] = useState("");
-
   const userInfo = useSelector(userInfoSelector);
 
   const confirmData = useConfirm();
-
-  const fieldsetCommonStyle100 = {
-    "& label": {
-      color: "#ccc",
-    },
-    "& input": {
-      color: "black",
-    },
-    "& label.Mui-focused": {
-      color: "black",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#ccc",
-      },
-      "&:hover fieldset": {
-        borderColor: "black",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "black",
-      },
-    },
-    ".MuiSvgIcon-root": {
-      color: "black",
-    },
-  };
-
-  const boxStyle = {
-    my: 2,
-  };
 
   const handleSetImage = (event) => {
     const dataImage = [...listImage];
@@ -90,6 +90,7 @@ const AddNewProduct = () => {
       return result;
     });
   };
+
   const handleSelectSize = (result) => {
     setListSizes(result);
   };
@@ -102,37 +103,45 @@ const AddNewProduct = () => {
     setOpenSizeList(result);
   };
 
-  const handleCreateNewAProduct = (data, image) => {
+  const handleUploadImage = async () => {
+    const uploadPromises = listImageFileToSend.map(async (item) => {
+      let formData = new FormData();
+      formData.append("file", item);
+      formData.append("upload_preset", "ReactUpload");
+      const res = await axios.post(
+        "https://api.cloudinary.com/v1_1/dlb4ooi7n/upload",
+        formData
+      );
+      if (res) {
+        item = res.data.secure_url;
+      }
+      return item;
+    });
+    const updatedItems = await Promise.all(uploadPromises);
+
+    return updatedItems;
+  };
+
+  const handleCreateNewAProduct = async (data) => {
+    const dataImage = await handleUploadImage();
+    data.image = dataImage;
     toast
       .promise(createNew(data), {
         pending: "Đang gửi thông tin",
       })
       .then((res) => {
         if (!res.error) {
-          toast
-            .promise(addImage(image, res[0]._id), {
-              pending: "Đang gửi thông tin",
-            })
-            .then((res) => {
-              if (!res.error) {
-                toast.success("Thành công");
-                setListImage([]);
-                setListImageFileToSend([]);
-                setValue("");
-                reset();
-              }
-            });
+          toast.success("Thành công");
+          setListImage([]);
+          setListImageFileToSend([]);
+          setValue("");
+          reset();
         }
-      });
+      })
+      .finally(() => {});
   };
 
   const onSubmit = async (data) => {
-    let listImageFormData = [...listImageFileToSend];
-    let reqData = new FormData();
-    listImageFormData.forEach((i) => reqData.append("imageProduct", i));
-    // for (const value of reqData.values()) {
-    //   console.log("reqData Value: ", value);
-    // }
     const { confirmed, reason } = await confirmData({
       description: "Sau khi gửi sẽ không thay đổi được thông tin",
       title: "Xác nhận thêm mới sản phẩm này",
@@ -142,17 +151,27 @@ const AddNewProduct = () => {
         toast.warning("Yêu cầu 1 chút về mô tả sản phẩm");
         return;
       }
-      handleCreateNewAProduct(
-        {
-          ...data,
-          tagsId: [...listTags],
-          size: listSizes?.length > 0 ? listSizes : [],
-          shopId: userInfo.shopId,
-          description: value,
-          price: +data.price,
-        },
-        reqData
-      );
+      if (listImageFileToSend?.length === 0) {
+        toast.warning("Cần ít nhất 1 ảnh để hiểm thị");
+        return;
+      }
+      if (listTags?.length === 0) {
+        toast.warning("Cần ít nhất 1 phân loại sản phẩm để tiếp tục");
+        return;
+      }
+      if (openSizeList && listSizes?.length === 0) {
+        toast.warning("Cần ít nhất 1 kích cỡ sản phẩm để tiếp tục");
+        return;
+      }
+
+      handleCreateNewAProduct({
+        ...data,
+        tagsId: [...listTags],
+        size: listSizes?.length > 0 ? listSizes : [],
+        shopId: userInfo.shopId,
+        description: value,
+        price: +data.price,
+      });
     }
   };
 
