@@ -7,20 +7,21 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../Header";
 import Footer from "../Footer";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  cancelData,
-  DataFormRegisterShopSelector,
-} from "../../redux/slice/dataFromRegisterShopSlice";
+import { clearData } from "../../redux/slice/dataFromRegisterShopSlice";
 import MDEditor from "@uiw/react-md-editor";
 import { useConfirm } from "material-ui-confirm";
 import { useNavigate } from "react-router-dom";
+import { userInfoSelector } from "../../redux/slice/userInfoSlice";
+
+import { getDetailShopByOwner } from "../../api/shopAPI/shopAPI";
 
 const FormRegisterOpenShop = () => {
-  const dataFormRegisterShop = useSelector(DataFormRegisterShopSelector);
+  const [data, setData] = useState({});
+  const userInfo = useSelector(userInfoSelector);
   const confirm = useConfirm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -29,10 +30,22 @@ const FormRegisterOpenShop = () => {
       title: "Xác nhận huỷ đang kí",
     });
     if (confirmed) {
-      dispatch(cancelData());
+      dispatch(clearData());
       navigate("/");
     }
   };
+  const handleFindFormRegister = () => {
+    getDetailShopByOwner(userInfo?._id).then((res) => {
+      console.log("🚀 ~ findFormRegisterById ~ res:", res);
+      setData(res);
+    });
+  };
+  useEffect(() => {
+    if (!userInfo?.sentForm) {
+      navigate("/");
+    }
+    handleFindFormRegister();
+  }, []);
   return (
     <Box sx={{ bgcolor: (theme) => theme.bgColor }}>
       <Header showHeader={true} />
@@ -44,9 +57,9 @@ const FormRegisterOpenShop = () => {
         <Box>
           <Box sx={{ width: "100%" }}>
             <Avatar
-              src={dataFormRegisterShop?.image}
+              src={data?.logo}
               sx={{ margin: "0 auto", width: "150px", height: "150px" }}
-              alt={dataFormRegisterShop?.name}
+              alt={data?.name}
             />
           </Box>
 
@@ -58,29 +71,21 @@ const FormRegisterOpenShop = () => {
             sx={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
-              gap: 30,
+              flexDirection: "column",
+              gap: 3,
             }}
           >
-            <Typography>Tên: {dataFormRegisterShop?.name}</Typography>
-            <Typography>
-              Số điện thoại: {dataFormRegisterShop?.phoneNumber}
-            </Typography>
-          </Box>
+            <ul>
+              <li>Tên: {data?.name}</li>
+              <li>Số điện thoại: {data?.phoneNumber}</li>
+              <li>Địa chỉ: {data?.address}</li>
+              <li>Trạng thái: {data?.status}</li>
+              <li>Loại shop: {data?.shopType}</li>
+            </ul>
 
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 25,
-              my: 3,
-            }}
-          >
-            <Typography>Địa chỉ: {dataFormRegisterShop?.address}</Typography>
             <Box>
               Phương thức vận chuyển:
-              {dataFormRegisterShop?.delivery_type?.map((type) => (
+              {data?.delivery_type?.map((type) => (
                 <Chip key={type} label={type} color="primary" size="small" />
               ))}
             </Box>
@@ -89,7 +94,7 @@ const FormRegisterOpenShop = () => {
           <Typography>Miêu tả</Typography>
 
           <MDEditor.Markdown
-            source={dataFormRegisterShop?.description}
+            source={data?.description}
             style={{
               whiteSpace: "pre-wrap",
             }}

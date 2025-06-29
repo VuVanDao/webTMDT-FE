@@ -40,7 +40,11 @@ export const userInfoSlice = createSlice({
     userInfo: null,
   },
   //noi xu li du lieu dong bo
-  //   reducers: {},
+  reducers: {
+    sentFormRegister: (state, action) => {
+      state.userInfo = { ...state.userInfo, sentForm: true };
+    },
+  },
   //extraReducer : noi xu li du lieu bat dong bo
   extraReducers: (builder) => {
     builder.addCase(
@@ -68,7 +72,7 @@ export const userInfoSlice = createSlice({
   },
 });
 
-export const {} = userInfoSlice.actions;
+export const { sentFormRegister } = userInfoSlice.actions;
 
 //Selector
 export const userInfoSelector = (state) => {

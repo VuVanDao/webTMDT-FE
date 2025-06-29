@@ -250,7 +250,7 @@ export const ModalDetailBrand = ({
             )}
 
             <Typography mt={5}>loại sản phẩm sẽ bán</Typography>
-            {!updateTagsMode ? (
+            {!updateTagsMode && infoBrand?.tags?.length > 1 ? (
               <Box
                 sx={{
                   display: "flex",

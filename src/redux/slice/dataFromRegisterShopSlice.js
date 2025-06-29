@@ -31,7 +31,7 @@ export const dataFormRegisterShopSlice = createSlice({
     confirmData: (state, action) => {
       state.dataFromRegister = { ...state.dataFromRegister, sent: true };
     },
-    cancelData: (state, action) => {
+    clearData: (state, action) => {
       state.dataFromRegister = null;
     },
   },
@@ -43,7 +43,7 @@ export const {
   updateDataFormRegisterShopStep2extra,
   updateDataFormRegisterShopStep3,
   confirmData,
-  cancelData,
+  clearData,
 } = dataFormRegisterShopSlice.actions; //actions: danh cho cac component goi = dispatch() cap nhat du lieu dong bo
 
 //Selector

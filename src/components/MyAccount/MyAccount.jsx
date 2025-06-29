@@ -166,7 +166,7 @@ const MyAccount = ({ color }) => {
             </ListItemIcon>
             Cửa hàng của tôi
           </MenuItem>
-        ) : !dataFormRegisterShop && !dataFormRegisterShop?.sent ? (
+        ) : userInfo && !userInfo?.sentForm ? (
           <MenuItem onClick={registerShop}>
             <ListItemIcon>
               <DriveFileRenameOutlineIcon fontSize="small" />

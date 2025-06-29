@@ -6,14 +6,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { singleFileValidator } from "../../../utils/valiodatorFile";
 import {
-  confirmData,
+  clearData,
   DataFormRegisterShopSelector,
   updateDataFormRegisterShopStep3,
 } from "../../../redux/slice/dataFromRegisterShopSlice";
 import { useNavigate } from "react-router-dom";
 import { useConfirm } from "material-ui-confirm";
 import { registerShop, registerShopLogo } from "../../../api";
-import { userInfoSelector } from "../../../redux/slice/userInfoSlice";
+import {
+  sentFormRegister,
+  userInfoSelector,
+} from "../../../redux/slice/userInfoSlice";
 import axios from "axios";
 import PageLoadingSpinner from "../../../components/Loading/PageLoadingSpinner";
 
@@ -78,14 +81,14 @@ const Step_3 = () => {
       ownerId: ownerId,
       logo: result,
     };
-
     toast
       .promise(registerShop(data), { pending: "Đang gửi thông tin" })
       .then((res) => {
         if (!res.error) {
           setLogoImage(null);
           setLogoImageForSend(null);
-          dispatch(confirmData());
+          dispatch(clearData());
+          dispatch(sentFormRegister());
           setLoading(false);
           navigate("/register_shop/final_step");
         }
