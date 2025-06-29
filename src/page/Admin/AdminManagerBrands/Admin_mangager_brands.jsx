@@ -1,23 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { deleteAccount } from "../../../api";
 import { Box, Button, Grid, Tooltip, Typography } from "@mui/material";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import { ModalAddBrands } from "./AddNewBrands";
 import {
   deleteBrand,
-  findBrandByAlphabet,
+  queryBrands,
   getAllBrand,
 } from "../../../api/brandAPI/brandAPI";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { Alphabet } from "../../../utils/constants";
 import { useConfirm } from "material-ui-confirm";
 import { ModalDetailBrand } from "./ModalDetailBrand";
+import { ListTags } from "../../../components/ListTags/ListTags";
 const Admin_manager_brands = () => {
   const [brands, setBrands] = useState([]);
   const [open, setOpen] = useState(false);
   const [openDetail, setOpenDetail] = useState(false);
   const [infoBrand, setInfoBrand] = useState({});
+  const [dataToQuery, setDataToQuery] = useState({
+    id: null,
+    tags: null,
+  });
   const confirm = useConfirm();
+  const tagRef = useRef(null);
   const handleGetAllBrand = async () => {
     const res = await getAllBrand();
     if (!res.error) {
@@ -26,12 +32,38 @@ const Admin_manager_brands = () => {
   };
 
   const handleFindBrand = async (id) => {
-    if (id) {
-      findBrandByAlphabet(id).then((res) => {
-        if (!res?.error) {
-          setBrands(res);
-        }
-      });
+    if (id && id === "All") {
+      tagRef.current.log();
+      tagRef.current.clear();
+      queryBrands(id)
+        .then((res) => {
+          if (!res?.error) {
+            setBrands(res);
+          }
+        })
+        .finally(() => {
+          setDataToQuery({
+            ...dataToQuery,
+            id: null,
+            tags: null,
+          });
+        });
+    } else {
+      queryBrands(
+        id,
+        dataToQuery?.tags?.length > 0 ? [...dataToQuery?.tags] : ""
+      )
+        .then((res) => {
+          if (!res?.error) {
+            setBrands(res);
+          }
+        })
+        .finally(() => {
+          setDataToQuery({
+            ...dataToQuery,
+            id,
+          });
+        });
     }
   };
   const handleDeleteBrands = async (id) => {
@@ -47,6 +79,37 @@ const Admin_manager_brands = () => {
         });
       }
     }
+  };
+
+  const handleSetTags = async (result) => {
+    if (result === "All") {
+      queryBrands("All")
+        .then((res) => {
+          if (!res?.error) {
+            setBrands(res);
+          }
+        })
+        .finally(() => {
+          setDataToQuery({
+            ...dataToQuery,
+            id: null,
+            tags: null,
+          });
+        });
+      return;
+    }
+    queryBrands(dataToQuery?.id ? dataToQuery?.id : "", result)
+      .then((res) => {
+        if (!res?.error) {
+          setBrands(res);
+        }
+      })
+      .finally(() => {
+        setDataToQuery({
+          ...dataToQuery,
+          tags: result,
+        });
+      });
   };
   useEffect(() => {
     handleGetAllBrand();
@@ -92,6 +155,15 @@ const Admin_manager_brands = () => {
       <Box
         sx={{
           display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Typography>Tìm kiếm theo phân loại</Typography>
+        <ListTags handleSelectTags={handleSetTags} ref={tagRef} />
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
         }}
@@ -111,7 +183,7 @@ const Admin_manager_brands = () => {
           Thêm mới
         </Button>
       </Box>
-      <Grid container spacing={3} mt={3}>
+      <Grid container spacing={1} mt={3}>
         {brands?.map(({ _id, brandName, brandImage, shopOwnerBrand, tags }) => (
           <Grid
             key={_id}
@@ -128,7 +200,7 @@ const Admin_manager_brands = () => {
             <img
               src={brandImage}
               alt={brandName}
-              style={{ width: "50px", height: "50px", cursor: "pointer" }}
+              style={{ width: "100%", height: "100px", cursor: "pointer" }}
               onClick={() => {
                 setInfoBrand({
                   _id,
@@ -140,7 +212,6 @@ const Admin_manager_brands = () => {
                 setOpenDetail(!openDetail);
               }}
             />
-            <Typography>{brandName}</Typography>
             <Tooltip title="Xóa thương hiệu này" placement="top">
               <HighlightOffIcon
                 sx={{ cursor: "pointer" }}
@@ -162,13 +233,6 @@ const Admin_manager_brands = () => {
         setOpen={setOpen}
         handleGetAllBrand={handleGetAllBrand}
       />
-      {/* <ModalUpdateAccount
-        open={openModalUpdate}
-        setOpenModalUpdate={setOpenModalUpdate}
-        handleGetAllAccount={handleGetAllAccount}
-        infoAccountToUpdate={infoAccountToUpdate}
-      /> */}
-
       <ModalDetailBrand
         open={openDetail}
         setOpen={setOpenDetail}

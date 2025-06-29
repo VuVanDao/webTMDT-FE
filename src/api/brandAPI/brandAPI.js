@@ -12,11 +12,20 @@ export const createNewBrand = async (data) => {
   );
   return response.data;
 };
-export const findBrandByAlphabet = async (id) => {
-  const response = await authorizeAxiosInstance.get(
-    `${apiRoot}/v1/brands/find?id=${id}`
-  );
-  return response.data;
+export const queryBrands = async (id, data) => {
+  let result = "";
+  if (!data) {
+    const response = await authorizeAxiosInstance.get(
+      `${apiRoot}/v1/brands/find?id=${id}`
+    );
+    result = response.data;
+  } else {
+    const response = await authorizeAxiosInstance.get(
+      `${apiRoot}/v1/brands/find?id=${id}&dataQuery=${data}`
+    );
+    result = response.data;
+  }
+  return result;
 };
 export const deleteBrand = async (id) => {
   const response = await authorizeAxiosInstance.delete(

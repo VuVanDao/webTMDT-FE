@@ -4,10 +4,7 @@ import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { Alphabet } from "../../../utils/constants";
 import { useConfirm } from "material-ui-confirm";
-import {
-  findBrandByAlphabet,
-  getAllBrand,
-} from "../../../api/brandAPI/brandAPI";
+import { queryBrands, getAllBrand } from "../../../api/brandAPI/brandAPI";
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 
@@ -24,7 +21,7 @@ const All_brand = () => {
 
   const handleFindBrand = async (id) => {
     if (id) {
-      findBrandByAlphabet(id).then((res) => {
+      queryBrands(id).then((res) => {
         if (!res?.error) {
           setBrands(res);
         }
@@ -80,9 +77,7 @@ const All_brand = () => {
             alignItems: "center",
           }}
         >
-          <Typography>
-            danh sách các danh mục hiện có ({brands.length})
-          </Typography>
+          <Typography>danh sách hiện có ({brands.length})</Typography>
         </Box>
 
         <Grid container spacing={1} mt={3}>

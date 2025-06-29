@@ -131,8 +131,10 @@ export const ModalDetailBrand = ({
                   borderRadius: "10px",
                 }}
               />
+              <Typography variant="h5">{infoBrand?.brandName}</Typography>
             </Box>
-            <Divider sx={{ my: 5 }} />
+
+            <Divider sx={{ my: 3 }} />
 
             <Typography variant="h6">
               Cửa hàng sở hữu thương hiệu hợp pháp

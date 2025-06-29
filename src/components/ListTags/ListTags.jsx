@@ -5,8 +5,15 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
-import { useEffect, useState } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { getAllCategory } from "../../api";
+import { Button } from "@mui/material";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -19,10 +26,18 @@ const MenuProps = {
   },
 };
 
-export const ListTags = ({ handleSelectTags, tagsIdData }) => {
+export const ListTags = forwardRef(({ handleSelectTags, tagsIdData }, ref) => {
   const [tags, setTags] = useState([]);
   const [categories, setCategories] = useState([]);
-
+  const tagRef = useRef(null);
+  useImperativeHandle(ref, () => ({
+    clear: () => {
+      setTags([]);
+    },
+    log: () => {
+      console.log("hehee");
+    },
+  }));
   const handleChange = (event) => {
     const {
       target: { value },
@@ -44,7 +59,7 @@ export const ListTags = ({ handleSelectTags, tagsIdData }) => {
     handleGetCategories();
   }, []);
   return (
-    <div>
+    <div style={{ display: "flex", alignItems: "center" }}>
       <FormControl sx={{ m: 1, width: 300 }}>
         <InputLabel
           id="demo-multiple-chip-label"
@@ -89,6 +104,19 @@ export const ListTags = ({ handleSelectTags, tagsIdData }) => {
           ))}
         </Select>
       </FormControl>
+      <Button
+        variant="contained"
+        sx={{
+          bgcolor: (theme) => theme.commonColors,
+          color: "white",
+        }}
+        onClick={() => {
+          setTags([]);
+          handleSelectTags("All");
+        }}
+      >
+        clear
+      </Button>
     </div>
   );
-};
+});
