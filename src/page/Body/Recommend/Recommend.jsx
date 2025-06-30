@@ -30,6 +30,13 @@ const Recommend = () => {
             item.comments.length;
         }
       });
+      for (let i = res.length - 1; i > 0; i--) {
+        // Chọn ngẫu nhiên chỉ số j (từ 0 đến i)
+        const j = Math.floor(Math.random() * (i + 1));
+
+        // Hoán đổi phần tử tại vị trí i và j
+        [res[i], res[j]] = [res[j], res[i]];
+      }
       setListProduct(res);
     }
   };

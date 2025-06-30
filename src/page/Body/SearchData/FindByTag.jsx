@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import ListIcon from "@mui/icons-material/List";
 import FilterListAltIcon from "@mui/icons-material/FilterListAlt";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -62,6 +62,7 @@ const FindByTag = () => {
   const [sortOption, setSortOption] = useState({
     price: false,
   });
+  const navigate = useNavigate();
 
   let [searchParams] = useSearchParams();
   const { tags } = Object.fromEntries([...searchParams]);
@@ -241,31 +242,38 @@ const FindByTag = () => {
 
               {/* brand */}
               <Grid container mt={4}>
-                {brands?.map(({ _id, brandName, brandImage }, index) => {
-                  if (index < 12) {
-                    return (
-                      <Grid
-                        key={_id}
-                        size={{ xs: 6, sm: 4, md: 2 }}
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          height: "112px",
-                          width: "200px",
-                          cursor: "pointer",
-                          boxShadow: "0 0 4px 0 rgba(0,0,0,.08)",
-                        }}
-                      >
-                        <img
-                          src={brandImage}
-                          alt={brandName}
-                          style={{ width: "100%", height: "100%" }}
-                        />
-                      </Grid>
-                    );
+                {brands?.map(
+                  ({ _id, brandName, brandImage, shopOwnerBrand }, index) => {
+                    if (index < 12) {
+                      return (
+                        <Grid
+                          key={_id}
+                          size={{ xs: 6, sm: 4, md: 2 }}
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            height: "112px",
+                            width: "200px",
+                            cursor: "pointer",
+                            boxShadow: "0 0 4px 0 rgba(0,0,0,.08)",
+                          }}
+                          onClick={() =>
+                            navigate(
+                              `/check_shop_detail?id=${shopOwnerBrand[0]?.id}`
+                            )
+                          }
+                        >
+                          <img
+                            src={brandImage}
+                            alt={brandName}
+                            style={{ width: "100%", height: "100%" }}
+                          />
+                        </Grid>
+                      );
+                    }
                   }
-                })}
+                )}
               </Grid>
 
               <Box
