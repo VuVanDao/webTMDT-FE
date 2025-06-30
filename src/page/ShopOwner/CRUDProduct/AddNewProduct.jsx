@@ -19,6 +19,7 @@ import { createNew } from "../../../api";
 import { SizesList } from "../../../components/SizeList/SizeList";
 import MDEditor from "@uiw/react-md-editor";
 import axios from "axios";
+import PageLoadingSpinner from "../../../components/Loading/PageLoadingSpinner";
 
 const fieldsetCommonStyle100 = {
   "& label": {
@@ -57,6 +58,7 @@ const AddNewProduct = () => {
   const [listSizes, setListSizes] = useState([]);
   const [openSizeList, setOpenSizeList] = useState(false);
   const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -81,6 +83,10 @@ const AddNewProduct = () => {
 
   const handleDeleteImage = (item) => {
     const dataImage = [...listImage];
+    console.log(
+      "🚀 ~ handleDeleteImage ~ dataImage.filter((i) => i !== item):",
+      dataImage.filter((i) => i !== item)
+    );
     setListImage(dataImage.filter((i) => i !== item));
   };
 
@@ -123,6 +129,7 @@ const AddNewProduct = () => {
   };
 
   const handleCreateNewAProduct = async (data) => {
+    setLoading(true);
     const dataImage = await handleUploadImage();
     data.image = dataImage;
     toast
@@ -138,7 +145,9 @@ const AddNewProduct = () => {
           reset();
         }
       })
-      .finally(() => {});
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const onSubmit = async (data) => {
@@ -174,159 +183,162 @@ const AddNewProduct = () => {
       });
     }
   };
+  if (loading) {
+    return <PageLoadingSpinner />;
+  } else {
+    return (
+      <Container sx={{ my: 3, bgcolor: (theme) => theme.whiteColor, p: 3 }}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          style={{ border: "2px solid", padding: "10px" }}
+        >
+          <Box sx={boxStyle}>
+            <TextField
+              // defaultValue="test"
+              fullWidth
+              label="Tên sản phẩm"
+              error={errors.name}
+              {...register("name", {
+                required: "This field is required.",
+              })}
+              sx={fieldsetCommonStyle100}
+            />
+            {errors.name && (
+              <Alert
+                severity="error"
+                sx={{
+                  mt: "0.7em",
+                  ".MuiAlert-message": { overflow: "hidden" },
+                }}
+              >
+                {errors.name.message}
+              </Alert>
+            )}
+          </Box>
 
-  return (
-    <Container sx={{ my: 3, bgcolor: (theme) => theme.whiteColor, p: 3 }}>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        style={{ border: "2px solid", padding: "10px" }}
-      >
-        <Box sx={boxStyle}>
-          <TextField
-            // defaultValue="test"
-            fullWidth
-            label="Tên sản phẩm"
-            error={errors.name}
-            {...register("name", {
-              required: "This field is required.",
-            })}
-            sx={fieldsetCommonStyle100}
-          />
-          {errors.name && (
-            <Alert
-              severity="error"
+          {/* price */}
+          <Box sx={boxStyle}>
+            <TextField
+              label="Giá cả"
+              type="number"
+              error={errors.price}
+              {...register("price", {
+                required: "This field is required.",
+              })}
+              sx={fieldsetCommonStyle100}
+            />
+            {errors.price && (
+              <Alert
+                severity="error"
+                sx={{
+                  mt: "0.7em",
+                  ".MuiAlert-message": { overflow: "hidden" },
+                }}
+              >
+                {errors.price.message}
+              </Alert>
+            )}
+          </Box>
+
+          {/* quantity */}
+          {/* <Box sx={boxStyle}>
+            <TextField
+              label="Số lượng"
+              type="number"
+              error={errors.quantity}
+              {...register("quantity", {
+                required: "This field is required.",
+              })}
+              sx={fieldsetCommonStyle100}
+            />
+            {errors.quantity && (
+              <Alert
+                severity="error"
+                sx={{
+                  mt: "0.7em",
+                  ".MuiAlert-message": { overflow: "hidden" },
+                }}
+              >
+                {errors.quantity.message}
+              </Alert>
+            )}
+          </Box> */}
+
+          {/* add image */}
+          <Box sx={boxStyle}>
+            <Button
+              component="label"
+              variant="contained"
               sx={{
-                mt: "0.7em",
-                ".MuiAlert-message": { overflow: "hidden" },
+                bgcolor: (theme) => theme.commonColors,
+                cursor: "pointer",
               }}
             >
-              {errors.name.message}
-            </Alert>
-          )}
-        </Box>
-
-        {/* price */}
-        <Box sx={boxStyle}>
-          <TextField
-            label="Giá cả"
-            type="number"
-            error={errors.price}
-            {...register("price", {
-              required: "This field is required.",
-            })}
-            sx={fieldsetCommonStyle100}
-          />
-          {errors.price && (
-            <Alert
-              severity="error"
+              Upload
+              <CustomInputFile type="file" onChange={handleSetImage} />
+            </Button>
+            <Grid
+              container
               sx={{
-                mt: "0.7em",
-                ".MuiAlert-message": { overflow: "hidden" },
+                bgcolor: (theme) => theme.bgColor,
+                margin: "10px 0",
               }}
+              size={{ lg: 2, md: 3, sm: 4, xs: 6 }}
             >
-              {errors.price.message}
-            </Alert>
-          )}
-        </Box>
+              {listImage?.length === 0 ? (
+                <Alert
+                  severity="warning"
+                  sx={{
+                    m: "0.7em",
+                    ".MuiAlert-message": { overflow: "hidden" },
+                  }}
+                >
+                  Vui lòng chọn hình ảnh cho sản phẩm (Tối đa 10 ảnh)
+                </Alert>
+              ) : (
+                listImage?.map((item, index) => (
+                  <Grid onClick={() => handleDeleteImage(item)} key={index}>
+                    <Tooltip title="click to delete">
+                      <img
+                        src={item}
+                        style={{
+                          width: "200px",
+                          border: "1px solid",
+                          margin: "10px",
+                        }}
+                      />
+                    </Tooltip>
+                  </Grid>
+                ))
+              )}
+            </Grid>
+          </Box>
 
-        {/* quantity */}
-        <Box sx={boxStyle}>
-          <TextField
-            label="Số lượng"
-            type="number"
-            error={errors.quantity}
-            {...register("quantity", {
-              required: "This field is required.",
-            })}
-            sx={fieldsetCommonStyle100}
-          />
-          {errors.quantity && (
-            <Alert
-              severity="error"
-              sx={{
-                mt: "0.7em",
-                ".MuiAlert-message": { overflow: "hidden" },
-              }}
-            >
-              {errors.quantity.message}
-            </Alert>
-          )}
-        </Box>
+          {/* thuc ra ten la tag */}
+          <ListTags handleSelectTags={handleSelectTags} />
 
-        {/* add image */}
-        <Box sx={boxStyle}>
+          {/* size */}
+          <SizesList open={openSizeList} handleSelectSize={handleSelectSize} />
+
+          {/* description editor */}
+          <Box>
+            <MDEditor value={value} onChange={setValue} height={"500px"} />
+          </Box>
           <Button
-            component="label"
+            type="submit"
             variant="contained"
             sx={{
               bgcolor: (theme) => theme.commonColors,
               cursor: "pointer",
+              mt: 2,
             }}
           >
-            Upload
-            <CustomInputFile type="file" onChange={handleSetImage} />
+            confirm
           </Button>
-          <Grid
-            container
-            sx={{
-              bgcolor: (theme) => theme.bgColor,
-              margin: "10px 0",
-            }}
-            size={{ lg: 2, md: 3, sm: 4, xs: 6 }}
-          >
-            {listImage?.length === 0 ? (
-              <Alert
-                severity="warning"
-                sx={{
-                  m: "0.7em",
-                  ".MuiAlert-message": { overflow: "hidden" },
-                }}
-              >
-                Vui lòng chọn hình ảnh cho sản phẩm (Tối đa 10 ảnh)
-              </Alert>
-            ) : (
-              listImage?.map((item, index) => (
-                <Grid onClick={() => handleDeleteImage(item)} key={index}>
-                  <Tooltip title="click to delete">
-                    <img
-                      src={item}
-                      style={{
-                        width: "200px",
-                        border: "1px solid",
-                        margin: "10px",
-                      }}
-                    />
-                  </Tooltip>
-                </Grid>
-              ))
-            )}
-          </Grid>
-        </Box>
-
-        {/* thuc ra ten la tag */}
-        <ListTags handleSelectTags={handleSelectTags} />
-
-        {/* size */}
-        <SizesList open={openSizeList} handleSelectSize={handleSelectSize} />
-
-        {/* description editor */}
-        <Box>
-          <MDEditor value={value} onChange={setValue} height={"500px"} />
-        </Box>
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{
-            bgcolor: (theme) => theme.commonColors,
-            cursor: "pointer",
-            mt: 2,
-          }}
-        >
-          confirm
-        </Button>
-      </form>
-    </Container>
-  );
+        </form>
+      </Container>
+    );
+  }
 };
 
 export default AddNewProduct;

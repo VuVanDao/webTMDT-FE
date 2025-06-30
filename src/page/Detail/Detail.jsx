@@ -402,6 +402,30 @@ const Detail = () => {
                     }}
                   >
                     {DetailData?.categoryId?.map((item) => {
+                      if (item?.quantity === 0) {
+                        return (
+                          <Box
+                            key={item.id}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                              cursor: "not-allowed",
+                              mb: 1,
+                              border: "1px solid #757575",
+                              p: "5px 10px",
+                              opacity: 0.5,
+                            }}
+                          >
+                            <img
+                              src={item?.image}
+                              alt={item?.name}
+                              style={{ width: "30px", height: "30px" }}
+                            />
+                            <Typography>{item?.name}</Typography>
+                          </Box>
+                        );
+                      }
                       if (item.name === SelectCategory) {
                         return (
                           <Box
@@ -430,35 +454,34 @@ const Detail = () => {
                             <Typography>{item?.name}</Typography>
                           </Box>
                         );
-                      } else {
-                        return (
-                          <Box
-                            key={item.id}
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 1,
-                              cursor: "pointer",
-                              mb: 1,
-                              border: "1px solid #757575",
-                              p: "5px 10px",
-                            }}
-                            onClick={() => {
-                              setDisplayImage(item?.image);
-                              setDisplayPrice(item?.price);
-                              setDisplayQuantity(item?.quantity);
-                              setSelectCategory(item?.name);
-                            }}
-                          >
-                            <img
-                              src={item?.image}
-                              alt={item?.name}
-                              style={{ width: "30px", height: "30px" }}
-                            />
-                            <Typography>{item?.name}</Typography>
-                          </Box>
-                        );
                       }
+                      return (
+                        <Box
+                          key={item.id}
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            cursor: "pointer",
+                            mb: 1,
+                            border: "1px solid #757575",
+                            p: "5px 10px",
+                          }}
+                          onClick={() => {
+                            setDisplayImage(item?.image);
+                            setDisplayPrice(item?.price);
+                            setDisplayQuantity(item?.quantity);
+                            setSelectCategory(item?.name);
+                          }}
+                        >
+                          <img
+                            src={item?.image}
+                            alt={item?.name}
+                            style={{ width: "30px", height: "30px" }}
+                          />
+                          <Typography>{item?.name}</Typography>
+                        </Box>
+                      );
                     })}
                   </Box>
                 </Box>

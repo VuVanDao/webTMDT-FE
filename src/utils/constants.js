@@ -40,6 +40,7 @@ export const Alphabet = [
   "D",
   "E",
   "F",
+  "G",
   "H",
   "J",
   "K",

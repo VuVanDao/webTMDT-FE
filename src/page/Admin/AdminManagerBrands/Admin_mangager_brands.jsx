@@ -126,6 +126,7 @@ const Admin_manager_brands = () => {
           bgcolor: "white",
           py: 3,
           borderBottom: "1px solid rgba(0, 0, 0, .09)",
+          flexWrap: "wrap",
         }}
       >
         {Alphabet?.map((item, index) => (
