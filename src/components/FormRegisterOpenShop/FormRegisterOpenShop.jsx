@@ -8,16 +8,21 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Header from "../Header";
-import Footer from "../Footer";
-import { useDispatch, useSelector } from "react-redux";
-import { clearData } from "../../redux/slice/dataFromRegisterShopSlice";
-import MDEditor from "@uiw/react-md-editor";
+
+import { toast } from "react-toastify";
 import { useConfirm } from "material-ui-confirm";
 import { useNavigate } from "react-router-dom";
-import { userInfoSelector } from "../../redux/slice/userInfoSlice";
+import MDEditor from "@uiw/react-md-editor";
+import { useDispatch, useSelector } from "react-redux";
 
-import { getDetailShopByOwner } from "../../api/shopAPI/shopAPI";
+import Header from "../Header";
+import Footer from "../Footer";
+import { clearData } from "../../redux/slice/dataFromRegisterShopSlice";
+import { userInfoSelector } from "../../redux/slice/userInfoSlice";
+import {
+  cancelRegisterShop,
+  getDetailShopByOwner,
+} from "../../api/shopAPI/shopAPI";
 
 const FormRegisterOpenShop = () => {
   const [data, setData] = useState({});
@@ -31,7 +36,13 @@ const FormRegisterOpenShop = () => {
     });
     if (confirmed) {
       dispatch(clearData());
-      navigate("/");
+      cancelRegisterShop(data?.id).then((res) => {
+        if (!res?.error) {
+          navigate("/");
+        } else {
+          toast.error(res);
+        }
+      });
     }
   };
   const handleFindFormRegister = () => {

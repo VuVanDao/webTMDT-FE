@@ -14,3 +14,9 @@ export const verifyShop = async (data) => {
   );
   return response.data;
 };
+export const cancelRegisterShop = async (id) => {
+  const response = await authorizeAxiosInstance.delete(
+    `${apiRoot}/v1/shops/verifyShop?id=${id}`
+  );
+  return response.data;
+};
