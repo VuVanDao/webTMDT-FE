@@ -7,3 +7,10 @@ export const getDetailShopByOwner = async (id) => {
   );
   return response.data;
 };
+export const verifyShop = async (data) => {
+  const response = await authorizeAxiosInstance.post(
+    `${apiRoot}/v1/shops/verifyShop`,
+    data
+  );
+  return response.data;
+};

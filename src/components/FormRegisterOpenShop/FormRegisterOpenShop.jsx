@@ -36,7 +36,6 @@ const FormRegisterOpenShop = () => {
   };
   const handleFindFormRegister = () => {
     getDetailShopByOwner(userInfo?._id).then((res) => {
-      console.log("🚀 ~ findFormRegisterById ~ res:", res);
       setData(res);
     });
   };

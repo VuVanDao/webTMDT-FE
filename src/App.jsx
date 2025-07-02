@@ -54,6 +54,7 @@ import FormRegisterOpenShop from "./components/FormRegisterOpenShop/FormRegister
 import Admin_manager_brands from "./page/Admin/AdminManagerBrands/Admin_mangager_brands";
 import All_tag from "./page/Body/AllTag/All_tag";
 import FindByTag from "./page/Body/SearchData/FindByTag";
+import UpgradeToShopOwner from "./page/Auth/UpgradeToShopOwner";
 
 const ProtectedRoute = () => {
   const user = useSelector(userInfoSelector);
@@ -233,6 +234,10 @@ const App = () => {
           <Route path="/signin" element={<LoginForm formState={"signin"} />} />
         </Route>
         <Route path="/account/verification" element={<AccountVerification />} />
+        <Route
+          path="/account/upgradeToShopOwner"
+          element={<UpgradeToShopOwner />}
+        />
         <Route path="/access-denied" element={<DeniedPage />} />
         <Route
           path="*"

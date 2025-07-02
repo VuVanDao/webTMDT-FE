@@ -131,17 +131,6 @@ const ListShopAdminManager = () => {
   }, []);
   return (
     <Box sx={{ my: 3, bgcolor: (theme) => theme.whiteColor, p: 3, mx: 6 }}>
-      <Button
-        variant="contained"
-        sx={{
-          bgcolor: (theme) => theme.commonColors,
-          color: "white",
-          my: 2,
-        }}
-        onClick={() => setOpen(!open)}
-      >
-        Thêm mới
-      </Button>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

@@ -100,7 +100,7 @@ export const ModalDetailBrand = ({
       if (!res?.error) {
         toast.success("Thao tác thành công");
         setUpdateTagsMode(false);
-        handleGetAllBrand();
+        // handleGetAllBrand();
         handleClose();
       }
     });

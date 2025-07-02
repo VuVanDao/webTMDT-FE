@@ -42,6 +42,7 @@ export const Alphabet = [
   "F",
   "G",
   "H",
+  "I",
   "J",
   "K",
   "L",
