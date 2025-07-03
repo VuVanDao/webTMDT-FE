@@ -55,6 +55,7 @@ import Admin_manager_brands from "./page/Admin/AdminManagerBrands/Admin_mangager
 import All_tag from "./page/Body/AllTag/All_tag";
 import FindByTag from "./page/Body/SearchData/FindByTag";
 import UpgradeToShopOwner from "./page/Auth/UpgradeToShopOwner";
+import CheckoutOrder from "./page/checkout/checkOrder";
 
 const ProtectedRoute = () => {
   const user = useSelector(userInfoSelector);
@@ -119,6 +120,7 @@ const App = () => {
           </Route>
 
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/checkoutOrder" element={<CheckoutOrder />} />
           <Route path="/cartDetail" element={<CartDetail />} />
 
           <Route element={<ProtectRegisterRouter />}>

@@ -26,13 +26,13 @@ import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import { formatPrice } from "../../utils/formatter";
 import Footer from "../../components/Footer";
 import { toast } from "react-toastify";
-import { createNewOrder, getProductById } from "../../api";
+import { checkoutAPI, createNewOrder } from "../../api";
 import { useDispatch, useSelector } from "react-redux";
 import {
   updateUserAPI,
   userInfoSelector,
 } from "../../redux/slice/userInfoSlice";
-import { socketIoInstance } from "../../main";
+
 const CheckoutPage = () => {
   const userInfo = useSelector(userInfoSelector);
   let [searchParams] = useSearchParams();
@@ -65,8 +65,6 @@ const CheckoutPage = () => {
   const dispatch = useDispatch();
 
   const handleCheckOut = () => {
-    console.log([...userInfo?.cartItem?.filter((i) => i.ProductId !== id)]);
-
     toast
       .promise(
         dispatch(
@@ -102,10 +100,14 @@ const CheckoutPage = () => {
             productId: id,
             shopId,
           };
+
           createNewOrder(order).then((res) => {
             if (!res.error) {
-              socketIoInstance.emit("user_place_an_order_fe", order);
-              socketIoInstance.emit("notification_place_order_from_fe", order);
+              checkoutAPI({ price: +price, orderId: res?._id }).then((res) => {
+                if (!res?.error) {
+                  window.location.href = res;
+                }
+              });
             }
           });
         }

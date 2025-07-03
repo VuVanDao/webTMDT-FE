@@ -257,3 +257,12 @@ export const deleteCategory = async (id) => {
   );
   return response.data;
 };
+
+//checkout
+export const checkoutAPI = async (price) => {
+  const response = await authorizeAxiosInstance.post(
+    `${apiRoot}/v1/orders/checkout`,
+    price
+  );
+  return response.data;
+};
