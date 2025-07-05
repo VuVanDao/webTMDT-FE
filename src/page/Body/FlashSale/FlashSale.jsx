@@ -27,7 +27,7 @@ const SamplePrevArrow = (props) => {
   );
 };
 const FlashSale = () => {
-  const [timeLeft, setTimeLeft] = useState(5 * 60);
+  const [timeLeft, setTimeLeft] = useState(50 * 60);
   useEffect(() => {
     const interval = setInterval(() => {
       setTimeLeft((prev) => {
@@ -91,8 +91,9 @@ const FlashSale = () => {
                     src={item.image}
                     style={{
                       cursor: "pointer",
-                      width: "100px",
-                      height: "100px",
+                      width: "170px",
+                      height: "170px",
+                      border: "1px solid black",
                     }}
                   />
 
