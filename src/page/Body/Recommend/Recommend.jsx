@@ -8,7 +8,7 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 const Recommend = () => {
   const [listProduct, setListProduct] = useState([]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(12);
+  const [rowsPerPage, setRowsPerPage] = useState(18);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -159,7 +159,7 @@ const Recommend = () => {
         onPageChange={handleChangePage}
         rowsPerPage={rowsPerPage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        rowsPerPageOptions={[12, 18, 24]}
+        rowsPerPageOptions={[18, 24, 30]}
       />
     </Box>
   );
