@@ -3,6 +3,9 @@ import {
   Button,
   Container,
   Divider,
+  FormControl,
+  MenuItem,
+  Select,
   styled,
   Table,
   TableBody,
@@ -35,6 +38,7 @@ import {
 
 const CheckoutPage = () => {
   const userInfo = useSelector(userInfoSelector);
+  const [paymentMethod, setPaymentMethod] = useState(0);
   let [searchParams] = useSearchParams();
   const { id } = Object.fromEntries([...searchParams]);
   const location = useLocation();
@@ -44,6 +48,10 @@ const CheckoutPage = () => {
   }
   const { price, name, category, quantity, image, size, shopId } =
     location?.state?.data;
+
+  const handleChange = (event) => {
+    setPaymentMethod(event.target.value);
+  };
 
   useEffect(() => {}, []);
   const CustomTableCell = styled(TableCell)(({ theme }) => ({
@@ -65,59 +73,105 @@ const CheckoutPage = () => {
   const dispatch = useDispatch();
 
   const handleCheckOut = () => {
-    toast
-      .promise(
-        dispatch(
-          updateUserAPI({
-            cartItem:
-              userInfo?.cartItem?.length === 1
-                ? []
-                : [...userInfo?.cartItem?.filter((i) => i.ProductId !== id)],
-          })
-        ),
-        {
-          pending: ".....",
-        }
-      )
-      .then((res) => {
-        if (!res.error) {
-          toast.success("Đặt hàng thành công");
-          const order = {
-            price: +price,
-            name,
-            category,
-            quantity,
-            image,
-            size,
-            customerInfo: {
-              address: userInfo?.address,
-              phoneNumber: userInfo?.phoneNumber,
-              email: userInfo?.email,
-              avatar: userInfo?.avatar,
-              username: userInfo?.username,
-            },
-            customerId: userInfo?._id,
-            productId: id,
-            shopId,
-          };
+    if (paymentMethod === 0) {
+      toast
+        .promise(
+          dispatch(
+            updateUserAPI({
+              cartItem:
+                userInfo?.cartItem?.length === 1
+                  ? []
+                  : [...userInfo?.cartItem?.filter((i) => i.ProductId !== id)],
+            })
+          ),
+          {
+            pending: ".....",
+          }
+        )
+        .then((res) => {
+          if (!res.error) {
+            toast.success("Đặt hàng thành công");
+            const order = {
+              price: +price,
+              name,
+              category,
+              quantity,
+              image,
+              size,
+              customerInfo: {
+                address: userInfo?.address,
+                phoneNumber: userInfo?.phoneNumber,
+                email: userInfo?.email,
+                avatar: userInfo?.avatar,
+                username: userInfo?.username,
+              },
+              customerId: userInfo?._id,
+              productId: id,
+              shopId,
+            };
 
-          createNewOrder(order).then((res) => {
-            if (!res.error) {
-              checkoutAPI({ price: +price, orderId: res?._id }).then((res) => {
-                if (!res?.error) {
-                  window.location.href = res;
+            createNewOrder(order).then((res) => {
+              if (!res.error) {
+                checkoutAPI({ price: +price, orderId: res?._id }).then(
+                  (res) => {
+                    if (!res?.error) {
+                      window.location.href = res;
+                    }
+                  }
+                );
+              }
+            });
+          }
+        });
+    } else {
+      toast
+        .promise(
+          dispatch(
+            updateUserAPI({
+              cartItem:
+                userInfo?.cartItem?.length === 1
+                  ? []
+                  : [...userInfo?.cartItem?.filter((i) => i.ProductId !== id)],
+            })
+          ),
+          {
+            pending: ".....",
+          }
+        )
+        .then((res) => {
+          if (!res.error) {
+            toast.success("Đặt hàng thành công");
+            const order = {
+              price: +price,
+              name,
+              category,
+              quantity,
+              image,
+              size,
+              customerInfo: {
+                address: userInfo?.address,
+                phoneNumber: userInfo?.phoneNumber,
+                email: userInfo?.email,
+                avatar: userInfo?.avatar,
+                username: userInfo?.username,
+              },
+              customerId: userInfo?._id,
+              productId: id,
+              shopId,
+            };
+
+            createNewOrder(order).then((res) => {
+              if (!res.error) {
+                if (location?.state?.check) {
+                  navigate("/cartDetail");
+                  return;
                 }
-              });
-            }
-          });
-        }
-      });
-
-    if (location?.state?.check) {
-      navigate("/cartDetail");
-      return;
+                navigate("/homePage");
+              }
+            });
+          }
+        });
     }
-    navigate("/homePage");
   };
   return (
     <Box>
@@ -399,7 +453,7 @@ const CheckoutPage = () => {
                   alignItems: "center",
                 }}
               >
-                <Box>
+                <Box sx={{ width: "35%" }}>
                   <Typography>
                     Khi nhấn 'Đặt hàng', bạn xác nhận rằng bạn đồng ý với Điều
                     khoản Shopee của Shopee.
@@ -410,10 +464,54 @@ const CheckoutPage = () => {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    gap: 10,
+                    gap: 5,
                   }}
                 >
-                  <Box>Thanh toán khi nhận hàng</Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography>Phương thức thanh toán</Typography>
+                    <FormControl
+                      sx={{
+                        p: 6,
+                        minWidth: 120,
+                        "& .MuiInput-underline:before": {
+                          borderBottom: "none",
+                        },
+                        "& .MuiInput-underline:after": {
+                          borderBottom: "none",
+                        },
+                        "& .MuiInput-underline:hover:not(.Mui-disabled):before":
+                          {
+                            borderBottom: "none",
+                          },
+                        "& .MuiInput-underline.MuiInputBase-input": {
+                          p: 0,
+                        },
+                      }}
+                      size="small"
+                      variant="standard"
+                    >
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={paymentMethod}
+                        onChange={handleChange}
+                        sx={{
+                          "& .MuiSvgIcon-root": {
+                            display: "none",
+                          },
+                        }}
+                      >
+                        <MenuItem value={1}>Thanh toán khi nhận hàng</MenuItem>
+                        <MenuItem value={0}>Thanh toán online</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
+
                   <Box>
                     <Button
                       variant="contained"

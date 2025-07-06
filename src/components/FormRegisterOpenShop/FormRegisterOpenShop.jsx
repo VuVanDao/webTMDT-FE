@@ -36,7 +36,7 @@ const FormRegisterOpenShop = () => {
     });
     if (confirmed) {
       dispatch(clearData());
-      cancelRegisterShop(data?.id).then((res) => {
+      cancelRegisterShop(data?._id).then((res) => {
         if (!res?.error) {
           navigate("/");
         } else {

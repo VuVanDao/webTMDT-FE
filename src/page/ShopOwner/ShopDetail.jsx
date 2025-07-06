@@ -36,7 +36,6 @@ const ShopDetail = () => {
       label: "Cửa hàng của tôi",
       icon: "Store",
       children: [
-        { id: 1, title: "Trang chủ", link: "/shop_detail/myShop" },
         { id: 2, title: "Thông tin cửa hàng", link: "/shop_detail/shopInfo" },
       ],
     },
@@ -57,13 +56,14 @@ const ShopDetail = () => {
     },
     { label: "Kênh Marketing", icon: "Campaign" },
     { label: "Quản lý khách hàng", icon: "Group" },
-    { label: "Tài Chính", icon: "AttachMoney" },
-    { label: "Dữ Liệu", icon: "BarChart" },
+    {
+      label: "Dữ Liệu",
+      icon: "BarChart",
+      children: [{ id: 1, title: "Trang chủ", link: "/shop_detail/myShop" }],
+    },
     { label: "Phát Triển", icon: "Code" },
     { label: "Chăm sóc khách hàng", icon: "SupportAgent" },
     { label: "SBS", icon: "Business" },
-    { label: "Quản Lý Shop", icon: "Store" },
-    { label: "Thiết Lập Shop", icon: "Settings" },
   ];
 
   const DrawerList = (
