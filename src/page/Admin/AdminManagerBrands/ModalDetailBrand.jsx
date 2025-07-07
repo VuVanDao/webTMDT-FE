@@ -56,6 +56,8 @@ export const ModalDetailBrand = ({
 
   const handleClose = () => {
     setOpen(!open);
+    setOpenSelection(!open);
+    setUpdateTagsMode(!updateTagsMode);
   };
 
   const handleGetAllShop = async () => {
