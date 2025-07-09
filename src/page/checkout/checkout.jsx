@@ -160,7 +160,7 @@ const CheckoutPage = () => {
               shopId,
             };
 
-            createNewOrder(order).then((res) => {
+            createNewOrder({ ...order, checkoutComplete: true }).then((res) => {
               if (!res.error) {
                 if (location?.state?.check) {
                   navigate("/cartDetail");

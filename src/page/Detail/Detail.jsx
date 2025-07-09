@@ -112,20 +112,17 @@ const Detail = () => {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    setDataCartFromUserSlice(userInfo?.cartItem);
-    if (id) {
-      getDataProduct(id);
-    }
-  }, [id]);
+
   const handleDecrement = () => {
     const newQuantity = SelectQuantity - 1;
     setSelectQuantity(newQuantity);
   };
+
   const handleIncrement = () => {
     const newQuantity = SelectQuantity + 1;
     setSelectQuantity(newQuantity);
   };
+
   const handleSelect = (choose) => {
     if (!userInfo) {
       toast.warn("you need to login first");
@@ -135,7 +132,11 @@ const Detail = () => {
 
     if (choose === "buy") {
       //buy
-      if (!SelectCategory) {
+      if (
+        DetailData?.categoryId &&
+        DetailData?.categoryId?.length > 0 &&
+        !SelectCategory
+      ) {
         toast.error("Vui lòng chọn phân loại sản phẩm");
         return;
       }
@@ -162,7 +163,7 @@ const Detail = () => {
       });
     } else {
       //add to cart
-      if (DetailData?.categoryId.length > 0) {
+      if (DetailData?.categoryId && DetailData?.categoryId.length > 0) {
         if (!SelectCategory) {
           toast.error("Vui lòng chọn phân loại sản phẩm");
           return;
@@ -221,6 +222,7 @@ const Detail = () => {
         });
     }
   };
+
   const handleRatingAverage = () => {
     if (!DetailData?.comments?.length) return 0;
     const totalRating = DetailData.comments.reduce(
@@ -230,6 +232,12 @@ const Detail = () => {
     return totalRating / DetailData.comments.length;
   };
 
+  useEffect(() => {
+    setDataCartFromUserSlice(userInfo?.cartItem);
+    if (id) {
+      getDataProduct(id);
+    }
+  }, [id]);
   if (loading) {
     return <DetailLoading />;
   }
