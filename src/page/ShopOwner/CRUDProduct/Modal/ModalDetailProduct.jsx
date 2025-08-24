@@ -42,6 +42,8 @@ export const ModalDetailProduct = ({
   detailProductId,
   handleGetAllProduct,
 }) => {
+  console.log("testtttttttttt");
+
   const [detailProduct, setDetailProduct] = useState({});
 
   const [imageProduct, setImageProduct] = useState(null);

@@ -56,8 +56,10 @@ const CheckShopDetail = () => {
     }
   };
   useEffect(() => {
-    fetchShopInfo();
-  }, []);
+    if (id != undefined) {
+      fetchShopInfo();
+    }
+  }, [id]);
 
   if (loading) {
     return (

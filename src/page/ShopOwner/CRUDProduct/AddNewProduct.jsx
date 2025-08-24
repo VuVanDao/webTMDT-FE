@@ -83,10 +83,6 @@ const AddNewProduct = () => {
 
   const handleDeleteImage = (item) => {
     const dataImage = [...listImage];
-    console.log(
-      "🚀 ~ handleDeleteImage ~ dataImage.filter((i) => i !== item):",
-      dataImage.filter((i) => i !== item)
-    );
     setListImage(dataImage.filter((i) => i !== item));
   };
 
