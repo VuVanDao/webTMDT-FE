@@ -1,12 +1,3 @@
 {
-  "routers": [
-    {
-      "src": "/",
-      "dest": "/"
-    },
-    {
-      "src": "/homePage",
-      "dest": "/"
-    }
-  ]
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
