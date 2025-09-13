@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import MDEditor from "@uiw/react-md-editor";
 import { useDispatch, useSelector } from "react-redux";
 
-import Header from "../Header";
+import Header from "../Header/Header";
 import Footer from "../Footer";
 import { clearData } from "../../redux/slice/dataFromRegisterShopSlice";
 import { userInfoSelector } from "../../redux/slice/userInfoSlice";

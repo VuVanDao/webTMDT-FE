@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import Header from "../../components/Header";
+import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer";
 import { formatPrice } from "../../utils/formatter";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";

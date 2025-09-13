@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
-import { Box, Button, Grid, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { Alphabet } from "../../../utils/constants";
-import { useConfirm } from "material-ui-confirm";
 import { queryBrands, getAllBrand } from "../../../api/brandAPI/brandAPI";
-import Header from "../../../components/Header";
+import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer";
 
 const All_brand = () => {
   const [brands, setBrands] = useState([]);
-  const [open, setOpen] = useState(false);
-  const confirm = useConfirm();
   const handleGetAllBrand = async () => {
     const res = await getAllBrand();
     if (!res.error) {

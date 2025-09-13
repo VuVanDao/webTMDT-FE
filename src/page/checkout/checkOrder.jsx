@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { getOrderAPI } from "../../api/OrderAPI/OrderAPI";
 import { deleteOrder, updateOrder } from "../../api";
 import { Box, Button, Container, Typography } from "@mui/material";
-import Header from "../../components/Header";
+import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer";
 
 const CheckoutOrder = () => {

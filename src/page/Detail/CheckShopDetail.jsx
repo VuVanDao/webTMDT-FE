@@ -8,13 +8,12 @@ import {
   Avatar,
   Divider,
   TablePagination,
-  Button,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 import { Link, useSearchParams } from "react-router-dom";
 
-import Header from "../../components/Header";
+import Header from "../../components/Header/Header";
 import { getDetailShop } from "../../api";
 import { formatPrice } from "../../utils/formatter";
 import Footer from "../../components/Footer";

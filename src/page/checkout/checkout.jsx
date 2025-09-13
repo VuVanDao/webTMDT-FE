@@ -24,7 +24,7 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import Header from "../../components/Header";
+import Header from "../../components/Header/Header";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import { formatPrice } from "../../utils/formatter";
 import Footer from "../../components/Footer";

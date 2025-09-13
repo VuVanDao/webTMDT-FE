@@ -11,7 +11,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Header from "../../../components/Header";
+import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer";
 import { formatPrice } from "../../../utils/formatter";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -21,7 +21,6 @@ import _ from "lodash";
 import LoadingPage from "./LoadingPage";
 import { toast } from "react-toastify";
 import StarRateIcon from "@mui/icons-material/StarRate";
-import ListIcon from "@mui/icons-material/List";
 import FilterListAltIcon from "@mui/icons-material/FilterListAlt";
 
 const styleOption = {

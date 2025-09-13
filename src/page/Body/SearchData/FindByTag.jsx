@@ -16,7 +16,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import StarRateIcon from "@mui/icons-material/StarRate";
 
-import Header from "../../../components/Header";
+import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer";
 import PageLoadingSpinner from "../../../components/Loading/PageLoadingSpinner";
 

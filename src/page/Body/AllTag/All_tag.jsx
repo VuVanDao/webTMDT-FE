@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Box, Button, Grid, Tooltip, Typography } from "@mui/material";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import { Alphabet } from "../../../utils/constants";
-import Header from "../../../components/Header";
+import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer";
 import { getAllCategory } from "../../../api";
 import { findTagByAlphabet } from "../../../api/tagAPI/tagAPI";

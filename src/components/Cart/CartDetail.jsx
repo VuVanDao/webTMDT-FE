@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 
 import Paper from "@mui/material/Paper";
-import Header from "../Header";
+import Header from "../Header/Header";
 import { formatPrice } from "../../utils/formatter";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
