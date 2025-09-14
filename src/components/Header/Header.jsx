@@ -65,7 +65,7 @@ const Header = ({ showHeader }) => {
       sx={{
         height: (theme) => theme.customHeight.Header,
         minWidth: "600px !important",
-        bgcolor: (theme) => theme.commonColors,
+        background: "linear-gradient(-180deg, #f53d2d, #f63)",
         color: "white",
         p: 0.25,
         position: "sticky",
