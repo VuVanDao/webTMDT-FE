@@ -48,7 +48,12 @@ const Recommend = () => {
   return (
     <Box>
       <Box
-        sx={{ flexGrow: 1, display: "flex", flexDirection: "column", gap: 3 }}
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          gap: 3,
+        }}
       >
         <Box
           sx={{
@@ -73,7 +78,7 @@ const Recommend = () => {
             .map((item) => {
               return (
                 <Grid
-                  size={{ xs: 6, sm: 4, md: 3, lg: 2 }}
+                  size={{ xs: 2, sm: 2, md: 2, lg: 2 }}
                   key={item._id}
                   sx={{ display: "flex" }}
                 >
@@ -97,7 +102,7 @@ const Recommend = () => {
                       src={item?.image[0]}
                       alt={item.name}
                       style={{
-                        width: "100%",
+                        width: "185px",
                         height: "185px",
                         border: "1px solid black",
                       }}
@@ -112,7 +117,11 @@ const Recommend = () => {
                           mb: 3,
                         }}
                       >
-                        <Typography>{item?.name}</Typography>
+                        <Typography sx={{ maxWidth: "100%" }}>
+                          {item?.name.length > 30
+                            ? item?.name.substring(0, 30) + "..."
+                            : item?.name}
+                        </Typography>
                       </Box>
                       <Box
                         sx={{

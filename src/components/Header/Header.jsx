@@ -64,12 +64,15 @@ const Header = ({ showHeader }) => {
     <Box
       sx={{
         height: (theme) => theme.customHeight.Header,
-        minWidth: "600px !important",
+        minWidth: "620px !important",
         background: "linear-gradient(-180deg, #f53d2d, #f63)",
         color: "white",
         p: 0.25,
-        position: "sticky",
+        position: "fixed",
         top: 0,
+        right: 0,
+        left: 0,
+        transform: "translateZ(0)",
         zIndex: 10,
       }}
     >
@@ -117,7 +120,7 @@ const Header = ({ showHeader }) => {
               size="small"
               sx={{
                 width: {
-                  mdd: "550px !important",
+                  mdd: "500px !important",
                   sm: "300px !important",
                   xs: "200px",
                 },
@@ -143,10 +146,6 @@ const Header = ({ showHeader }) => {
                   }}
                   fullWidth
                   sx={{
-                    // width: {
-                    //   mdd: "600px !important",
-                    //   sm: "300px !important",
-                    // },
                     "& .MuiOutlinedInput-root": {
                       color: "white",
                       "& fieldset": {
